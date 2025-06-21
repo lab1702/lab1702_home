@@ -33,16 +33,24 @@
             box-sizing: border-box;
         }
         nav {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .section-container {
             background: var(--menu-bg-light);
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             padding: clamp(1.5rem, 4vw, 3rem);
-            width: 100%;
-            max-width: 600px;
+            flex: 1;
+            min-width: 300px;
             transition: box-shadow 0.3s ease;
         }
         
-        nav:hover {
+        .section-container:hover {
             box-shadow: 0 6px 25px rgba(0,0,0,0.15);
         }
         ul.menu {
@@ -105,12 +113,23 @@
             text-align: center;
         }
         
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .section-container {
+                min-width: unset;
+            }
+        }
+        
         @media (max-width: 480px) {
             body {
                 padding: 0.5rem;
             }
             
-            nav {
+            .section-container {
                 border-radius: 8px;
             }
             
@@ -124,11 +143,11 @@
                 background: var(--bg-dark);
                 color: var(--text-dark);
             }
-            nav {
+            .section-container {
                 background: var(--menu-bg-dark);
                 box-shadow: 0 4px 20px rgba(0,0,0,0.3);
             }
-            nav:hover {
+            .section-container:hover {
                 box-shadow: 0 6px 25px rgba(0,0,0,0.4);
             }
             ul.menu li a:hover,
@@ -148,7 +167,7 @@
     </header>
     <main>
         <nav role="navigation" aria-label="Main navigation">
-            <section>
+            <section class="section-container">
                 <h2>Traditional Coding</h2>
                 <ul class="menu" role="list">
                     <li role="listitem"><a href="trading" aria-label="Trading Assistant built with R and Shiny">📈 Trading Assistant (R/Shiny)</a></li>
@@ -157,7 +176,7 @@
                 </ul>
             </section>
             
-            <section>
+            <section class="section-container">
                 <h2>Vibe Coding (Claude Code)</h2>
                 <ul class="menu" role="list">
                     <li role="listitem"><a href="sah" aria-label="Stock Analysis Hub built with Python and Streamlit">📈 Stock Analysis Hub (Python/Streamlit)</a></li>
