@@ -1,35 +1,54 @@
 # lab1702's Toolbox
 
-A personal homepage showcasing various web applications and tools.
+A personal homepage showcasing games, tools, and web applications.
 
 ## Overview
 
-This is a landing page that provides navigation to different web applications built with R/Shiny, Python, and JavaScript. The page features a clean, modern design with automatic dark mode support based on user preferences.
+This is a landing page that provides navigation to different games and web applications built with various technologies including R/Shiny, Python/Streamlit, and JavaScript. The page features a modern design with Catppuccin color themes and automatic dark mode support.
 
 ## Applications
 
-### R/Shiny Applications
-- **Trading Assistant** (`/trading`) - 📈 Financial trading analysis tool
-- **Tire Size Calculator** (`/tiresize`) - 🛞 Automotive tire size comparison utility
-- **Detroit Crime Incidents** (`/detroitcrime`) - 🥷 Crime data visualization for Detroit
+### Games
+- **NETREK-WEB** (`/netrek`) - 🚀 Space combat multiplayer game (Vibe Code Project)
 
-### Python/Other Applications
-- **Stock Analysis Hub** (`/sah`) - 📈 Advanced stock analysis platform (Vibe Code Project)
-- **Tire Size Calculator (JavaScript)** (`/tiresize.html`) - 🛞 JavaScript version of the tire calculator
+### Tools
+- **Trading Assistant** (`/trading`) - 📈 Financial trading analysis tool (R/Shiny)
+- **Stock Analysis Hub** (`/sah`) - 📈 Advanced stock analysis platform (Python/Streamlit)
+- **Detroit Crime Incidents** (`/detroitcrime`) - 🥷 Crime data visualization for Detroit (R/Shiny)
+- **Detroit Crime Incidents** (`/detcrime`) - 🚔 Crime data visualization for Detroit (Python/Streamlit)
+- **Tire Size Calculator** (`/tiresize.html`) - 🛞 Automotive tire size comparison utility (HTML/CSS/JavaScript)
 
 ## Features
 
-- **Responsive Design**: Adapts to different screen sizes
-- **Dark Mode Support**: Automatically switches based on system preferences
-- **Clean Navigation**: Organized menu structure with clear categorization
-- **Modern Styling**: CSS custom properties for consistent theming
+- **Responsive Design**: Adapts to different screen sizes with fluid typography and layouts
+- **Catppuccin Color Themes**: Beautiful Latte (light) and Mocha (dark) color schemes
+- **Automatic Dark Mode**: Switches themes based on system preferences using `prefers-color-scheme`
+- **Organized Navigation**: Clean section-based layout with Games and Tools categories
+- **Accessibility**: Screen reader support, keyboard navigation, and ARIA labels
+- **Modern Styling**: CSS custom properties, smooth transitions, and hover effects
 
 ## Technical Details
 
-- Built with vanilla HTML, CSS, and responsive design principles
-- Uses CSS custom properties for theme management
-- Implements `prefers-color-scheme` media query for automatic dark mode
-- Font size: 1.5em base with larger headings for improved readability
+- **Frontend**: Vanilla HTML5, CSS3, and responsive design principles
+- **Color System**: Catppuccin Latte and Mocha themes with CSS custom properties
+- **Typography**: Fluid typography using `clamp()` for responsive text sizing
+- **Dark Mode**: Automatic theme switching via `prefers-color-scheme` media query
+- **Accessibility**: ARIA labels, semantic HTML, skip links, and keyboard navigation
+- **Layout**: Flexbox-based responsive grid system
+- **GitHub Integration**: Direct links to GitHub profile with SVG icons
+
+## Project Structure
+
+```
+lab1702_home/
+├── index.html          # Main homepage with navigation
+├── README.md           # Project documentation
+└── LICENSE             # MIT License
+```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Copyright
 
