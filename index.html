@@ -370,8 +370,8 @@
             const intro = document.getElementById('intro');
             const letters = document.querySelectorAll('#intro-text span');
             const content = document.querySelectorAll('.content-hidden');
-            const letterDelay = 120;
-            const holdTime = 1000;
+            const letterDelay = 180;
+            const holdTime = 1500;
 
             function shuffle(array) {
                 const arr = [...array];
@@ -400,7 +400,8 @@
             const showOrder = shuffle([...Array(letters.length).keys()]);
             const hideOrder = shuffle([...Array(letters.length).keys()]);
 
-            animateLetters(showOrder, true, () => {
+            setTimeout(() => {
+                animateLetters(showOrder, true, () => {
                 setTimeout(() => {
                     animateLetters(hideOrder, false, () => {
                         intro.style.display = 'none';
@@ -410,7 +411,8 @@
                         });
                     });
                 }, holdTime);
-            });
+                });
+            }, 500);
         })();
     </script>
 </body>
