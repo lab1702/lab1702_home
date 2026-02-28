@@ -10,10 +10,9 @@ This is a landing page that provides navigation to different games and web appli
 
 ### Games
 - **NETREK-WEB** (`/netrek`) - 🚀 Space combat multiplayer game (Vibe Code Project)
+- **Word Garden** (`/word`) - 🌱 Scrabble-like word game
 
 ### Tools
-- **Trading Assistant** (`/trading`) - 📈 Financial trading analysis tool (R/Shiny)
-- **Stock Analysis Hub** (`/sah`) - 📈 Advanced stock analysis platform (Python/Streamlit)
 - **Detroit Crime Incidents** (`/detroitcrime`) - 🥷 Crime data visualization for Detroit (R/Shiny)
 - **Detroit Crime Incidents** (`/detcrime`) - 🚔 Crime data visualization for Detroit (Python/Streamlit)
 - **Tire Size Calculator** (`/tiresize.html`) - 🛞 Automotive tire size comparison utility (HTML/CSS/JavaScript)
