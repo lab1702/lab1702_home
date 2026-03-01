@@ -115,46 +115,47 @@
     </style>
 </head>
 <body>
-    <div id="intro">
-        <div id="intro-text">
-            <span>l</span><span>a</span><span>b</span><span>1</span><span>7</span><span>0</span><span>2</span>
-        </div>
+    <!-- Boot sequence overlay -->
+    <div id="boot" aria-live="polite">
+        <span id="boot-text"></span><span id="cursor" class="blink">_</span>
     </div>
+
     <a href="#main" class="sr-only">Skip to main content</a>
-    <header class="content-hidden">
-        <h1>lab1702</h1>
-    </header>
-    <main id="main" class="content-hidden">
-        <nav role="navigation" aria-label="Main navigation">
-            <section class="section-container">
-                <h2>Games</h2>
-                <ul class="menu" role="list">
-                    <li role="listitem"><a href="/netrek" aria-label="NETREK-WEB built with Go/JavaScript">🚀 NETREK-WEB (Go/JavaScript)</a></li>
-                    <li role="listitem"><a href="/gorgon-maps" aria-label="Kloo's Project Gorgon Navigator">🗺️ Kloo's Project Gorgon Navigator</a></li>
-                    <li role="listitem"><a href="/word" aria-label="Word Garden Scrabble-like word game">🌱 Word Garden (Scrabble-like)</a></li>
-                </ul>
-            </section>
-            
-            <section class="section-container">
-                <h2>Tools</h2>
-                <ul class="menu" role="list">
-                    <li role="listitem"><a href="detroitcrime" aria-label="Detroit Crime Incidents analysis built with R and Shiny">🥷 Detroit Crime Incidents (R/Shiny)</a></li>
-                    <li role="listitem"><a href="detcrime" aria-label="Detroit Crime Incidents analysis built with Python and Streamlit">🚔 Detroit Crime Incidents (Python/Streamlit)</a></li>
-                    <li role="listitem"><a href="tiresize.html" aria-label="Tire Size Calculator built with HTML, CSS, and JavaScript">🛞 Tire Size Calculator (HTML/CSS/JavaScript)</a></li>
-                </ul>
-            </section>
-        </nav>
-    </main>
-    <footer class="content-hidden">
-        <a href="https://github.com/lab1702" style="color: inherit; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
-            </svg>
-            GitHub
-        </a>
-        <br>
-        &copy; 2025 lab1702. All rights reserved.
-    </footer>
+
+    <div id="terminal" class="content-hidden">
+        <main id="main">
+            <nav role="navigation" aria-label="Main navigation">
+                <section class="term-section">
+                    <div class="prompt">lab1702@home:~$ ls ~/games</div>
+                    <div class="separator">────────────────────────────────</div>
+                    <ul class="term-list" role="list">
+                        <li><a href="/netrek" target="_blank" rel="noopener noreferrer" aria-label="NETREK-WEB - space combat game built with Go and JavaScript"><span class="marker">&gt;</span> NETREK-WEB <span class="desc">space combat</span></a></li>
+                        <li><a href="/gorgon-maps" target="_blank" rel="noopener noreferrer" aria-label="Project Gorgon Navigator - MMO map tool"><span class="marker">&gt;</span> Project Gorgon Nav <span class="desc">mmo map tool</span></a></li>
+                        <li><a href="/word" target="_blank" rel="noopener noreferrer" aria-label="Word Garden - Scrabble-like word game"><span class="marker">&gt;</span> Word Garden <span class="desc">word game</span></a></li>
+                    </ul>
+                </section>
+
+                <section class="term-section">
+                    <div class="prompt">lab1702@home:~$ ls ~/tools</div>
+                    <div class="separator">────────────────────────────────</div>
+                    <ul class="term-list" role="list">
+                        <li><a href="detroitcrime" target="_blank" rel="noopener noreferrer" aria-label="Detroit Crime Incidents analysis - R and Shiny"><span class="marker">&gt;</span> Detroit Crime (R) <span class="desc">shiny app</span></a></li>
+                        <li><a href="detcrime" target="_blank" rel="noopener noreferrer" aria-label="Detroit Crime Incidents analysis - Python and Streamlit"><span class="marker">&gt;</span> Detroit Crime (Py) <span class="desc">streamlit app</span></a></li>
+                        <li><a href="tiresize.html" target="_blank" rel="noopener noreferrer" aria-label="Tire Size Calculator"><span class="marker">&gt;</span> Tire Size Calc <span class="desc">tire comparison</span></a></li>
+                    </ul>
+                </section>
+            </nav>
+        </main>
+
+        <div class="separator">────────────────────────────────</div>
+        <div class="prompt">lab1702@home:~$ <span id="cursor-bottom" class="blink">_</span></div>
+
+        <footer class="term-footer">
+            <a href="https://github.com/lab1702" aria-label="lab1702 on GitHub">
+                <span class="marker">&gt;</span> github.com/lab1702
+            </a>
+        </footer>
+    </div>
     <script>
         (function() {
             const intro = document.getElementById('intro');
