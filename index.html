@@ -252,6 +252,16 @@
             text-underline-offset: 4px;
         }
 
+        @media (max-width: 480px) {
+            body {
+                padding: 0.75rem;
+            }
+
+            .term-list li a {
+                padding: 0.35rem 0.25rem;
+            }
+        }
+
         /* Accessibility: disable all CRT effects for reduced motion */
         @media (prefers-reduced-motion: reduce) {
             body::after,
