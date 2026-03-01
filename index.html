@@ -54,6 +54,64 @@
             white-space: nowrap;
             border: 0;
         }
+
+        /* Scanlines overlay */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                to bottom,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.08) 2px,
+                rgba(0, 0, 0, 0.08) 4px
+            );
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* Screen vignette and curvature simulation */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(
+                ellipse at center,
+                transparent 60%,
+                rgba(0, 0, 0, 0.4) 100%
+            );
+            pointer-events: none;
+            z-index: 9998;
+        }
+
+        /* Subtle screen flicker */
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.97; }
+        }
+
+        body {
+            animation: flicker 4s ease-in-out infinite;
+        }
+
+        /* Accessibility: disable all CRT effects for reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            body::after,
+            body::before {
+                display: none;
+            }
+            body {
+                animation: none;
+                text-shadow: none;
+            }
+        }
     </style>
 </head>
 <body>
