@@ -1,46 +1,45 @@
 # lab1702's Toolbox
 
-A personal homepage showcasing games, tools, and web applications.
+A personal homepage styled as a retro CRT terminal with amber phosphor aesthetics.
 
 ## Overview
 
-This is a landing page that provides navigation to different games and web applications built with various technologies including R/Shiny, Python/Streamlit, and JavaScript. The page features a modern design with Catppuccin color themes and automatic dark mode support.
+This is a single-page landing site that provides navigation to different games and web applications. The page features a CRT terminal design with scanlines, vignette, flicker effects, and a typed boot sequence animation.
 
 ## Applications
 
 ### Games
-- **NETREK-WEB** (`/netrek`) - 🚀 Space combat multiplayer game (Vibe Code Project)
-- **Word Garden** (`/word`) - 🌱 Scrabble-like word game
+- **NETREK-WEB** (`/netrek`) - Space combat multiplayer game
+- **Project Gorgon Navigator** (`/gorgon-maps`) - MMO map tool
+- **Word Garden** (`/word`) - Scrabble-like word game
 
 ### Tools
-- **Detroit Crime Incidents** (`/detroitcrime`) - 🥷 Crime data visualization for Detroit (R/Shiny)
-- **Detroit Crime Incidents** (`/detcrime`) - 🚔 Crime data visualization for Detroit (Python/Streamlit)
-- **Tire Size Calculator** (`/tiresize.html`) - 🛞 Automotive tire size comparison utility (HTML/CSS/JavaScript)
+- **Detroit Crime Incidents** (`/detcrime`) - Crime data visualization for Detroit (Python/Streamlit)
+- **Tire Size Calculator** (`/tiresize`) - Automotive tire size comparison utility
 
 ## Features
 
-- **Responsive Design**: Adapts to different screen sizes with fluid typography and layouts
-- **Catppuccin Color Themes**: Beautiful Latte (light) and Mocha (dark) color schemes
-- **Automatic Dark Mode**: Switches themes based on system preferences using `prefers-color-scheme`
-- **Organized Navigation**: Clean section-based layout with Games and Tools categories
-- **Accessibility**: Screen reader support, keyboard navigation, and ARIA labels
-- **Modern Styling**: CSS custom properties, smooth transitions, and hover effects
+- **CRT Terminal Aesthetic**: Amber phosphor color palette, scanline overlay, screen vignette, and subtle flicker animation
+- **Boot Sequence**: Typed login animation with skip support (click or keypress)
+- **Responsive Design**: Fluid typography and layouts adapting to all screen sizes
+- **Accessibility**: `prefers-reduced-motion` support, ARIA labels, skip-to-content link, keyboard navigation with `focus-visible` styles
+- **Zero Dependencies**: Vanilla HTML, CSS, and JavaScript with no build step
 
 ## Technical Details
 
-- **Frontend**: Vanilla HTML5, CSS3, and responsive design principles
-- **Color System**: Catppuccin Latte and Mocha themes with CSS custom properties
-- **Typography**: Fluid typography using `clamp()` for responsive text sizing
-- **Dark Mode**: Automatic theme switching via `prefers-color-scheme` media query
-- **Accessibility**: ARIA labels, semantic HTML, skip links, and keyboard navigation
-- **Layout**: Flexbox-based responsive grid system
-- **GitHub Integration**: Direct links to GitHub profile with SVG icons
+- **Frontend**: Single-file vanilla HTML5, CSS3, and JavaScript
+- **Color System**: CSS custom properties for amber phosphor palette (`--text`, `--text-dim`, `--text-bright`)
+- **Typography**: JetBrains Mono via Google Fonts, fluid sizing with `clamp()`
+- **Effects**: Pure CSS scanlines, vignette, and flicker; JavaScript typed boot sequence
+- **Accessibility**: `prefers-reduced-motion` disables all effects and skips boot animation
 
 ## Project Structure
 
 ```
 lab1702_home/
-├── index.html          # Main homepage with navigation
+├── index.html          # Main homepage (HTML, CSS, and JS inline)
+├── docs/
+│   └── plans/          # Design and implementation documents
 ├── README.md           # Project documentation
 └── LICENSE             # MIT License
 ```

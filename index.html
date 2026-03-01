@@ -9,15 +9,16 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://lab1702.github.io">
     <meta name="twitter:card" content="summary">
+    <meta name="theme-color" content="#0a0a0a">
     <title>lab1702</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap">
     <style>
         /* CRT Terminal — Amber Phosphor */
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
 
         :root {
             --bg: #0a0a0a;
             --text: #ffb000;
-            --text-dim: #805800;
+            --text-dim: #a07000;
             --text-bright: #ffc840;
             --text-flash: #ffe0a0;
             --glow: rgba(255, 176, 0, 0.4);
@@ -191,7 +192,6 @@
         .term-list li a:hover {
             color: var(--text-bright);
             text-shadow: 0 0 2px var(--glow-strong), 0 0 8px var(--glow);
-            cursor: pointer;
         }
 
         .term-list li a:hover .marker {
@@ -281,7 +281,7 @@
 
     <div id="terminal" class="content-hidden">
         <main id="main">
-            <nav role="navigation" aria-label="Main navigation">
+            <nav aria-label="Main navigation">
                 <section class="term-section">
                     <div class="prompt">lab1702@home:~$ ls ~/games</div>
                     <div class="separator">────────────────────────────────</div>
@@ -296,7 +296,7 @@
                     <div class="prompt">lab1702@home:~$ ls ~/tools</div>
                     <div class="separator">────────────────────────────────</div>
                     <ul class="term-list" role="list">
-                        <li><a href="detcrime" target="_blank" rel="noopener noreferrer" aria-label="Detroit Crime Incidents analysis - Python and Streamlit"><span class="marker">&gt;</span> Detroit Crime (Py) <span class="desc">streamlit app</span></a></li>
+                        <li><a href="/detcrime" target="_blank" rel="noopener noreferrer" aria-label="Detroit Crime Incidents analysis - Python and Streamlit"><span class="marker">&gt;</span> Detroit Crime (Py) <span class="desc">streamlit app</span></a></li>
                         <li><a href="/tiresize" target="_blank" rel="noopener noreferrer" aria-label="Tire Size Calculator"><span class="marker">&gt;</span> Tire Size Calc <span class="desc">tire comparison</span></a></li>
                     </ul>
                 </section>
@@ -363,6 +363,7 @@
             if (!skipped) {
                 // Boot done — show terminal
                 setTimeout(function () {
+                    if (skipped) return;
                     boot.style.display = 'none';
                     terminal.classList.remove('content-hidden');
                     terminal.classList.add('content-visible');
