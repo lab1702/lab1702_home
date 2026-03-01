@@ -309,54 +309,96 @@
         </footer>
     </div>
     <script>
-        (function() {
-            const intro = document.getElementById('intro');
-            const letters = document.querySelectorAll('#intro-text span');
-            const content = document.querySelectorAll('.content-hidden');
-            const letterDelay = 150;
-            const holdTime = 1000;
+(function () {
+    const boot = document.getElementById('boot');
+    const bootText = document.getElementById('boot-text');
+    const cursor = document.getElementById('cursor');
+    const terminal = document.getElementById('terminal');
 
-            function shuffle(array) {
-                const arr = [...array];
-                for (let i = arr.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [arr[i], arr[j]] = [arr[j], arr[i]];
-                }
-                return arr;
+    const today = new Date().toLocaleDateString('en-US', {
+        weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'
+    });
+
+    const lines = [
+        { text: '> login lab1702', charDelay: 40, pauseAfter: 300 },
+        { text: 'authenticating...', charDelay: 60, pauseAfter: 800 },
+        { text: 'welcome, lab1702', charDelay: 40, pauseAfter: 300 },
+        { text: 'last login: ' + today, charDelay: 40, pauseAfter: 600 }
+    ];
+
+    let skipped = false;
+
+    function skip() {
+        if (skipped) return;
+        skipped = true;
+        boot.style.display = 'none';
+        terminal.classList.remove('content-hidden');
+        terminal.classList.add('content-visible');
+        document.removeEventListener('click', skip);
+        document.removeEventListener('keydown', skip);
+    }
+
+    // Skip on click or keypress
+    document.addEventListener('click', skip);
+    document.addEventListener('keydown', skip);
+
+    // Skip entirely for reduced motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        skip();
+        return;
+    }
+
+    // Power-on: fade from black
+    document.body.style.opacity = '0';
+    document.body.style.transition = 'opacity 500ms ease';
+    requestAnimationFrame(function () {
+        document.body.style.opacity = '1';
+    });
+
+    function typeLine(lineIndex) {
+        if (skipped || lineIndex >= lines.length) {
+            if (!skipped) {
+                // Boot done — show terminal
+                setTimeout(function () {
+                    boot.style.display = 'none';
+                    terminal.classList.remove('content-hidden');
+                    terminal.classList.add('content-visible');
+                }, lines[lines.length - 1].pauseAfter);
             }
+            return;
+        }
 
-            function animateLetters(indices, show, callback) {
-                indices.forEach((index, i) => {
-                    setTimeout(() => {
-                        if (show) {
-                            letters[index].classList.add('visible');
-                        } else {
-                            letters[index].classList.remove('visible');
-                        }
-                        if (i === indices.length - 1 && callback) {
-                            setTimeout(callback, letterDelay);
-                        }
-                    }, i * letterDelay);
-                });
+        var line = lines[lineIndex];
+        var chars = line.text.split('');
+        var charIndex = 0;
+
+        // Add newline before each line except the first
+        if (lineIndex > 0) {
+            bootText.textContent += '\n';
+        }
+
+        function typeChar() {
+            if (skipped) return;
+            if (charIndex < chars.length) {
+                bootText.textContent += chars[charIndex];
+                charIndex++;
+                setTimeout(typeChar, line.charDelay);
+            } else {
+                // Line done — pause then next line
+                setTimeout(function () {
+                    typeLine(lineIndex + 1);
+                }, line.pauseAfter);
             }
+        }
 
-            const showOrder = shuffle([...Array(letters.length).keys()]);
-            const hideOrder = shuffle([...Array(letters.length).keys()]);
+        typeChar();
+    }
 
-            setTimeout(() => {
-                animateLetters(showOrder, true, () => {
-                setTimeout(() => {
-                    animateLetters(hideOrder, false, () => {
-                        intro.style.display = 'none';
-                        content.forEach(el => {
-                            el.classList.remove('content-hidden');
-                            el.classList.add('content-visible');
-                        });
-                    });
-                }, holdTime);
-                });
-            }, 500);
-        })();
-    </script>
+    // Start typing after power-on fade
+    setTimeout(function () {
+        typeLine(0);
+    }, 600);
+})();
+</script>
 </body>
 </html>
