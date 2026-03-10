@@ -197,13 +197,51 @@
             border-color: var(--border-hover);
             box-shadow: 0 4px 20px var(--glow);
         }
+        @keyframes fade-in-up {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-target {
+            opacity: 0;
+        }
+
+        .fade-in {
+            animation: fade-in-up 400ms ease forwards;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .fade-target {
+                opacity: 1;
+            }
+            .fade-in {
+                animation: none;
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 12vh 0 3rem;
+            }
+
+            .card {
+                padding: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
 <a href="#main" class="sr-only">Skip to main content</a>
 
 <main id="main">
-    <header class="hero">
+    <header class="hero fade-target">
         <h1 class="hero-name">lab1702</h1>
         <p class="hero-tagline">games &amp; tools</p>
         <a href="https://github.com/lab1702" target="_blank" rel="noopener noreferrer" class="hero-github" aria-label="lab1702 on GitHub">github.com/lab1702</a>
@@ -211,9 +249,9 @@
 
     <nav aria-label="Projects">
         <section class="project-section">
-            <h2 class="section-title">games</h2>
+            <h2 class="section-title fade-target">games</h2>
             <div class="card-grid">
-                <a href="/netrek" class="card" aria-label="NETREK-WEB — space combat game built with Go and JavaScript">
+                <a href="/netrek" class="card fade-target" aria-label="NETREK-WEB — space combat game built with Go and JavaScript">
                     <h3 class="card-title">NETREK-WEB</h3>
                     <p class="card-desc">Space combat multiplayer game</p>
                     <div class="card-tags">
@@ -221,14 +259,14 @@
                         <span class="tag">JavaScript</span>
                     </div>
                 </a>
-                <a href="/gorgon-maps" class="card" aria-label="Project Gorgon Navigator — MMO map tool">
+                <a href="/gorgon-maps" class="card fade-target" aria-label="Project Gorgon Navigator — MMO map tool">
                     <h3 class="card-title">Project Gorgon Nav</h3>
                     <p class="card-desc">MMO map tool</p>
                     <div class="card-tags">
                         <span class="tag">JavaScript</span>
                     </div>
                 </a>
-                <a href="/word" class="card" aria-label="Word Garden — Scrabble-like word game">
+                <a href="/word" class="card fade-target" aria-label="Word Garden — Scrabble-like word game">
                     <h3 class="card-title">Word Garden</h3>
                     <p class="card-desc">Word game</p>
                     <div class="card-tags">
@@ -239,9 +277,9 @@
         </section>
 
         <section class="project-section">
-            <h2 class="section-title">tools</h2>
+            <h2 class="section-title fade-target">tools</h2>
             <div class="card-grid">
-                <a href="/detcrime" class="card" aria-label="Detroit Crime — Python and Streamlit data visualization">
+                <a href="/detcrime" class="card fade-target" aria-label="Detroit Crime — Python and Streamlit data visualization">
                     <h3 class="card-title">Detroit Crime</h3>
                     <p class="card-desc">Crime data visualization</p>
                     <div class="card-tags">
@@ -249,14 +287,14 @@
                         <span class="tag">Streamlit</span>
                     </div>
                 </a>
-                <a href="/tiresize" class="card" aria-label="Tire Size Calculator — tire comparison tool">
+                <a href="/tiresize" class="card fade-target" aria-label="Tire Size Calculator — tire comparison tool">
                     <h3 class="card-title">Tire Size Calc</h3>
                     <p class="card-desc">Tire comparison tool</p>
                     <div class="card-tags">
                         <span class="tag">JavaScript</span>
                     </div>
                 </a>
-                <a href="/chat" class="card" aria-label="Chat — chat application">
+                <a href="/chat" class="card fade-target" aria-label="Chat — chat application">
                     <h3 class="card-title">Chat</h3>
                     <p class="card-desc">Chat app</p>
                     <div class="card-tags">
@@ -267,5 +305,16 @@
         </section>
     </nav>
 </main>
+<script>
+(function () {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var targets = document.querySelectorAll('.fade-target');
+    targets.forEach(function (el, i) {
+        setTimeout(function () {
+            el.classList.add('fade-in');
+        }, i * 50);
+    });
+})();
+</script>
 </body>
 </html>
