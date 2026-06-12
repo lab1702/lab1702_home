@@ -1,10 +1,10 @@
 # lab1702's Toolbox
 
-A personal homepage styled as a retro CRT terminal with amber phosphor aesthetics.
+A personal homepage presenting projects as a calm, typographic menu in a warm dark palette.
 
 ## Overview
 
-This is a single-page landing site that provides navigation to different games and web applications. The page features a CRT terminal design with scanlines, vignette, flicker effects, and a typed boot sequence animation.
+This is a single-page landing site that provides navigation to different games and web applications. The page is laid out as a contents-page "menu" — each project is a row with a serif name, a dotted leader, and its tech tags — set in a "Warm Charcoal" palette with a single terracotta accent.
 
 ## Applications
 
@@ -19,19 +19,20 @@ This is a single-page landing site that provides navigation to different games a
 
 ## Features
 
-- **CRT Terminal Aesthetic**: Amber phosphor color palette, scanline overlay, screen vignette, and subtle flicker animation
-- **Boot Sequence**: Typed login animation with skip support (click or keypress)
-- **Responsive Design**: Fluid typography and layouts adapting to all screen sizes
+- **Warm Menu Aesthetic**: "Warm Charcoal" dark palette with a terracotta accent and a faint radial glow; no cards or chrome
+- **Typographic Layout**: Projects as menu rows — serif names, dotted leaders, monospace tech tags — in a narrow centered column
+- **Hover/Focus States**: Row name warms to terracotta, an arrow slides in, and the leader and tech tags brighten
+- **Responsive Design**: Fluid typography and a single-column layout adapting to all screen sizes
 - **Accessibility**: `prefers-reduced-motion` support, ARIA labels, skip-to-content link, keyboard navigation with `focus-visible` styles
 - **Zero Dependencies**: Vanilla HTML, CSS, and JavaScript with no build step
 
 ## Technical Details
 
 - **Frontend**: Single-file vanilla HTML5, CSS3, and JavaScript
-- **Color System**: CSS custom properties for amber phosphor palette (`--text`, `--text-dim`, `--text-bright`)
-- **Typography**: JetBrains Mono via Google Fonts, fluid sizing with `clamp()`
-- **Effects**: Pure CSS scanlines, vignette, and flicker; JavaScript typed boot sequence
-- **Accessibility**: `prefers-reduced-motion` disables all effects and skips boot animation
+- **Color System**: CSS custom properties for the Warm Charcoal palette (`--bg`, `--text`, `--bright`, `--muted`, `--accent`)
+- **Typography**: Fraunces (serif names) and JetBrains Mono (labels/tech) via Google Fonts, fluid sizing with `clamp()`
+- **Effects**: Subtle radial glow and a gentle staggered fade-in on load
+- **Accessibility**: `prefers-reduced-motion` disables the fade-in and hover transitions
 
 ## Project Structure
 
