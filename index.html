@@ -9,23 +9,22 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://lab1702.github.io">
     <meta name="twitter:card" content="summary">
-    <meta name="theme-color" content="#0a0a0a">
+    <meta name="theme-color" content="#1a1714">
     <title>lab1702</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500&display=swap">
     <style>
         :root {
-            --bg: #0a0a0a;
-            --surface: rgba(255, 176, 0, 0.03);
-            --border: rgba(255, 176, 0, 0.12);
-            --border-hover: rgba(255, 176, 0, 0.3);
-            --text-primary: #e8e8e8;
-            --text-secondary: #888888;
-            --accent: #ffb000;
-            --accent-hover: #ffc840;
-            --glow: rgba(255, 176, 0, 0.15);
-            --radius: 8px;
+            --bg: #1a1714;
+            --text: #e9dcc6;
+            --bright: #f4ead6;
+            --muted: #9b8d77;
+            --faint: #7d7264;
+            --leader: #3a332c;
+            --leader-hot: #5a4636;
+            --accent: #c98a5e;
+            --accent-hot: #ef9a5c;
         }
 
         *, *::before, *::after {
@@ -34,14 +33,16 @@
             padding: 0;
         }
 
+        html { -webkit-font-smoothing: antialiased; }
+
         body {
-            font-family: 'Fira Code', 'JetBrains Mono', 'Courier New', monospace;
-            font-size: clamp(0.875rem, 1.75vw, 1rem);
-            line-height: 1.6;
+            font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
             background: var(--bg);
-            color: var(--text-primary);
+            color: var(--text);
             min-height: 100vh;
             overflow-x: hidden;
+            background-image: radial-gradient(55% 38% at 50% -6%, rgba(201, 123, 84, 0.10), transparent 70%);
+            padding: clamp(2.5rem, 8vh, 6rem) 1.5rem 4rem;
         }
 
         .sr-only {
@@ -71,187 +72,129 @@
             z-index: 10000;
         }
 
-        /* Subtle radial gradient for depth */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(
-                ellipse at 50% 0%,
-                rgba(255, 176, 0, 0.04) 0%,
-                transparent 70%
-            );
-            pointer-events: none;
-            z-index: -1;
-        }
-
         main {
-            max-width: 800px;
-            width: 100%;
+            max-width: 560px;
             margin: 0 auto;
-            padding: 0 clamp(1rem, 4vw, 2rem);
         }
 
-        /* Hero section */
-        .hero {
-            text-align: center;
-            padding: 8vh 0 4rem;
-        }
+        /* Hero */
+        .hero { margin-bottom: 3.5rem; }
 
         .hero-name {
-            font-size: clamp(2rem, 5vw, 2.5rem);
+            font-size: clamp(2.4rem, 7vw, 3.1rem);
             font-weight: 700;
-            color: var(--accent);
-            letter-spacing: 0.02em;
-        }
-
-        .hero-tagline {
-            color: var(--text-secondary);
-            font-size: clamp(0.875rem, 2vw, 1rem);
-            margin-top: 0.5rem;
+            color: var(--bright);
+            letter-spacing: -0.02em;
+            line-height: 1;
         }
 
         .hero-github {
             display: inline-block;
-            margin-top: 1rem;
-            color: var(--text-secondary);
+            margin-top: 1.1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 0.04em;
+            color: var(--faint);
             text-decoration: none;
-            font-size: clamp(0.75rem, 1.5vw, 0.875rem);
             transition: color 200ms ease;
         }
 
-        .hero-github:hover {
-            color: var(--accent-hover);
-        }
+        .hero-github:hover { color: var(--accent); }
 
         .hero-github:focus-visible {
-            color: var(--accent-hover);
+            color: var(--accent);
             outline: 2px solid var(--accent);
             outline-offset: 4px;
             border-radius: 2px;
         }
 
-        /* Section titles and card grid */
-        .project-section {
-            margin-bottom: 3rem;
-        }
+        /* Sections */
+        .project-section { margin-bottom: 2.75rem; }
 
-        .section-title {
-            font-size: clamp(0.75rem, 1.5vw, 0.875rem);
+        .section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem;
             font-weight: 400;
-            color: var(--text-secondary);
-            text-transform: lowercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.24em;
+            color: var(--muted);
+            margin-bottom: 0.4rem;
         }
 
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
-        }
-
-        @media (max-width: 768px) {
-            .card-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Glassmorphism cards */
-        .card {
-            display: block;
-            text-decoration: none;
-            padding: 1.25rem;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
-            min-height: 44px;
-        }
-
-        .card-title {
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 0.25rem;
-        }
-
-        .card-desc {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            margin-bottom: 0.75rem;
-        }
-
-        .card-tags {
+        /* Menu rows */
+        .row {
             display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
+            align-items: baseline;
+            gap: 0.7rem;
+            padding: 0.6rem 0;
+            text-decoration: none;
+            color: inherit;
         }
 
-        .tag {
-            font-size: 0.75rem;
-            color: var(--accent);
-            background: rgba(255, 176, 0, 0.08);
-            padding: 0.15rem 0.5rem;
-            border-radius: 4px;
+        .row-name {
+            font-size: 1.32rem;
+            font-weight: 600;
+            color: var(--bright);
+            white-space: nowrap;
+            transition: color 180ms ease;
         }
 
-        .card:hover {
-            transform: translateY(-2px);
-            border-color: var(--border-hover);
-            box-shadow: 0 4px 20px var(--glow);
-        }
-
-        .card:focus-visible {
-            outline: 2px solid var(--accent);
-            outline-offset: 2px;
-            transform: translateY(-2px);
-            border-color: var(--border-hover);
-            box-shadow: 0 4px 20px var(--glow);
-        }
-
-        @keyframes fade-in-up {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .fade-target {
+        .row-arrow {
+            color: var(--accent-hot);
             opacity: 0;
+            margin-left: -0.35rem;
+            transform: translateX(-4px);
+            transition: opacity 180ms ease, transform 180ms ease;
         }
 
-        .fade-in {
-            animation: fade-in-up 400ms ease forwards;
+        .row-leader {
+            flex: 1;
+            align-self: stretch;
+            border-bottom: 2px dotted var(--leader);
+            transform: translateY(-0.35rem);
+            transition: border-color 180ms ease;
         }
+
+        .row-tech {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--accent);
+            white-space: nowrap;
+            transition: color 180ms ease;
+        }
+
+        .row:hover .row-name,
+        .row:focus-visible .row-name { color: var(--accent-hot); }
+
+        .row:hover .row-arrow,
+        .row:focus-visible .row-arrow { opacity: 1; transform: translateX(0); }
+
+        .row:hover .row-leader,
+        .row:focus-visible .row-leader { border-color: var(--leader-hot); }
+
+        .row:hover .row-tech,
+        .row:focus-visible .row-tech { color: var(--accent-hot); }
+
+        .row:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 4px;
+            border-radius: 3px;
+        }
+
+        /* On-load fade (carried over, gated by reduced-motion) */
+        @keyframes fade-in-up {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-target { opacity: 0; }
+        .fade-in { animation: fade-in-up 400ms ease forwards; }
 
         @media (prefers-reduced-motion: reduce) {
-            .fade-target {
-                opacity: 1;
-            }
-            .fade-in {
-                animation: none;
-                opacity: 1;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero {
-                padding: 6vh 0 3rem;
-            }
-
-            .card {
-                padding: 1rem;
-            }
+            .fade-target { opacity: 1; }
+            .fade-in { animation: none; opacity: 1; }
+            .row-name, .row-arrow, .row-leader, .row-tech,
+            .hero-github { transition: none; }
         }
     </style>
 </head>
@@ -261,88 +204,72 @@
 <main id="main">
     <header class="hero fade-target">
         <h1 class="hero-name">lab1702</h1>
-        <p class="hero-tagline">games &amp; tools</p>
-        <a href="https://github.com/lab1702" target="_blank" rel="noopener noreferrer" class="hero-github" aria-label="lab1702 on GitHub">github.com/lab1702</a>
+        <a href="https://github.com/lab1702" target="_blank" rel="noopener noreferrer" class="hero-github" aria-label="lab1702 on GitHub">github.com/lab1702 ↗</a>
     </header>
 
     <nav aria-label="Projects">
         <section class="project-section">
-            <h2 class="section-title fade-target">games</h2>
-            <div class="card-grid">
-                <a href="/netrek" class="card fade-target" aria-label="NETREK-WEB — space combat game built with Go and JavaScript">
-                    <h3 class="card-title">NETREK-WEB</h3>
-                    <p class="card-desc">Space combat multiplayer game</p>
-                    <div class="card-tags">
-                        <span class="tag">Go</span>
-                        <span class="tag">JavaScript</span>
-                    </div>
-                </a>
-                <a href="/gorgon-maps" class="card fade-target" aria-label="Project Gorgon Navigator — MMO map tool">
-                    <h3 class="card-title">Project Gorgon Nav</h3>
-                    <p class="card-desc">MMO map tool</p>
-                    <div class="card-tags">
-                        <span class="tag">JavaScript</span>
-                    </div>
-                </a>
-                <a href="/word" class="card fade-target" aria-label="Word Garden — Scrabble-like word game">
-                    <h3 class="card-title">Word Garden</h3>
-                    <p class="card-desc">Word game</p>
-                    <div class="card-tags">
-                        <span class="tag">JavaScript</span>
-                    </div>
-                </a>
-            </div>
+            <h2 class="section-label fade-target">games</h2>
+
+            <a href="/netrek" class="row fade-target" aria-label="Netrek Web — space combat multiplayer game built with Go and JavaScript">
+                <span class="row-name">Netrek Web</span>
+                <span class="row-arrow" aria-hidden="true">→</span>
+                <span class="row-leader" aria-hidden="true"></span>
+                <span class="row-tech">go · js</span>
+            </a>
+            <a href="/word" class="row fade-target" aria-label="Word Garden — word game">
+                <span class="row-name">Word Garden</span>
+                <span class="row-arrow" aria-hidden="true">→</span>
+                <span class="row-leader" aria-hidden="true"></span>
+                <span class="row-tech">js</span>
+            </a>
+            <a href="/gorgon-maps" class="row fade-target" aria-label="Project Gorgon Nav — MMO map tool">
+                <span class="row-name">Project Gorgon Nav</span>
+                <span class="row-arrow" aria-hidden="true">→</span>
+                <span class="row-leader" aria-hidden="true"></span>
+                <span class="row-tech">js</span>
+            </a>
         </section>
 
         <section class="project-section">
-            <h2 class="section-title fade-target">tools</h2>
-            <div class="card-grid">
-                <a href="/detcrime" class="card fade-target" aria-label="Detroit Crime — Python and Streamlit data visualization">
-                    <h3 class="card-title">Detroit Crime</h3>
-                    <p class="card-desc">Crime data visualization</p>
-                    <div class="card-tags">
-                        <span class="tag">Python</span>
-                        <span class="tag">Streamlit</span>
-                    </div>
-                </a>
-                <a href="/tiresize" class="card fade-target" aria-label="Tire Size Calculator — tire comparison tool">
-                    <h3 class="card-title">Tire Size Calc</h3>
-                    <p class="card-desc">Tire comparison tool</p>
-                    <div class="card-tags">
-                        <span class="tag">JavaScript</span>
-                    </div>
-                </a>
-                <a href="/chat" class="card fade-target" aria-label="Chat — chat application">
-                    <h3 class="card-title">Chat</h3>
-                    <p class="card-desc">Chat app</p>
-                    <div class="card-tags">
-                        <span class="tag">JavaScript</span>
-                    </div>
-                </a>
-                <a href="/ccalendar.html" class="card fade-target" aria-label="Cruise Calendar — South East Michigan car cruises and events">
-                    <h3 class="card-title">Cruise Calendar</h3>
-                    <p class="card-desc">SE Michigan car cruises &amp; events</p>
-                    <div class="card-tags">
-                        <span class="tag">HTML</span>
-                    </div>
-                </a>
-                <a href="/detroit-crime-weather" class="card fade-target" aria-label="Crime &amp; Weather — analysis of weather impact on Detroit crime">
-                    <h3 class="card-title">Crime &amp; Weather</h3>
-                    <p class="card-desc">Weather impact on Detroit crime</p>
-                    <div class="card-tags">
-                        <span class="tag">Python</span>
-                        <span class="tag">pandas</span>
-                    </div>
-                </a>
-                <a href="/trading" class="card fade-target" aria-label="Ichimoku Trading — trading strategy app using the R ichimoku package">
-                    <h3 class="card-title">Ichimoku Trading</h3>
-                    <p class="card-desc">Ichimoku trading strategy app</p>
-                    <div class="card-tags">
-                        <span class="tag">R</span>
-                        <span class="tag">Shiny</span>
-                    </div>
-                </a>
-            </div>
+            <h2 class="section-label fade-target">tools</h2>
+
+            <a href="/detcrime" class="row fade-target" aria-label="Detroit Crime — crime data visualization built with Python and Streamlit">
+                <span class="row-name">Detroit Crime</span>
+                <span class="row-arrow" aria-hidden="true">→</span>
+                <span class="row-leader" aria-hidden="true"></span>
+                <span class="row-tech">python · streamlit</span>
+            </a>
+            <a href="/tiresize" class="row fade-target" aria-label="Tire Size Calc — tire comparison tool">
+                <span class="row-name">Tire Size Calc</span>
+                <span class="row-arrow" aria-hidden="true">→</span>
+                <span class="row-leader" aria-hidden="true"></span>
+                <span class="row-tech">js</span>
+            </a>
+            <a href="/chat" class="row fade-target" aria-label="Chat — chat application">
+                <span class="row-name">Chat</span>
+                <span class="row-arrow" aria-hidden="true">→</span>
+                <span class="row-leader" aria-hidden="true"></span>
+                <span class="row-tech">js</span>
+            </a>
+            <a href="/ccalendar.html" class="row fade-target" aria-label="Cruise Calendar — South East Michigan car cruises and events">
+                <span class="row-name">Cruise Calendar</span>
+                <span class="row-arrow" aria-hidden="true">→</span>
+                <span class="row-leader" aria-hidden="true"></span>
+                <span class="row-tech">html</span>
+            </a>
+            <a href="/detroit-crime-weather" class="row fade-target" aria-label="Crime & Weather — analysis of weather impact on Detroit crime">
+                <span class="row-name">Crime &amp; Weather</span>
+                <span class="row-arrow" aria-hidden="true">→</span>
+                <span class="row-leader" aria-hidden="true"></span>
+                <span class="row-tech">python · pandas</span>
+            </a>
+            <a href="/trading" class="row fade-target" aria-label="Ichimoku Trading — trading strategy app using the R ichimoku package">
+                <span class="row-name">Ichimoku Trading</span>
+                <span class="row-arrow" aria-hidden="true">→</span>
+                <span class="row-leader" aria-hidden="true"></span>
+                <span class="row-tech">r · shiny</span>
+            </a>
         </section>
     </nav>
 </main>
