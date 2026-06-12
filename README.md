@@ -6,17 +6,6 @@ A personal homepage presenting projects as a calm, typographic menu in a warm da
 
 This is a single-page landing site that provides navigation to different games and web applications. The page is laid out as a contents-page "menu" — each project is a row with a serif name, a dotted leader, and its tech tags — set in a "Warm Charcoal" palette with a single terracotta accent.
 
-## Applications
-
-### Games
-- **NETREK-WEB** (`/netrek`) - Space combat multiplayer game
-- **Project Gorgon Navigator** (`/gorgon-maps`) - MMO map tool
-- **Word Garden** (`/word`) - Scrabble-like word game
-
-### Tools
-- **Detroit Crime Incidents** (`/detcrime`) - Crime data visualization for Detroit (Python/Streamlit)
-- **Tire Size Calculator** (`/tiresize`) - Automotive tire size comparison utility
-
 ## Features
 
 - **Warm Menu Aesthetic**: "Warm Charcoal" dark palette with a terracotta accent and a faint radial glow; no cards or chrome
