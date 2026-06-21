@@ -13,19 +13,23 @@
     <title>lab1702</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
     <style>
         :root {
-            --bg: #1a1714;
+            --bg: #16130f;
+            --surface: #211c16;
+            --surface-2: #2a241c;
             --text: #e9dcc6;
-            --bright: #f4ead6;
+            --bright: #f7efe0;
             --muted: #9b8d77;
-            --faint: #7d7264;
-            --leader: #3a332c;
-            --leader-hot: #5a4636;
-            --accent: #c98a5e;
-            --accent-hot: #ef9a5c;
+            --border: #3a332c;
         }
+
+        .ac-terracotta { --ac: #ef9a5c; }
+        .ac-blue       { --ac: #5ab0ef; }
+        .ac-green      { --ac: #9fd356; }
+        .ac-violet     { --ac: #c77dff; }
+        .ac-gold       { --ac: #f4c430; }
 
         *, *::before, *::after {
             box-sizing: border-box;
@@ -36,12 +40,11 @@
         html { -webkit-font-smoothing: antialiased; }
 
         body {
-            font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+            font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
             overflow-x: hidden;
-            background-image: radial-gradient(55% 38% at 50% -6%, rgba(201, 123, 84, 0.10), transparent 70%);
             padding: clamp(2.5rem, 8vh, 6rem) 1.5rem 4rem;
         }
 
@@ -67,134 +70,151 @@
             padding: 0.5rem 1rem;
             display: block;
             background: var(--bg);
-            color: var(--accent);
+            color: var(--bright);
             white-space: normal;
             z-index: 10000;
         }
 
         main {
-            max-width: 560px;
+            max-width: 960px;
             margin: 0 auto;
         }
 
         /* Hero */
-        .hero { margin-bottom: 3.5rem; }
+        .hero { margin-bottom: clamp(2.5rem, 6vh, 4rem); }
 
         .hero-name {
-            font-size: clamp(2.4rem, 7vw, 3.1rem);
+            font-size: clamp(3rem, 12vw, 6rem);
             font-weight: 700;
             color: var(--bright);
-            letter-spacing: -0.02em;
-            line-height: 1;
+            letter-spacing: -0.04em;
+            line-height: 0.95;
         }
 
         .hero-github {
             display: inline-block;
-            margin-top: 1.1rem;
+            margin-top: 1rem;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.72rem;
+            font-size: 0.75rem;
             letter-spacing: 0.04em;
-            color: var(--faint);
+            color: var(--muted);
             text-decoration: none;
             transition: color 200ms ease;
         }
 
-        .hero-github:hover { color: var(--accent); }
+        .hero-github:hover { color: var(--bright); }
 
         .hero-github:focus-visible {
-            color: var(--accent);
-            outline: 2px solid var(--accent);
+            color: var(--bright);
+            outline: 2px solid var(--muted);
             outline-offset: 4px;
             border-radius: 2px;
         }
 
         /* Sections */
-        .project-section { margin-bottom: 2.75rem; }
+        .project-section { margin-bottom: clamp(2.5rem, 5vh, 3.5rem); }
 
         .section-label {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.68rem;
+            font-size: 0.7rem;
             font-weight: 400;
             text-transform: uppercase;
-            letter-spacing: 0.24em;
+            letter-spacing: 0.28em;
             color: var(--muted);
-            margin-bottom: 0.4rem;
+            margin-bottom: 1rem;
         }
 
-        /* Menu rows */
-        .row {
+        /* Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+        }
+
+        /* Tiles */
+        .tile {
+            position: relative;
             display: flex;
-            align-items: baseline;
-            gap: 0.7rem;
-            padding: 0.6rem 0;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 1.5rem;
+            min-height: 150px;
+            padding: 1.4rem 1.5rem;
+            background: var(--surface);
+            border: 1px solid color-mix(in srgb, var(--ac) 35%, transparent);
+            border-radius: 14px;
             text-decoration: none;
             color: inherit;
+            overflow: hidden;
+            transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
         }
 
-        .row-name {
-            font-size: 1.32rem;
-            font-weight: 600;
+        .tile-name {
+            font-size: clamp(1.4rem, 2.5vw, 1.75rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.05;
             color: var(--bright);
-            white-space: nowrap;
             transition: color 180ms ease;
         }
 
-        .row-arrow {
-            color: var(--accent-hot);
+        .tile-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+        }
+
+        .tile-tech {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--ac);
+            transition: color 180ms ease;
+        }
+
+        .tile-arrow {
+            font-size: 1.1rem;
+            line-height: 1;
+            color: var(--ac);
             opacity: 0;
-            margin-left: -0.35rem;
-            transform: translateX(-4px);
+            transform: translateX(-6px);
             transition: opacity 180ms ease, transform 180ms ease;
         }
 
-        .row-leader {
-            flex: 1;
-            align-self: stretch;
-            border-bottom: 2px dotted var(--leader);
-            transform: translateY(-0.35rem);
-            transition: border-color 180ms ease;
+        .tile:hover,
+        .tile:focus-visible {
+            transform: translateY(-3px);
+            background: var(--surface-2);
+            border-color: var(--ac);
+            box-shadow: 0 0 0 1px color-mix(in srgb, var(--ac) 50%, transparent),
+                        0 12px 30px -12px color-mix(in srgb, var(--ac) 60%, transparent);
         }
 
-        .row-tech {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.72rem;
-            color: var(--accent);
-            white-space: nowrap;
-            transition: color 180ms ease;
+        .tile:hover .tile-name,
+        .tile:focus-visible .tile-name { color: var(--ac); }
+
+        .tile:hover .tile-arrow,
+        .tile:focus-visible .tile-arrow { opacity: 1; transform: translateX(0); }
+
+        .tile:focus-visible {
+            outline: 2px solid var(--ac);
+            outline-offset: 3px;
         }
 
-        .row:hover .row-name,
-        .row:focus-visible .row-name { color: var(--accent-hot); }
-
-        .row:hover .row-arrow,
-        .row:focus-visible .row-arrow { opacity: 1; transform: translateX(0); }
-
-        .row:hover .row-leader,
-        .row:focus-visible .row-leader { border-color: var(--leader-hot); }
-
-        .row:hover .row-tech,
-        .row:focus-visible .row-tech { color: var(--accent-hot); }
-
-        .row:focus-visible {
-            outline: 2px solid var(--accent);
-            outline-offset: 4px;
-            border-radius: 3px;
-        }
-
-        /* On-load fade (carried over, gated by reduced-motion) */
+        /* On-load fade (gated by reduced-motion) */
         @keyframes fade-in-up {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(14px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .fade-target { opacity: 0; }
-        .fade-in { animation: fade-in-up 400ms ease forwards; }
+        .fade-in { animation: fade-in-up 450ms ease forwards; }
 
         @media (prefers-reduced-motion: reduce) {
             .fade-target { opacity: 1; }
             .fade-in { animation: none; opacity: 1; }
-            .row-name, .row-arrow, .row-leader, .row-tech,
-            .hero-github { transition: none; }
+            .tile, .tile-name, .tile-arrow, .tile-tech, .hero-github { transition: none; }
+            .tile:hover, .tile:focus-visible { transform: none; }
         }
     </style>
 </head>
@@ -210,72 +230,84 @@
     <nav aria-label="Projects">
         <section class="project-section">
             <h2 class="section-label fade-target">games</h2>
-
-            <a href="/netrek" class="row fade-target" aria-label="Netrek Web — space combat multiplayer game built with Go and JavaScript">
-                <span class="row-name">Netrek Web</span>
-                <span class="row-arrow" aria-hidden="true">→</span>
-                <span class="row-leader" aria-hidden="true"></span>
-                <span class="row-tech">go · js</span>
-            </a>
-            <a href="/gorgon-maps" class="row fade-target" aria-label="Project Gorgon Nav — MMO map tool">
-                <span class="row-name">Project Gorgon Nav</span>
-                <span class="row-arrow" aria-hidden="true">→</span>
-                <span class="row-leader" aria-hidden="true"></span>
-                <span class="row-tech">js</span>
-            </a>
-            <a href="/word" class="row fade-target" aria-label="Word Garden — word game">
-                <span class="row-name">Word Garden</span>
-                <span class="row-arrow" aria-hidden="true">→</span>
-                <span class="row-leader" aria-hidden="true"></span>
-                <span class="row-tech">js</span>
-            </a>
+            <div class="grid">
+                <a href="/netrek" class="tile ac-blue fade-target" aria-label="Netrek Web — space combat multiplayer game built with Go and JavaScript">
+                    <span class="tile-name">Netrek Web</span>
+                    <span class="tile-meta">
+                        <span class="tile-tech">go · js</span>
+                        <span class="tile-arrow" aria-hidden="true">→</span>
+                    </span>
+                </a>
+                <a href="/gorgon-maps" class="tile ac-violet fade-target" aria-label="Project Gorgon Nav — MMO map tool">
+                    <span class="tile-name">Project Gorgon Nav</span>
+                    <span class="tile-meta">
+                        <span class="tile-tech">js</span>
+                        <span class="tile-arrow" aria-hidden="true">→</span>
+                    </span>
+                </a>
+                <a href="/word" class="tile ac-green fade-target" aria-label="Word Garden — word game">
+                    <span class="tile-name">Word Garden</span>
+                    <span class="tile-meta">
+                        <span class="tile-tech">js</span>
+                        <span class="tile-arrow" aria-hidden="true">→</span>
+                    </span>
+                </a>
+            </div>
         </section>
 
         <section class="project-section">
             <h2 class="section-label fade-target">tools</h2>
-
-            <a href="/chat" class="row fade-target" aria-label="Chat — chat application">
-                <span class="row-name">Chat</span>
-                <span class="row-arrow" aria-hidden="true">→</span>
-                <span class="row-leader" aria-hidden="true"></span>
-                <span class="row-tech">js</span>
-            </a>
-            <a href="/detroit-crime-weather" class="row fade-target" aria-label="Crime & Weather — analysis of weather impact on Detroit crime">
-                <span class="row-name">Crime &amp; Weather</span>
-                <span class="row-arrow" aria-hidden="true">→</span>
-                <span class="row-leader" aria-hidden="true"></span>
-                <span class="row-tech">python · pandas</span>
-            </a>
-            <a href="/ccalendar.html" class="row fade-target" aria-label="Cruise Calendar — South East Michigan car cruises and events">
-                <span class="row-name">Cruise Calendar</span>
-                <span class="row-arrow" aria-hidden="true">→</span>
-                <span class="row-leader" aria-hidden="true"></span>
-                <span class="row-tech">html</span>
-            </a>
-            <a href="/detcrime" class="row fade-target" aria-label="Detroit Crime — crime data visualization built with Python and Streamlit">
-                <span class="row-name">Detroit Crime</span>
-                <span class="row-arrow" aria-hidden="true">→</span>
-                <span class="row-leader" aria-hidden="true"></span>
-                <span class="row-tech">python · streamlit</span>
-            </a>
-            <a href="/trading" class="row fade-target" aria-label="Ichimoku Trading — trading strategy app using the R ichimoku package">
-                <span class="row-name">Ichimoku Trading</span>
-                <span class="row-arrow" aria-hidden="true">→</span>
-                <span class="row-leader" aria-hidden="true"></span>
-                <span class="row-tech">r · shiny</span>
-            </a>
-            <a href="/tiresize" class="row fade-target" aria-label="Tire Size Calc — tire comparison tool">
-                <span class="row-name">Tire Size Calc</span>
-                <span class="row-arrow" aria-hidden="true">→</span>
-                <span class="row-leader" aria-hidden="true"></span>
-                <span class="row-tech">js</span>
-            </a>
-            <a href="/presidents.html" class="row fade-target" aria-label="US Presidents Pivot Viewer — pivot table viewer for US presidents data">
-                <span class="row-name">US Presidents Pivot Viewer</span>
-                <span class="row-arrow" aria-hidden="true">→</span>
-                <span class="row-leader" aria-hidden="true"></span>
-                <span class="row-tech">html · python</span>
-            </a>
+            <div class="grid">
+                <a href="/chat" class="tile ac-blue fade-target" aria-label="Chat — chat application">
+                    <span class="tile-name">Chat</span>
+                    <span class="tile-meta">
+                        <span class="tile-tech">js</span>
+                        <span class="tile-arrow" aria-hidden="true">→</span>
+                    </span>
+                </a>
+                <a href="/detroit-crime-weather" class="tile ac-gold fade-target" aria-label="Crime &amp; Weather — analysis of weather impact on Detroit crime">
+                    <span class="tile-name">Crime &amp; Weather</span>
+                    <span class="tile-meta">
+                        <span class="tile-tech">python · pandas</span>
+                        <span class="tile-arrow" aria-hidden="true">→</span>
+                    </span>
+                </a>
+                <a href="/ccalendar.html" class="tile ac-terracotta fade-target" aria-label="Cruise Calendar — South East Michigan car cruises and events">
+                    <span class="tile-name">Cruise Calendar</span>
+                    <span class="tile-meta">
+                        <span class="tile-tech">html</span>
+                        <span class="tile-arrow" aria-hidden="true">→</span>
+                    </span>
+                </a>
+                <a href="/detcrime" class="tile ac-violet fade-target" aria-label="Detroit Crime — crime data visualization built with Python and Streamlit">
+                    <span class="tile-name">Detroit Crime</span>
+                    <span class="tile-meta">
+                        <span class="tile-tech">python · streamlit</span>
+                        <span class="tile-arrow" aria-hidden="true">→</span>
+                    </span>
+                </a>
+                <a href="/trading" class="tile ac-gold fade-target" aria-label="Ichimoku Trading — trading strategy app using the R ichimoku package">
+                    <span class="tile-name">Ichimoku Trading</span>
+                    <span class="tile-meta">
+                        <span class="tile-tech">r · shiny</span>
+                        <span class="tile-arrow" aria-hidden="true">→</span>
+                    </span>
+                </a>
+                <a href="/tiresize" class="tile ac-green fade-target" aria-label="Tire Size Calc — tire comparison tool">
+                    <span class="tile-name">Tire Size Calc</span>
+                    <span class="tile-meta">
+                        <span class="tile-tech">js</span>
+                        <span class="tile-arrow" aria-hidden="true">→</span>
+                    </span>
+                </a>
+                <a href="/presidents.html" class="tile ac-terracotta fade-target" aria-label="US Presidents Pivot Viewer — pivot table viewer for US presidents data">
+                    <span class="tile-name">US Presidents Pivot Viewer</span>
+                    <span class="tile-meta">
+                        <span class="tile-tech">html · python</span>
+                        <span class="tile-arrow" aria-hidden="true">→</span>
+                    </span>
+                </a>
+            </div>
         </section>
     </nav>
 </main>
