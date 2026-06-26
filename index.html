@@ -3,33 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Lab1702's collection of coding projects — games, data analysis tools, and utilities">
+    <meta name="description" content="lab1702 — games, data analysis tools, and small useful utilities.">
     <meta property="og:title" content="lab1702">
-    <meta property="og:description" content="Collection of coding projects — games, data analysis tools, and utilities">
+    <meta property="og:description" content="Games, data analysis, and small useful tools.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://lab1702.github.io">
     <meta name="twitter:card" content="summary">
-    <meta name="theme-color" content="#1a1714">
+    <meta name="theme-color" content="#0d0d0b">
     <title>lab1702</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap">
     <style>
         :root {
-            --bg: #16130f;
-            --surface: #211c16;
-            --surface-2: #2a241c;
-            --text: #e9dcc6;
-            --bright: #f7efe0;
-            --muted: #9b8d77;
-            --border: #3a332c;
+            --bg: #0d0d0b;
+            --text: #d6d3ca;
+            --bright: #f2eee4;
+            --name: #efebe1;
+            --tagline: #837f74;
+            --label: #9a9486;
+            --dim: #6a665e;
+            --faint: #4d4a43;
+            --border: #232220;
+            --hover: #13151c;
+            --ac: #7aa2f7;
         }
-
-        .ac-terracotta { --ac: #ef9a5c; }
-        .ac-blue       { --ac: #5ab0ef; }
-        .ac-green      { --ac: #9fd356; }
-        .ac-violet     { --ac: #c77dff; }
-        .ac-gold       { --ac: #f4c430; }
 
         *, *::before, *::after {
             box-sizing: border-box;
@@ -40,12 +38,12 @@
         html { -webkit-font-smoothing: antialiased; }
 
         body {
-            font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+            font-family: 'Space Mono', ui-monospace, 'JetBrains Mono', monospace;
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
-            overflow-x: hidden;
-            padding: clamp(2.5rem, 8vh, 6rem) 1.5rem 4rem;
+            padding: clamp(48px, 9vh, 104px) 24px 64px;
+            line-height: 1.4;
         }
 
         .sr-only {
@@ -75,146 +73,165 @@
             z-index: 10000;
         }
 
-        main {
-            max-width: 960px;
-            margin: 0 auto;
+        main { max-width: 840px; margin: 0 auto; }
+
+        /* Header */
+        .hero {
+            padding-bottom: 34px;
+            border-bottom: 1px solid var(--border);
         }
 
-        /* Hero */
-        .hero { margin-bottom: clamp(2.5rem, 6vh, 4rem); }
+        .hero-prompt {
+            font-size: 13px;
+            color: var(--ac);
+            margin-bottom: 22px;
+            letter-spacing: 0.01em;
+        }
+
+        .hero-prompt .dim { color: #3a3934; }
 
         .hero-name {
-            font-size: clamp(3rem, 12vw, 6rem);
             font-weight: 700;
-            color: var(--bright);
-            letter-spacing: -0.04em;
-            line-height: 0.95;
-        }
-
-        .hero-github {
-            display: inline-block;
-            margin-top: 1rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
-            letter-spacing: 0.04em;
-            color: var(--muted);
-            text-decoration: none;
-            transition: color 200ms ease;
-        }
-
-        .hero-github:hover { color: var(--bright); }
-
-        .hero-github:focus-visible {
-            color: var(--bright);
-            outline: 2px solid var(--muted);
-            outline-offset: 4px;
-            border-radius: 2px;
-        }
-
-        /* Sections */
-        .project-section { margin-bottom: clamp(2.5rem, 5vh, 3.5rem); }
-
-        .section-label {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            font-weight: 400;
-            text-transform: uppercase;
-            letter-spacing: 0.28em;
-            color: var(--muted);
-            margin-bottom: 1rem;
-        }
-
-        /* Grid */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1rem;
-        }
-
-        /* Tiles */
-        .tile {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            gap: 1.5rem;
-            min-height: 150px;
-            padding: 1.4rem 1.5rem;
-            background: var(--surface);
-            border: 1px solid color-mix(in srgb, var(--ac) 35%, transparent);
-            border-radius: 14px;
-            text-decoration: none;
-            color: inherit;
-            overflow: hidden;
-            transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
-        }
-
-        .tile-name {
-            font-size: clamp(1.4rem, 2.5vw, 1.75rem);
-            font-weight: 700;
+            font-size: clamp(40px, 8vw, 58px);
+            line-height: 0.96;
             letter-spacing: -0.02em;
-            line-height: 1.05;
             color: var(--bright);
-            transition: color 180ms ease;
         }
 
-        .tile-meta {
+        .cursor {
+            color: var(--ac);
+            display: inline-block;
+            margin-left: 4px;
+            animation: blink 1.1s step-end infinite;
+        }
+
+        @keyframes blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
+
+        .hero-meta {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            gap: 0.5rem;
+            flex-wrap: wrap;
+            gap: 10px 22px;
+            margin-top: 20px;
         }
 
-        .tile-tech {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.72rem;
+        .hero-tagline { font-size: 13px; color: var(--tagline); }
+
+        .hero-github {
+            font-size: 13px;
             color: var(--ac);
-            transition: color 180ms ease;
+            text-decoration: none;
         }
 
-        .tile-arrow {
-            font-size: 1.1rem;
-            line-height: 1;
-            color: var(--ac);
-            opacity: 0;
-            transform: translateX(-6px);
-            transition: opacity 180ms ease, transform 180ms ease;
+        .hero-github:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+        /* Sections */
+        .section { margin-top: 44px; }
+        .section + .section { margin-top: 36px; }
+
+        .section-head {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding-left: 14px;
         }
 
-        .tile:hover,
-        .tile:focus-visible {
-            transform: translateY(-3px);
-            background: var(--surface-2);
-            border-color: var(--ac);
-            box-shadow: 0 0 0 1px color-mix(in srgb, var(--ac) 50%, transparent),
-                        0 12px 30px -12px color-mix(in srgb, var(--ac) 60%, transparent);
+        .section-label {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--label);
         }
 
-        .tile:hover .tile-name,
-        .tile:focus-visible .tile-name { color: var(--ac); }
+        .section-count { font-size: 11px; color: var(--faint); }
 
-        .tile:hover .tile-arrow,
-        .tile:focus-visible .tile-arrow { opacity: 1; transform: translateX(0); }
+        /* Rows */
+        .row {
+            display: flex;
+            align-items: baseline;
+            gap: 16px;
+            padding: 12px 14px;
+            border-radius: 7px;
+            text-decoration: none;
+            color: var(--text);
+            transition: background 130ms ease, box-shadow 130ms ease;
+        }
 
-        .tile:focus-visible {
+        .row:hover,
+        .row:focus-visible {
+            background: var(--hover);
+            box-shadow: inset 2px 0 0 var(--ac);
+        }
+
+        .row:focus-visible {
             outline: 2px solid var(--ac);
             outline-offset: 3px;
         }
 
-        /* On-load fade (gated by reduced-motion) */
+        .row-marker { font-size: 13px; color: var(--ac); flex-shrink: 0; }
+
+        .row-name {
+            font-size: 14.5px;
+            color: var(--name);
+            min-width: 230px;
+            flex-shrink: 0;
+        }
+
+        .row-desc {
+            font-size: 12.5px;
+            color: var(--dim);
+            flex: 1;
+            min-width: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .row-tech {
+            font-size: 12px;
+            color: var(--ac);
+            white-space: nowrap;
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 56px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+            font-size: 11.5px;
+            color: var(--faint);
+        }
+
+        /* On-load fade */
         @keyframes fade-in-up {
-            from { opacity: 0; transform: translateY(14px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .fade-target { opacity: 0; }
-        .fade-in { animation: fade-in-up 450ms ease forwards; }
+        .fade { opacity: 0; }
+        .fade.in { animation: fade-in-up 420ms ease forwards; }
+
+        @media (max-width: 640px) {
+            .row-desc { display: none; }
+            .row-name { min-width: 0; }
+        }
 
         @media (prefers-reduced-motion: reduce) {
-            .fade-target { opacity: 1; }
-            .fade-in { animation: none; opacity: 1; }
-            .tile, .tile-name, .tile-arrow, .tile-tech, .hero-github { transition: none; }
-            .tile:hover, .tile:focus-visible { transform: none; }
+            .cursor { animation: none; }
+            .fade, .fade.in { opacity: 1; animation: none; }
+            .row { transition: none; }
         }
     </style>
 </head>
@@ -222,117 +239,117 @@
 <a href="#main" class="sr-only">Skip to main content</a>
 
 <main id="main">
-    <header class="hero fade-target">
-        <h1 class="hero-name">lab1702</h1>
-        <a href="https://github.com/lab1702" target="_blank" rel="noopener noreferrer" class="hero-github" aria-label="lab1702 on GitHub">github.com/lab1702 ↗</a>
+    <header class="hero fade">
+        <div class="hero-prompt">~ / lab1702 <span class="dim">— ls -la</span></div>
+        <h1 class="hero-name">lab1702<span class="cursor" aria-hidden="true">_</span></h1>
+        <div class="hero-meta">
+            <span class="hero-tagline">Games, data analysis &amp; small useful tools.</span>
+            <a href="https://github.com/lab1702" target="_blank" rel="noopener noreferrer" class="hero-github" aria-label="lab1702 on GitHub">github.com/lab1702 ↗</a>
+        </div>
     </header>
 
     <nav aria-label="Projects">
-        <section class="project-section">
-            <h2 class="section-label fade-target">games</h2>
-            <div class="grid">
-                <a href="/eql-zone-map.html" class="tile ac-gold fade-target" aria-label="EverQuest Legends Zone Map — zone map">
-                    <span class="tile-name">EverQuest Legends Zone Map</span>
-                    <span class="tile-meta">
-                        <span class="tile-tech">html</span>
-                        <span class="tile-arrow" aria-hidden="true">→</span>
-                    </span>
-                </a>
-                <a href="/netrek" class="tile ac-blue fade-target" aria-label="Netrek Web — space combat multiplayer game built with Go and JavaScript">
-                    <span class="tile-name">Netrek Web</span>
-                    <span class="tile-meta">
-                        <span class="tile-tech">go · js</span>
-                        <span class="tile-arrow" aria-hidden="true">→</span>
-                    </span>
-                </a>
-                <a href="/gorgon-maps" class="tile ac-violet fade-target" aria-label="Project Gorgon Nav — MMO map tool">
-                    <span class="tile-name">Project Gorgon Nav</span>
-                    <span class="tile-meta">
-                        <span class="tile-tech">js</span>
-                        <span class="tile-arrow" aria-hidden="true">→</span>
-                    </span>
-                </a>
-                <a href="/word" class="tile ac-green fade-target" aria-label="Word Garden — word game">
-                    <span class="tile-name">Word Garden</span>
-                    <span class="tile-meta">
-                        <span class="tile-tech">js</span>
-                        <span class="tile-arrow" aria-hidden="true">→</span>
-                    </span>
-                </a>
+        <section class="section fade">
+            <div class="section-head">
+                <h2 class="section-label">games/</h2>
+                <span class="section-count">4 items</span>
             </div>
+
+            <a href="/eql-zone-map.html" class="row" aria-label="EverQuest Legends Zone Map — interactive zone map">
+                <span class="row-marker" aria-hidden="true">›</span>
+                <span class="row-name">EverQuest Legends Zone Map</span>
+                <span class="row-desc"># Interactive zone map for EverQuest Legends</span>
+                <span class="row-tech">html</span>
+            </a>
+            <a href="/netrek" class="row" aria-label="Netrek Web — space combat multiplayer game">
+                <span class="row-marker" aria-hidden="true">›</span>
+                <span class="row-name">Netrek Web</span>
+                <span class="row-desc"># Space combat multiplayer game</span>
+                <span class="row-tech">go · js</span>
+            </a>
+            <a href="/gorgon-maps" class="row" aria-label="Project Gorgon Nav — MMO navigation and map tool">
+                <span class="row-marker" aria-hidden="true">›</span>
+                <span class="row-name">Project Gorgon Nav</span>
+                <span class="row-desc"># MMO navigation &amp; map tool</span>
+                <span class="row-tech">js</span>
+            </a>
+            <a href="/word" class="row" aria-label="Word Garden — daily word puzzle game">
+                <span class="row-marker" aria-hidden="true">›</span>
+                <span class="row-name">Word Garden</span>
+                <span class="row-desc"># Daily word puzzle game</span>
+                <span class="row-tech">js</span>
+            </a>
         </section>
 
-        <section class="project-section">
-            <h2 class="section-label fade-target">tools</h2>
-            <div class="grid">
-                <a href="/chat" class="tile ac-blue fade-target" aria-label="Chat — chat application">
-                    <span class="tile-name">Chat</span>
-                    <span class="tile-meta">
-                        <span class="tile-tech">js</span>
-                        <span class="tile-arrow" aria-hidden="true">→</span>
-                    </span>
-                </a>
-                <a href="/detroit-crime-weather" class="tile ac-gold fade-target" aria-label="Crime &amp; Weather — analysis of weather impact on Detroit crime">
-                    <span class="tile-name">Crime &amp; Weather</span>
-                    <span class="tile-meta">
-                        <span class="tile-tech">python · pandas</span>
-                        <span class="tile-arrow" aria-hidden="true">→</span>
-                    </span>
-                </a>
-                <a href="/ccalendar.html" class="tile ac-terracotta fade-target" aria-label="Cruise Calendar — South East Michigan car cruises and events">
-                    <span class="tile-name">Cruise Calendar</span>
-                    <span class="tile-meta">
-                        <span class="tile-tech">html</span>
-                        <span class="tile-arrow" aria-hidden="true">→</span>
-                    </span>
-                </a>
-                <a href="/detcrime" class="tile ac-violet fade-target" aria-label="Detroit Crime — crime data visualization built with Python and Streamlit">
-                    <span class="tile-name">Detroit Crime</span>
-                    <span class="tile-meta">
-                        <span class="tile-tech">python · streamlit</span>
-                        <span class="tile-arrow" aria-hidden="true">→</span>
-                    </span>
-                </a>
-                <a href="/trading" class="tile ac-gold fade-target" aria-label="Ichimoku Trading — trading strategy app using the R ichimoku package">
-                    <span class="tile-name">Ichimoku Trading</span>
-                    <span class="tile-meta">
-                        <span class="tile-tech">r · shiny</span>
-                        <span class="tile-arrow" aria-hidden="true">→</span>
-                    </span>
-                </a>
-                <a href="/outbreak-sim" class="tile ac-terracotta fade-target" aria-label="SEIRD Outbreak Simulator — epidemic spread simulator using the SEIRD compartmental model">
-                    <span class="tile-name">SEIRD Outbreak Simulator</span>
-                    <span class="tile-meta">
-                        <span class="tile-tech">js</span>
-                        <span class="tile-arrow" aria-hidden="true">→</span>
-                    </span>
-                </a>
-                <a href="/tiresize" class="tile ac-green fade-target" aria-label="Tire Size Calc — tire comparison tool">
-                    <span class="tile-name">Tire Size Calc</span>
-                    <span class="tile-meta">
-                        <span class="tile-tech">js</span>
-                        <span class="tile-arrow" aria-hidden="true">→</span>
-                    </span>
-                </a>
-                <a href="/presidents.html" class="tile ac-terracotta fade-target" aria-label="US Presidents Pivot Viewer — pivot table viewer for US presidents data">
-                    <span class="tile-name">US Presidents Pivot Viewer</span>
-                    <span class="tile-meta">
-                        <span class="tile-tech">html · python</span>
-                        <span class="tile-arrow" aria-hidden="true">→</span>
-                    </span>
-                </a>
+        <section class="section fade">
+            <div class="section-head">
+                <h2 class="section-label">tools/</h2>
+                <span class="section-count">8 items</span>
             </div>
+
+            <a href="/chat" class="row" aria-label="Chat — real-time chat application">
+                <span class="row-marker" aria-hidden="true">›</span>
+                <span class="row-name">Chat</span>
+                <span class="row-desc"># Real-time chat application</span>
+                <span class="row-tech">js</span>
+            </a>
+            <a href="/detroit-crime-weather" class="row" aria-label="Crime &amp; Weather — weather's impact on Detroit crime">
+                <span class="row-marker" aria-hidden="true">›</span>
+                <span class="row-name">Crime &amp; Weather</span>
+                <span class="row-desc"># Weather's impact on Detroit crime</span>
+                <span class="row-tech">python · pandas</span>
+            </a>
+            <a href="/ccalendar.html" class="row" aria-label="Cruise Calendar — South East Michigan car cruises and events">
+                <span class="row-marker" aria-hidden="true">›</span>
+                <span class="row-name">Cruise Calendar</span>
+                <span class="row-desc"># SE Michigan car cruises &amp; events</span>
+                <span class="row-tech">html</span>
+            </a>
+            <a href="/detcrime" class="row" aria-label="Detroit Crime — crime data visualization dashboard">
+                <span class="row-marker" aria-hidden="true">›</span>
+                <span class="row-name">Detroit Crime</span>
+                <span class="row-desc"># Crime data visualization dashboard</span>
+                <span class="row-tech">python · streamlit</span>
+            </a>
+            <a href="/trading" class="row" aria-label="Ichimoku Trading — Ichimoku cloud trading strategy">
+                <span class="row-marker" aria-hidden="true">›</span>
+                <span class="row-name">Ichimoku Trading</span>
+                <span class="row-desc"># Ichimoku cloud trading strategy</span>
+                <span class="row-tech">r · shiny</span>
+            </a>
+            <a href="/outbreak-sim" class="row" aria-label="SEIRD Outbreak Simulator — epidemic spread simulator">
+                <span class="row-marker" aria-hidden="true">›</span>
+                <span class="row-name">SEIRD Outbreak Simulator</span>
+                <span class="row-desc"># Epidemic spread simulator</span>
+                <span class="row-tech">js</span>
+            </a>
+            <a href="/tiresize" class="row" aria-label="Tire Size Calc — tire size comparison tool">
+                <span class="row-marker" aria-hidden="true">›</span>
+                <span class="row-name">Tire Size Calc</span>
+                <span class="row-desc"># Tire size comparison tool</span>
+                <span class="row-tech">js</span>
+            </a>
+            <a href="/presidents.html" class="row" aria-label="US Presidents Pivot Viewer — pivot table viewer for US presidents">
+                <span class="row-marker" aria-hidden="true">›</span>
+                <span class="row-name">US Presidents Pivot Viewer</span>
+                <span class="row-desc"># Pivot table viewer for US presidents</span>
+                <span class="row-tech">html · python</span>
+            </a>
         </section>
     </nav>
+
+    <footer class="footer fade">
+        <span>© 2025 lab1702</span>
+        <span>vanilla html · css · zero deps</span>
+    </footer>
 </main>
+
 <script>
 (function () {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var targets = document.querySelectorAll('.fade-target');
+    var targets = document.querySelectorAll('.fade');
     targets.forEach(function (el, i) {
-        setTimeout(function () {
-            el.classList.add('fade-in');
-        }, i * 50);
+        setTimeout(function () { el.classList.add('in'); }, i * 60);
     });
 })();
 </script>
