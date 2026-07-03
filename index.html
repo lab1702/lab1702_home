@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="lab1702 — games, data analysis tools, and small useful utilities.">
+    <meta name="description" content="lab1702 — Games, Data & Tools.">
     <meta property="og:title" content="lab1702">
-    <meta property="og:description" content="Games, data analysis, and small useful tools.">
+    <meta property="og:description" content="Games, Data & Tools">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://lab1702.github.io">
     <meta name="twitter:card" content="summary">
@@ -21,12 +21,17 @@
             --bright: #f2eee4;
             --name: #efebe1;
             --tagline: #837f74;
-            --label: #9a9486;
-            --dim: #8f8a7e;
+            --desc: #8f8a7e;
             --faint: #837e72;
+            --branch: #4d4a43;
             --border: #232220;
             --hover: #13151c;
             --ac: #7aa2f7;
+            --lang-js: #e7c95c;
+            --lang-html: #e0795f;
+            --lang-python: #7aa2f7;
+            --lang-go: #6cc4d6;
+            --lang-r: #c79be0;
         }
 
         *, *::before, *::after {
@@ -83,12 +88,13 @@
 
         .hero-prompt {
             font-size: 13px;
-            color: var(--ac);
             margin-bottom: 22px;
             letter-spacing: 0.01em;
+            color: var(--faint);
         }
 
-        .hero-prompt .dim { color: #3a3934; }
+        .hero-prompt .path { color: var(--ac); }
+        .hero-prompt .branch-name { color: var(--lang-r); }
 
         .hero-name {
             font-weight: 700;
@@ -130,42 +136,31 @@
 
         /* Sections */
         .section { margin-top: 44px; }
-        .section + .section { margin-top: 36px; }
-
-        .section-head {
-            display: flex;
-            align-items: baseline;
-            gap: 10px;
-            margin-bottom: 10px;
-            padding-left: 14px;
-        }
+        .section + .section { margin-top: 32px; }
 
         .section-label {
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 700;
-            letter-spacing: 0.16em;
-            text-transform: uppercase;
-            color: var(--label);
+            color: var(--ac);
+            padding-left: 14px;
+            margin-bottom: 6px;
         }
-
-        .section-count { font-size: 11px; color: var(--faint); }
 
         /* Rows */
         .row {
             display: flex;
             align-items: baseline;
-            gap: 16px;
-            padding: 12px 14px;
+            gap: 12px;
+            padding: 11px 14px;
             border-radius: 7px;
             text-decoration: none;
             color: var(--text);
-            transition: background 130ms ease, box-shadow 130ms ease;
+            transition: background 130ms ease;
         }
 
         .row:hover,
         .row:focus-visible {
             background: var(--hover);
-            box-shadow: inset 2px 0 0 var(--ac);
         }
 
         .row:focus-visible {
@@ -173,18 +168,32 @@
             outline-offset: 3px;
         }
 
-        .row-marker { font-size: 13px; color: var(--ac); flex-shrink: 0; }
+        .row-branch {
+            font-size: 13px;
+            color: var(--branch);
+            flex-shrink: 0;
+            white-space: pre;
+        }
+
+        .row-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--lc);
+            flex-shrink: 0;
+            align-self: center;
+        }
 
         .row-name {
             font-size: 14.5px;
             color: var(--name);
-            min-width: 230px;
+            min-width: 220px;
             flex-shrink: 0;
         }
 
         .row-desc {
             font-size: 12.5px;
-            color: var(--dim);
+            color: var(--desc);
             flex: 1;
             min-width: 0;
             white-space: nowrap;
@@ -194,24 +203,51 @@
 
         .row-tech {
             font-size: 12px;
-            color: var(--ac);
+            color: var(--lc);
             white-space: nowrap;
             margin-left: auto;
             flex-shrink: 0;
         }
 
+        .lang-js { --lc: var(--lang-js); }
+        .lang-html { --lc: var(--lang-html); }
+        .lang-python { --lc: var(--lang-python); }
+        .lang-go { --lc: var(--lang-go); }
+        .lang-r { --lc: var(--lang-r); }
+
         /* Footer */
         .footer {
-            margin-top: 56px;
+            margin-top: 52px;
             padding-top: 24px;
             border-top: 1px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 10px;
             font-size: 11.5px;
             color: var(--faint);
+        }
+
+        .legend {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+            list-style: none;
+        }
+
+        .legend li {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
         }
 
         /* On-load fade */
@@ -240,41 +276,42 @@
 
 <main id="main">
     <header class="hero fade">
-        <div class="hero-prompt">~ / lab1702 <span class="dim">— ls -la</span></div>
+        <div class="hero-prompt"><span class="path">~/lab1702</span> on <span class="branch-name">main</span> — tree</div>
         <h1 class="hero-name">lab1702<span class="cursor" aria-hidden="true">_</span></h1>
         <div class="hero-meta">
-            <span class="hero-tagline">Games, data analysis &amp; small useful tools.</span>
+            <span class="hero-tagline">Games, Data &amp; Tools</span>
             <a href="https://github.com/lab1702" target="_blank" rel="noopener noreferrer" class="hero-github" aria-label="lab1702 on GitHub">github.com/lab1702 ↗</a>
         </div>
     </header>
 
     <nav aria-label="Projects">
         <section class="section fade">
-            <div class="section-head">
-                <h2 class="section-label">games/</h2>
-                <span class="section-count">4 items</span>
-            </div>
+            <h2 class="section-label">games/</h2>
 
-            <a href="/eql-zone-map.html" class="row" aria-label="EverQuest Legends Zone Map — interactive zone map">
-                <span class="row-marker" aria-hidden="true">›</span>
+            <a href="/eql-zone-map.html" class="row lang-html" aria-label="EverQuest Legends Zone Map — interactive zone map">
+                <span class="row-branch" aria-hidden="true">├──</span>
+                <span class="row-dot" aria-hidden="true"></span>
                 <span class="row-name">EverQuest Legends Zone Map</span>
                 <span class="row-desc"># Interactive zone map for EverQuest Legends</span>
                 <span class="row-tech">html</span>
             </a>
-            <a href="/netrek" class="row" aria-label="Netrek Web — space combat multiplayer game">
-                <span class="row-marker" aria-hidden="true">›</span>
+            <a href="/netrek" class="row lang-go" aria-label="Netrek Web — space combat multiplayer game">
+                <span class="row-branch" aria-hidden="true">├──</span>
+                <span class="row-dot" aria-hidden="true"></span>
                 <span class="row-name">Netrek Web</span>
                 <span class="row-desc"># Space combat multiplayer game</span>
                 <span class="row-tech">go · js</span>
             </a>
-            <a href="/gorgon-maps" class="row" aria-label="Project Gorgon Nav — MMO navigation and map tool">
-                <span class="row-marker" aria-hidden="true">›</span>
+            <a href="/gorgon-maps" class="row lang-js" aria-label="Project Gorgon Nav — MMO navigation and map tool">
+                <span class="row-branch" aria-hidden="true">├──</span>
+                <span class="row-dot" aria-hidden="true"></span>
                 <span class="row-name">Project Gorgon Nav</span>
                 <span class="row-desc"># MMO navigation &amp; map tool</span>
                 <span class="row-tech">js</span>
             </a>
-            <a href="/word" class="row" aria-label="Word Garden — daily word puzzle game">
-                <span class="row-marker" aria-hidden="true">›</span>
+            <a href="/word" class="row lang-js" aria-label="Word Garden — daily word puzzle game">
+                <span class="row-branch" aria-hidden="true">└──</span>
+                <span class="row-dot" aria-hidden="true"></span>
                 <span class="row-name">Word Garden</span>
                 <span class="row-desc"># Daily word puzzle game</span>
                 <span class="row-tech">js</span>
@@ -282,55 +319,60 @@
         </section>
 
         <section class="section fade">
-            <div class="section-head">
-                <h2 class="section-label">tools/</h2>
-                <span class="section-count">8 items</span>
-            </div>
+            <h2 class="section-label">tools/</h2>
 
-            <a href="/chat" class="row" aria-label="Chat — real-time chat application">
-                <span class="row-marker" aria-hidden="true">›</span>
+            <a href="/chat" class="row lang-js" aria-label="Chat — real-time chat application">
+                <span class="row-branch" aria-hidden="true">├──</span>
+                <span class="row-dot" aria-hidden="true"></span>
                 <span class="row-name">Chat</span>
                 <span class="row-desc"># Real-time chat application</span>
                 <span class="row-tech">js</span>
             </a>
-            <a href="/detroit-crime-weather" class="row" aria-label="Crime &amp; Weather — weather's impact on Detroit crime">
-                <span class="row-marker" aria-hidden="true">›</span>
+            <a href="/detroit-crime-weather" class="row lang-python" aria-label="Crime &amp; Weather — weather's impact on Detroit crime">
+                <span class="row-branch" aria-hidden="true">├──</span>
+                <span class="row-dot" aria-hidden="true"></span>
                 <span class="row-name">Crime &amp; Weather</span>
                 <span class="row-desc"># Weather's impact on Detroit crime</span>
                 <span class="row-tech">python · pandas</span>
             </a>
-            <a href="/ccalendar.html" class="row" aria-label="Cruise Calendar — South East Michigan car cruises and events">
-                <span class="row-marker" aria-hidden="true">›</span>
+            <a href="/ccalendar.html" class="row lang-html" aria-label="Cruise Calendar — South East Michigan car cruises and events">
+                <span class="row-branch" aria-hidden="true">├──</span>
+                <span class="row-dot" aria-hidden="true"></span>
                 <span class="row-name">Cruise Calendar</span>
                 <span class="row-desc"># SE Michigan car cruises &amp; events</span>
                 <span class="row-tech">html</span>
             </a>
-            <a href="/detcrime" class="row" aria-label="Detroit Crime — crime data visualization dashboard">
-                <span class="row-marker" aria-hidden="true">›</span>
+            <a href="/detcrime" class="row lang-python" aria-label="Detroit Crime — crime data visualization dashboard">
+                <span class="row-branch" aria-hidden="true">├──</span>
+                <span class="row-dot" aria-hidden="true"></span>
                 <span class="row-name">Detroit Crime</span>
                 <span class="row-desc"># Crime data visualization dashboard</span>
                 <span class="row-tech">python · streamlit</span>
             </a>
-            <a href="/trading" class="row" aria-label="Ichimoku Trading — Ichimoku cloud trading strategy">
-                <span class="row-marker" aria-hidden="true">›</span>
+            <a href="/trading" class="row lang-r" aria-label="Ichimoku Trading — Ichimoku cloud trading strategy">
+                <span class="row-branch" aria-hidden="true">├──</span>
+                <span class="row-dot" aria-hidden="true"></span>
                 <span class="row-name">Ichimoku Trading</span>
                 <span class="row-desc"># Ichimoku cloud trading strategy</span>
                 <span class="row-tech">r · shiny</span>
             </a>
-            <a href="/outbreak-sim" class="row" aria-label="SEIRD Outbreak Simulator — epidemic spread simulator">
-                <span class="row-marker" aria-hidden="true">›</span>
+            <a href="/outbreak-sim" class="row lang-js" aria-label="SEIRD Outbreak Simulator — epidemic spread simulator">
+                <span class="row-branch" aria-hidden="true">├──</span>
+                <span class="row-dot" aria-hidden="true"></span>
                 <span class="row-name">SEIRD Outbreak Simulator</span>
                 <span class="row-desc"># Epidemic spread simulator</span>
                 <span class="row-tech">js</span>
             </a>
-            <a href="/tiresize" class="row" aria-label="Tire Size Calc — tire size comparison tool">
-                <span class="row-marker" aria-hidden="true">›</span>
+            <a href="/tiresize" class="row lang-js" aria-label="Tire Size Calc — tire size comparison tool">
+                <span class="row-branch" aria-hidden="true">├──</span>
+                <span class="row-dot" aria-hidden="true"></span>
                 <span class="row-name">Tire Size Calc</span>
                 <span class="row-desc"># Tire size comparison tool</span>
                 <span class="row-tech">js</span>
             </a>
-            <a href="/presidents.html" class="row" aria-label="US Presidents Pivot Viewer — pivot table viewer for US presidents">
-                <span class="row-marker" aria-hidden="true">›</span>
+            <a href="/presidents.html" class="row lang-html" aria-label="US Presidents Pivot Viewer — pivot table viewer for US presidents">
+                <span class="row-branch" aria-hidden="true">└──</span>
+                <span class="row-dot" aria-hidden="true"></span>
                 <span class="row-name">US Presidents Pivot Viewer</span>
                 <span class="row-desc"># Pivot table viewer for US presidents</span>
                 <span class="row-tech">html · python</span>
@@ -339,8 +381,14 @@
     </nav>
 
     <footer class="footer fade">
-        <span>© 2025 lab1702</span>
-        <span>vanilla html · css · zero deps</span>
+        <span>2 directories, 12 files</span>
+        <ul class="legend" aria-label="Language color legend">
+            <li><span class="legend-dot" style="background: var(--lang-js);" aria-hidden="true"></span>js</li>
+            <li><span class="legend-dot" style="background: var(--lang-html);" aria-hidden="true"></span>html</li>
+            <li><span class="legend-dot" style="background: var(--lang-python);" aria-hidden="true"></span>python</li>
+            <li><span class="legend-dot" style="background: var(--lang-go);" aria-hidden="true"></span>go</li>
+            <li><span class="legend-dot" style="background: var(--lang-r);" aria-hidden="true"></span>r</li>
+        </ul>
     </footer>
 </main>
 
