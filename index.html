@@ -9,29 +9,43 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://lab1702.github.io">
     <meta name="twitter:card" content="summary">
-    <meta name="theme-color" content="#0d0d0b">
+    <meta name="theme-color" content="#14130f">
     <title>lab1702</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500&display=swap">
     <style>
+        /* lab1702 design tokens (subset — dark terminal-phosphor palette) */
         :root {
-            --bg: #0d0d0b;
-            --text: #d6d3ca;
-            --bright: #f2eee4;
-            --name: #efebe1;
-            --tagline: #837f74;
-            --desc: #8f8a7e;
-            --faint: #837e72;
-            --branch: #4d4a43;
-            --border: #232220;
-            --hover: #13151c;
-            --ac: #7aa2f7;
-            --lang-js: #e7c95c;
-            --lang-html: #e0795f;
-            --lang-python: #7aa2f7;
-            --lang-go: #6cc4d6;
-            --lang-r: #c79be0;
+            --bg-0: oklch(0.15 0.010 100);
+            --bg-1: oklch(0.18 0.012 100);
+            --bg-2: oklch(0.22 0.014 100);
+
+            --fg-1: oklch(0.92 0.020 95);
+            --fg-2: oklch(0.70 0.020 95);
+            --fg-3: oklch(0.52 0.018 95);
+
+            --amber:      oklch(0.80 0.16 75);
+            --amber-dim:  oklch(0.68 0.13 75);
+            --link-hover: oklch(0.88 0.14 78);
+            --green:      oklch(0.80 0.16 145);
+            --green-glow: oklch(0.80 0.16 145 / 0.18);
+
+            --border-1: oklch(0.32 0.018 100);
+
+            --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+            --font-sans: "IBM Plex Sans", -apple-system, "Segoe UI", Helvetica, sans-serif;
+            --tracking-label: 0.08em;
+
+            --ease-out: cubic-bezier(0.2, 0, 0, 1);
+            --focus-shadow: 0 0 0 1px var(--bg-0), 0 0 0 3px var(--amber);
+            --scanlines: repeating-linear-gradient(
+                to bottom,
+                transparent 0px, transparent 2px,
+                oklch(0 0 0 / 0.12) 2px, oklch(0 0 0 / 0.12) 3px
+            );
+
+            --selection-bg: oklch(0.80 0.16 75 / 0.25);
         }
 
         *, *::before, *::after {
@@ -41,11 +55,12 @@
         }
 
         html { -webkit-font-smoothing: antialiased; }
+        ::selection { background: var(--selection-bg); }
 
         body {
-            font-family: 'Space Mono', ui-monospace, 'JetBrains Mono', monospace;
-            background: var(--bg);
-            color: var(--text);
+            font-family: var(--font-mono);
+            background: var(--bg-0);
+            color: var(--fg-2);
             min-height: 100vh;
             padding: clamp(48px, 9vh, 104px) 24px 64px;
             line-height: 1.4;
@@ -72,8 +87,8 @@
             margin: 0;
             padding: 0.5rem 1rem;
             display: block;
-            background: var(--bg);
-            color: var(--bright);
+            background: var(--bg-1);
+            color: var(--fg-1);
             white-space: normal;
             z-index: 10000;
         }
@@ -82,33 +97,37 @@
 
         /* Header */
         .hero {
-            padding-bottom: 34px;
-            border-bottom: 1px solid var(--border);
+            padding: 20px 20px 34px;
+            margin: -20px -20px 0;
+            border-bottom: 1px solid var(--border-1);
+            background-image: var(--scanlines);
         }
 
         .hero-prompt {
-            font-size: 13px;
+            font-size: 12.5px;
             margin-bottom: 22px;
             letter-spacing: 0.01em;
-            color: var(--faint);
+            color: var(--fg-3);
         }
 
-        .hero-prompt .path { color: var(--ac); }
-        .hero-prompt .branch-name { color: var(--lang-r); }
+        .hero-prompt .path { color: var(--amber); }
+        .hero-prompt .branch-name { color: var(--fg-2); }
 
         .hero-name {
             font-weight: 700;
             font-size: clamp(40px, 8vw, 58px);
             line-height: 0.96;
-            letter-spacing: -0.02em;
-            color: var(--bright);
+            letter-spacing: -0.01em;
+            color: var(--fg-1);
         }
 
+        .hero-name .num { color: var(--amber); }
+
         .cursor {
-            color: var(--ac);
+            color: var(--amber);
             display: inline-block;
-            margin-left: 4px;
-            animation: blink 1.1s step-end infinite;
+            margin-left: 2px;
+            animation: blink 1.06s steps(1, end) infinite;
         }
 
         @keyframes blink {
@@ -124,24 +143,26 @@
             margin-top: 20px;
         }
 
-        .hero-tagline { font-size: 13px; color: var(--tagline); }
+        .hero-tagline { font-size: 12.5px; color: var(--fg-2); }
 
         .hero-github {
-            font-size: 13px;
-            color: var(--ac);
+            font-size: 12.5px;
+            color: var(--amber);
             text-decoration: none;
         }
 
-        .hero-github:hover { text-decoration: underline; text-underline-offset: 3px; }
+        .hero-github:hover { color: var(--link-hover); text-decoration: underline; text-underline-offset: 3px; }
 
         /* Sections */
         .section { margin-top: 44px; }
         .section + .section { margin-top: 32px; }
 
         .section-label {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--ac);
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--amber);
+            text-transform: uppercase;
+            letter-spacing: var(--tracking-label);
             padding-left: 14px;
             margin-bottom: 6px;
         }
@@ -152,48 +173,41 @@
             align-items: baseline;
             gap: 12px;
             padding: 11px 14px;
-            border-radius: 7px;
+            border-radius: 2px;
             text-decoration: none;
-            color: var(--text);
-            transition: background 130ms ease;
+            color: var(--fg-2);
+            transition: background 120ms var(--ease-out);
         }
 
         .row:hover,
         .row:focus-visible {
-            background: var(--hover);
+            background: var(--bg-1);
         }
 
         .row:focus-visible {
-            outline: 2px solid var(--ac);
-            outline-offset: 3px;
+            outline: none;
+            box-shadow: var(--focus-shadow);
         }
 
         .row-branch {
-            font-size: 13px;
-            color: var(--branch);
+            font-size: 12.5px;
+            color: var(--fg-3);
             flex-shrink: 0;
             white-space: pre;
         }
 
-        .row-dot {
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-            background: var(--lc);
-            flex-shrink: 0;
-            align-self: center;
-        }
-
         .row-name {
             font-size: 14.5px;
-            color: var(--name);
+            font-weight: 500;
+            color: var(--fg-1);
             min-width: 220px;
             flex-shrink: 0;
         }
 
         .row-desc {
-            font-size: 12.5px;
-            color: var(--desc);
+            font-family: var(--font-sans);
+            font-size: 13px;
+            color: var(--fg-2);
             flex: 1;
             min-width: 0;
             white-space: nowrap;
@@ -203,50 +217,39 @@
 
         .row-tech {
             font-size: 12px;
-            color: var(--lc);
+            color: var(--fg-3);
             white-space: nowrap;
             margin-left: auto;
             flex-shrink: 0;
         }
 
-        .lang-js { --lc: var(--lang-js); }
-        .lang-html { --lc: var(--lang-html); }
-        .lang-python { --lc: var(--lang-python); }
-        .lang-go { --lc: var(--lang-go); }
-        .lang-r { --lc: var(--lang-r); }
-
         /* Footer */
         .footer {
             margin-top: 52px;
             padding-top: 24px;
-            border-top: 1px solid var(--border);
+            border-top: 1px solid var(--border-1);
             display: flex;
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
             gap: 10px;
             font-size: 11.5px;
-            color: var(--faint);
+            color: var(--fg-3);
         }
 
-        .legend {
+        .status {
             display: flex;
-            gap: 16px;
+            gap: 7px;
             align-items: center;
-            flex-wrap: wrap;
-            list-style: none;
+            color: var(--fg-2);
         }
 
-        .legend li {
-            display: flex;
-            gap: 6px;
-            align-items: center;
-        }
-
-        .legend-dot {
+        .status-dot {
             width: 8px;
             height: 8px;
-            border-radius: 50%;
+            border-radius: 999px;
+            background: var(--green);
+            box-shadow: 0 0 8px var(--green-glow);
             display: inline-block;
         }
 
@@ -257,7 +260,7 @@
         }
 
         .fade { opacity: 0; }
-        .fade.in { animation: fade-in-up 420ms ease forwards; }
+        .fade.in { animation: fade-in-up 200ms var(--ease-out) forwards; }
 
         @media (max-width: 640px) {
             .row-desc { display: none; }
@@ -277,9 +280,9 @@
 <main id="main">
     <header class="hero fade">
         <div class="hero-prompt"><span class="path">~/lab1702</span> on <span class="branch-name">main</span> — tree</div>
-        <h1 class="hero-name">lab1702<span class="cursor" aria-hidden="true">_</span></h1>
+        <h1 class="hero-name">lab<span class="num">1702</span><span class="cursor" aria-hidden="true">▊</span></h1>
         <div class="hero-meta">
-            <span class="hero-tagline">Games, Data &amp; Tools</span>
+            <span class="hero-tagline">games, data &amp; tools</span>
             <a href="https://github.com/lab1702" target="_blank" rel="noopener noreferrer" class="hero-github" aria-label="lab1702 on GitHub">github.com/lab1702 ↗</a>
         </div>
     </header>
@@ -288,32 +291,28 @@
         <section class="section fade">
             <h2 class="section-label">games/</h2>
 
-            <a href="/eql-zone-map.html" class="row lang-html" aria-label="EverQuest Legends Zone Map — interactive zone map">
+            <a href="/eql-zone-map.html" class="row" aria-label="EverQuest Legends Zone Map — interactive zone map">
                 <span class="row-branch" aria-hidden="true">├──</span>
-                <span class="row-dot" aria-hidden="true"></span>
                 <span class="row-name">EverQuest Legends Zone Map</span>
-                <span class="row-desc"># Interactive zone map for EverQuest Legends</span>
+                <span class="row-desc"># interactive zone map for EverQuest Legends</span>
                 <span class="row-tech">html</span>
             </a>
-            <a href="/netrek" class="row lang-go" aria-label="Netrek Web — space combat multiplayer game">
+            <a href="/netrek" class="row" aria-label="Netrek Web — space combat multiplayer game">
                 <span class="row-branch" aria-hidden="true">├──</span>
-                <span class="row-dot" aria-hidden="true"></span>
                 <span class="row-name">Netrek Web</span>
-                <span class="row-desc"># Space combat multiplayer game</span>
+                <span class="row-desc"># space combat multiplayer game</span>
                 <span class="row-tech">go · js</span>
             </a>
-            <a href="/gorgon-maps" class="row lang-js" aria-label="Project Gorgon Nav — MMO navigation and map tool">
+            <a href="/gorgon-maps" class="row" aria-label="Project Gorgon Nav — MMO navigation and map tool">
                 <span class="row-branch" aria-hidden="true">├──</span>
-                <span class="row-dot" aria-hidden="true"></span>
                 <span class="row-name">Project Gorgon Nav</span>
                 <span class="row-desc"># MMO navigation &amp; map tool</span>
                 <span class="row-tech">js</span>
             </a>
-            <a href="/word" class="row lang-js" aria-label="Word Garden — daily word puzzle game">
+            <a href="/word" class="row" aria-label="Word Garden — daily word puzzle game">
                 <span class="row-branch" aria-hidden="true">└──</span>
-                <span class="row-dot" aria-hidden="true"></span>
                 <span class="row-name">Word Garden</span>
-                <span class="row-desc"># Daily word puzzle game</span>
+                <span class="row-desc"># daily word puzzle game</span>
                 <span class="row-tech">js</span>
             </a>
         </section>
@@ -321,60 +320,52 @@
         <section class="section fade">
             <h2 class="section-label">tools/</h2>
 
-            <a href="/chat" class="row lang-js" aria-label="Chat — real-time chat application">
+            <a href="/chat" class="row" aria-label="Chat — real-time chat application">
                 <span class="row-branch" aria-hidden="true">├──</span>
-                <span class="row-dot" aria-hidden="true"></span>
                 <span class="row-name">Chat</span>
-                <span class="row-desc"># Real-time chat application</span>
+                <span class="row-desc"># real-time chat application</span>
                 <span class="row-tech">js</span>
             </a>
-            <a href="/detroit-crime-weather" class="row lang-python" aria-label="Crime &amp; Weather — weather's impact on Detroit crime">
+            <a href="/detroit-crime-weather" class="row" aria-label="Crime &amp; Weather — weather's impact on Detroit crime">
                 <span class="row-branch" aria-hidden="true">├──</span>
-                <span class="row-dot" aria-hidden="true"></span>
                 <span class="row-name">Crime &amp; Weather</span>
-                <span class="row-desc"># Weather's impact on Detroit crime</span>
+                <span class="row-desc"># weather's impact on Detroit crime</span>
                 <span class="row-tech">python · pandas</span>
             </a>
-            <a href="/ccalendar.html" class="row lang-html" aria-label="Cruise Calendar — South East Michigan car cruises and events">
+            <a href="/ccalendar.html" class="row" aria-label="Cruise Calendar — South East Michigan car cruises and events">
                 <span class="row-branch" aria-hidden="true">├──</span>
-                <span class="row-dot" aria-hidden="true"></span>
                 <span class="row-name">Cruise Calendar</span>
                 <span class="row-desc"># SE Michigan car cruises &amp; events</span>
                 <span class="row-tech">html</span>
             </a>
-            <a href="/detcrime" class="row lang-python" aria-label="Detroit Crime — crime data visualization dashboard">
+            <a href="/detcrime" class="row" aria-label="Detroit Crime — crime data visualization dashboard">
                 <span class="row-branch" aria-hidden="true">├──</span>
-                <span class="row-dot" aria-hidden="true"></span>
                 <span class="row-name">Detroit Crime</span>
-                <span class="row-desc"># Crime data visualization dashboard</span>
+                <span class="row-desc"># crime data visualization dashboard</span>
                 <span class="row-tech">python · streamlit</span>
             </a>
-            <a href="/trading" class="row lang-r" aria-label="Ichimoku Trading — Ichimoku cloud trading strategy">
+            <a href="/trading" class="row" aria-label="Ichimoku Trading — Ichimoku cloud trading strategy">
                 <span class="row-branch" aria-hidden="true">├──</span>
-                <span class="row-dot" aria-hidden="true"></span>
                 <span class="row-name">Ichimoku Trading</span>
                 <span class="row-desc"># Ichimoku cloud trading strategy</span>
                 <span class="row-tech">r · shiny</span>
             </a>
-            <a href="/outbreak-sim" class="row lang-js" aria-label="SEIRD Outbreak Simulator — epidemic spread simulator">
+            <a href="/outbreak-sim" class="row" aria-label="SEIRD Outbreak Simulator — epidemic spread simulator">
                 <span class="row-branch" aria-hidden="true">├──</span>
-                <span class="row-dot" aria-hidden="true"></span>
                 <span class="row-name">SEIRD Outbreak Simulator</span>
-                <span class="row-desc"># Epidemic spread simulator</span>
+                <span class="row-desc"># epidemic spread simulator</span>
                 <span class="row-tech">js</span>
             </a>
-            <a href="/tiresize" class="row lang-js" aria-label="Tire Size Calc — tire size comparison tool">
+            <a href="/tiresize" class="row" aria-label="Tire Size Calc — tire size comparison tool">
                 <span class="row-branch" aria-hidden="true">├──</span>
-                <span class="row-dot" aria-hidden="true"></span>
                 <span class="row-name">Tire Size Calc</span>
-                <span class="row-desc"># Tire size comparison tool</span>
+                <span class="row-desc"># tire size comparison tool</span>
                 <span class="row-tech">js</span>
             </a>
-            <a href="/presidents.html" class="row lang-html" aria-label="US Presidents Pivot Viewer — pivot table viewer for US presidents">
+            <a href="/presidents.html" class="row" aria-label="US Presidents Pivot Viewer — pivot table viewer for US presidents">
                 <span class="row-branch" aria-hidden="true">└──</span>
-                <span class="row-dot" aria-hidden="true"></span>
                 <span class="row-name">US Presidents Pivot Viewer</span>
-                <span class="row-desc"># Pivot table viewer for US presidents</span>
+                <span class="row-desc"># pivot table viewer for US presidents</span>
                 <span class="row-tech">html · python</span>
             </a>
         </section>
@@ -382,13 +373,7 @@
 
     <footer class="footer fade">
         <span>2 directories, 12 files</span>
-        <ul class="legend" aria-label="Language color legend">
-            <li><span class="legend-dot" style="background: var(--lang-js);" aria-hidden="true"></span>js</li>
-            <li><span class="legend-dot" style="background: var(--lang-html);" aria-hidden="true"></span>html</li>
-            <li><span class="legend-dot" style="background: var(--lang-python);" aria-hidden="true"></span>python</li>
-            <li><span class="legend-dot" style="background: var(--lang-go);" aria-hidden="true"></span>go</li>
-            <li><span class="legend-dot" style="background: var(--lang-r);" aria-hidden="true"></span>r</li>
-        </ul>
+        <span class="status"><span class="status-dot" aria-hidden="true"></span>online</span>
     </footer>
 </main>
 
