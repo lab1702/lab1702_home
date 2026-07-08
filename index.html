@@ -23,7 +23,7 @@
 
             --fg-1: oklch(0.92 0.020 95);
             --fg-2: oklch(0.70 0.020 95);
-            --fg-3: oklch(0.52 0.018 95);
+            --fg-3: oklch(0.58 0.018 95);
 
             --amber:      oklch(0.80 0.16 75);
             --amber-dim:  oklch(0.68 0.13 75);
@@ -259,17 +259,21 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .fade { opacity: 0; }
-        .fade.in { animation: fade-in-up 200ms var(--ease-out) forwards; }
+        .fade { animation: fade-in-up 200ms var(--ease-out) both; }
+        .section:nth-of-type(1) { animation-delay: 60ms; }
+        .section:nth-of-type(2) { animation-delay: 120ms; }
+        .section:nth-of-type(3) { animation-delay: 180ms; }
+        .footer { animation-delay: 240ms; }
 
         @media (max-width: 640px) {
+            .row { flex-wrap: wrap; }
             .row-desc { display: none; }
             .row-name { min-width: 0; }
         }
 
         @media (prefers-reduced-motion: reduce) {
             .cursor { animation: none; }
-            .fade, .fade.in { opacity: 1; animation: none; }
+            .fade { animation: none; }
             .row { transition: none; }
         }
     </style>
@@ -382,14 +386,5 @@
     </footer>
 </main>
 
-<script>
-(function () {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var targets = document.querySelectorAll('.fade');
-    targets.forEach(function (el, i) {
-        setTimeout(function () { el.classList.add('in'); }, i * 60);
-    });
-})();
-</script>
 </body>
 </html>
