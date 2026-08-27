@@ -1,35 +1,55 @@
 # lab1702's Toolbox
 
-A personal homepage presenting projects as a bold, vivid-on-dark grid of color-block tiles.
+A personal homepage presenting projects as a dark terminal-phosphor board of
+color-accented cards, grouped into three directories.
 
 ## Overview
 
-This is a single-page landing site that provides navigation to different games and web applications. The page is laid out as a graphic grid — each project is a color-block tile with a bold name, its tech tags, and its own vivid accent color — set on a deep dark canvas.
+This is a single-page landing site that provides navigation to 14 games, data
+projects and web tools. The page opens with a shell-prompt header and a
+`lab1702` wordmark, then lays the projects out as a responsive grid of cards
+grouped under `games/`, `data/` and `tools/` — each group carrying its own
+accent hue so the three read apart at a glance.
 
 ## Features
 
-- **Color-Block Grid**: Responsive grid of project tiles, each with its own hand-picked accent color (terracotta, blue, green, violet, gold)
-- **Bold Typography**: Oversized Space Grotesk display type for the wordmark and tile names, with JetBrains Mono for tech tags and section labels
-- **Hover/Focus States**: Tile lifts, its accent border and glow intensify, the name shifts to the accent color, and an arrow slides in
-- **Responsive Design**: Fluid typography and an `auto-fit` grid collapsing from three columns to one across screen sizes
-- **Accessibility**: `prefers-reduced-motion` support, ARIA labels, skip-to-content link, keyboard navigation with `focus-visible` styles
-- **Zero Dependencies**: Vanilla HTML, CSS, and JavaScript with no build step
+- **Section Board**: Each directory is a responsive `auto-fit` card grid that
+  collapses from two columns to one; every card shows the project name, a full
+  description, and its tech stack as chips
+- **Per-Section Accents**: Amber for `games/`, green for `data/`, cyan for
+  `tools/` — set once per section as `--ac` and inherited by the cards
+- **Terminal Header**: Shell prompt line (`~/lab1702 on main — tree`), a
+  monospace wordmark with a blinking block cursor, and a scanline overlay
+- **Hover/Focus States**: The card shifts to a lighter surface, its border takes
+  the section accent, and the name changes to that accent
+- **Responsive Design**: Fluid wordmark sizing with `clamp()` and a grid that
+  reflows at any width — no content is hidden on small screens
+- **Accessibility**: Skip-to-content link, `aria-label` on every card,
+  `aria-labelledby` on each section, accent-colored `:focus-visible` rings, and
+  a `prefers-reduced-motion` fallback
+- **Zero Dependencies**: A single HTML file with inline CSS, no JavaScript and
+  no build step
 
 ## Technical Details
 
-- **Frontend**: Single-file vanilla HTML5, CSS3, and JavaScript
-- **Color System**: CSS custom properties for the dark base (`--bg`, `--surface`, `--surface-2`, `--text`, `--bright`, `--muted`, `--border`) plus a per-tile `--ac` accent variable set by `.ac-*` modifier classes
-- **Typography**: Space Grotesk (wordmark and tile names) and JetBrains Mono (labels/tech) via Google Fonts, fluid sizing with `clamp()`
-- **Effects**: Staggered fade-in on load and an accent-colored hover glow (using `color-mix()`)
-- **Accessibility**: `prefers-reduced-motion` disables the fade-in and hover transitions
+- **Frontend**: Single-file vanilla HTML5 and CSS3 — the page runs no
+  JavaScript at all
+- **Color System**: CSS custom properties in oklch for the dark terminal
+  palette (`--bg-0`/`--bg-1`/`--bg-2`, `--fg-1`/`--fg-2`/`--fg-3`, `--border-1`)
+  plus three accent hues (`--amber`, `--green`, `--cyan`) exposed to each
+  section as `--ac`
+- **Typography**: JetBrains Mono for the wordmark, names, labels and chips;
+  IBM Plex Sans for descriptions — both via Google Fonts
+- **Effects**: Staggered fade-in on load, a blinking cursor, and a scanline
+  gradient across the header
+- **Accessibility**: `prefers-reduced-motion` disables the fade-in, the cursor
+  blink and the card transitions
 
 ## Project Structure
 
 ```
 lab1702_home/
-├── index.html          # Main homepage (HTML, CSS, and JS inline)
-├── docs/
-│   └── plans/          # Design and implementation documents
+├── index.html          # Main homepage (HTML and CSS inline, no JS)
 ├── README.md           # Project documentation
 └── LICENSE             # MIT License
 ```

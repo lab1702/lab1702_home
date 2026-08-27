@@ -30,6 +30,7 @@
             --link-hover: oklch(0.88 0.14 78);
             --green:      oklch(0.80 0.16 145);
             --green-glow: oklch(0.80 0.16 145 / 0.18);
+            --cyan:       oklch(0.80 0.13 220);
 
             --border-1: oklch(0.32 0.018 100);
 
@@ -38,7 +39,6 @@
             --tracking-label: 0.08em;
 
             --ease-out: cubic-bezier(0.2, 0, 0, 1);
-            --focus-shadow: 0 0 0 1px var(--bg-0), 0 0 0 3px var(--amber);
             --scanlines: repeating-linear-gradient(
                 to bottom,
                 transparent 0px, transparent 2px,
@@ -153,79 +153,107 @@
 
         .hero-github:hover { color: var(--link-hover); text-decoration: underline; text-underline-offset: 3px; }
 
-        /* Sections */
-        .section { margin-top: 44px; }
-        .section + .section { margin-top: 32px; }
+        /* Sections — one accent hue each */
+        .section { margin-top: 40px; }
+        .section + .section { margin-top: 36px; }
+
+        .section-games { --ac: var(--amber); }
+        .section-data  { --ac: var(--green); }
+        .section-tools { --ac: var(--cyan); }
+
+        .section-head {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
 
         .section-label {
             font-size: 12.5px;
             font-weight: 600;
-            color: var(--amber);
+            color: var(--ac);
             text-transform: uppercase;
             letter-spacing: var(--tracking-label);
-            padding-left: 14px;
-            margin-bottom: 6px;
         }
 
-        /* Rows */
-        .row {
-            display: flex;
-            align-items: baseline;
+        .section-count { font-size: 11.5px; color: var(--fg-3); }
+
+        .section-rule {
+            flex: 1;
+            height: 1px;
+            background: var(--border-1);
+        }
+
+        /* Cards */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 12px;
-            padding: 11px 14px;
-            border-radius: 2px;
+        }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 16px 18px;
+            border: 1px solid var(--border-1);
+            border-top: 2px solid var(--ac);
+            border-radius: 3px;
+            background: var(--bg-1);
             text-decoration: none;
             color: var(--fg-2);
-            transition: background 120ms var(--ease-out);
+            transition: background 120ms var(--ease-out), border-color 120ms var(--ease-out);
         }
 
-        .row:hover,
-        .row:focus-visible {
-            background: var(--bg-1);
+        .card:hover,
+        .card:focus-visible {
+            background: var(--bg-2);
+            border-color: var(--ac);
         }
 
-        .row:focus-visible {
+        .card:hover .card-name,
+        .card:focus-visible .card-name { color: var(--ac); }
+
+        .card:focus-visible {
             outline: none;
-            box-shadow: var(--focus-shadow);
+            box-shadow: 0 0 0 1px var(--bg-0), 0 0 0 3px var(--ac);
         }
 
-        .row-branch {
-            font-size: 12.5px;
-            color: var(--fg-3);
-            flex-shrink: 0;
-            white-space: pre;
-        }
-
-        .row-name {
-            font-size: 14.5px;
+        .card-name {
+            font-size: 15.5px;
             font-weight: 500;
             color: var(--fg-1);
-            min-width: 220px;
-            flex-shrink: 0;
+            text-wrap: pretty;
+            transition: color 120ms var(--ease-out);
         }
 
-        .row-desc {
+        .card-desc {
             font-family: var(--font-sans);
             font-size: 13px;
             color: var(--fg-2);
             flex: 1;
-            min-width: 0;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            text-wrap: pretty;
         }
 
-        .row-tech {
-            font-size: 12px;
+        .card-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 2px;
+        }
+
+        .chip {
+            font-size: 11px;
             color: var(--fg-3);
+            border: 1px solid var(--border-1);
+            border-radius: 2px;
+            padding: 2px 7px;
             white-space: nowrap;
-            margin-left: auto;
-            flex-shrink: 0;
         }
 
         /* Footer */
         .footer {
-            margin-top: 52px;
+            margin-top: 48px;
             padding-top: 24px;
             border-top: 1px solid var(--border-1);
             display: flex;
@@ -265,16 +293,10 @@
         .section:nth-of-type(3) { animation-delay: 180ms; }
         .footer { animation-delay: 240ms; }
 
-        @media (max-width: 640px) {
-            .row { flex-wrap: wrap; }
-            .row-desc { display: none; }
-            .row-name { min-width: 0; }
-        }
-
         @media (prefers-reduced-motion: reduce) {
             .cursor { animation: none; }
             .fade { animation: none; }
-            .row { transition: none; }
+            .card, .card-name { transition: none; }
         }
     </style>
 </head>
@@ -292,103 +314,107 @@
     </header>
 
     <nav aria-label="Projects">
-        <section class="section fade">
-            <h2 class="section-label">games/</h2>
+        <section class="section section-games fade" aria-labelledby="sec-games">
+            <div class="section-head">
+                <h2 class="section-label" id="sec-games">games/</h2>
+                <span class="section-count">7</span>
+                <span class="section-rule" aria-hidden="true"></span>
+            </div>
 
-            <a href="/eql-maps" class="row" aria-label="EQ Legends Nav — interactive zone map">
-                <span class="row-branch" aria-hidden="true">├──</span>
-                <span class="row-name">EQ Legends Nav</span>
-                <span class="row-desc"># interactive zone map for EverQuest Legends</span>
-                <span class="row-tech">html</span>
-            </a>
-            <a href="/fpnetrek" class="row" aria-label="Netrek FP — first-person take on Netrek space combat">
-                <span class="row-branch" aria-hidden="true">├──</span>
-                <span class="row-name">Netrek FP</span>
-                <span class="row-desc"># first-person take on Netrek space combat</span>
-                <span class="row-tech">go · js</span>
-            </a>
-            <a href="/netrek" class="row" aria-label="Netrek Web — space combat multiplayer game">
-                <span class="row-branch" aria-hidden="true">├──</span>
-                <span class="row-name">Netrek Web</span>
-                <span class="row-desc"># space combat multiplayer game</span>
-                <span class="row-tech">go · js</span>
-            </a>
-            <a href="/gorgon-maps" class="row" aria-label="Project Gorgon Nav — MMO navigation and map tool">
-                <span class="row-branch" aria-hidden="true">├──</span>
-                <span class="row-name">Project Gorgon Nav</span>
-                <span class="row-desc"># MMO navigation &amp; map tool</span>
-                <span class="row-tech">js</span>
-            </a>
-            <a href="/eqlegends-recommended-items.html" class="row" aria-label="Top EQ Legends Items — recommended gear for EverQuest Legends">
-                <span class="row-branch" aria-hidden="true">├──</span>
-                <span class="row-name">Top EQ Legends Items</span>
-                <span class="row-desc"># recommended gear for EverQuest Legends</span>
-                <span class="row-tech">html</span>
-            </a>
-            <a href="/word" class="row" aria-label="Word Garden — daily word puzzle game">
-                <span class="row-branch" aria-hidden="true">├──</span>
-                <span class="row-name">Word Garden</span>
-                <span class="row-desc"># daily word puzzle game</span>
-                <span class="row-tech">js</span>
-            </a>
-            <a href="/xbattle" class="row" aria-label="XBattle Web — real-time two-player strategy game">
-                <span class="row-branch" aria-hidden="true">└──</span>
-                <span class="row-name">XBattle Web</span>
-                <span class="row-desc"># real-time two-player strategy, a 1991 classic reborn</span>
-                <span class="row-tech">go · js</span>
-            </a>
+            <div class="grid">
+                <a href="/eql-maps" class="card" aria-label="EQ Legends Nav — interactive zone map for EverQuest Legends">
+                    <span class="card-name">EQ Legends Nav</span>
+                    <span class="card-desc">interactive zone map for EverQuest Legends</span>
+                    <span class="card-tech"><span class="chip">html</span></span>
+                </a>
+                <a href="/fpnetrek" class="card" aria-label="Netrek FP — first-person take on Netrek space combat">
+                    <span class="card-name">Netrek FP</span>
+                    <span class="card-desc">first-person take on Netrek space combat</span>
+                    <span class="card-tech"><span class="chip">go</span><span class="chip">js</span></span>
+                </a>
+                <a href="/netrek" class="card" aria-label="Netrek Web — space combat multiplayer game">
+                    <span class="card-name">Netrek Web</span>
+                    <span class="card-desc">space combat multiplayer game</span>
+                    <span class="card-tech"><span class="chip">go</span><span class="chip">js</span></span>
+                </a>
+                <a href="/gorgon-maps" class="card" aria-label="Project Gorgon Nav — MMO navigation and map tool">
+                    <span class="card-name">Project Gorgon Nav</span>
+                    <span class="card-desc">MMO navigation &amp; map tool</span>
+                    <span class="card-tech"><span class="chip">js</span></span>
+                </a>
+                <a href="/eqlegends-recommended-items.html" class="card" aria-label="Top EQ Legends Items — recommended gear for EverQuest Legends">
+                    <span class="card-name">Top EQ Legends Items</span>
+                    <span class="card-desc">recommended gear for EverQuest Legends</span>
+                    <span class="card-tech"><span class="chip">html</span></span>
+                </a>
+                <a href="/word" class="card" aria-label="Word Garden — daily word puzzle game">
+                    <span class="card-name">Word Garden</span>
+                    <span class="card-desc">daily word puzzle game</span>
+                    <span class="card-tech"><span class="chip">js</span></span>
+                </a>
+                <a href="/xbattle" class="card" aria-label="XBattle Web — real-time two-player strategy, a 1991 classic reborn">
+                    <span class="card-name">XBattle Web</span>
+                    <span class="card-desc">real-time two-player strategy, a 1991 classic reborn</span>
+                    <span class="card-tech"><span class="chip">go</span><span class="chip">js</span></span>
+                </a>
+            </div>
         </section>
 
-        <section class="section fade">
-            <h2 class="section-label">data/</h2>
+        <section class="section section-data fade" aria-labelledby="sec-data">
+            <div class="section-head">
+                <h2 class="section-label" id="sec-data">data/</h2>
+                <span class="section-count">4</span>
+                <span class="section-rule" aria-hidden="true"></span>
+            </div>
 
-            <a href="/detroit-crime-weather" class="row" aria-label="Crime &amp; Weather — weather's impact on Detroit crime">
-                <span class="row-branch" aria-hidden="true">├──</span>
-                <span class="row-name">Crime &amp; Weather</span>
-                <span class="row-desc"># weather's impact on Detroit crime</span>
-                <span class="row-tech">python · pandas</span>
-            </a>
-            <a href="/detcrime" class="row" aria-label="Detroit Crime — crime data visualization dashboard">
-                <span class="row-branch" aria-hidden="true">├──</span>
-                <span class="row-name">Detroit Crime</span>
-                <span class="row-desc"># crime data visualization dashboard</span>
-                <span class="row-tech">python · streamlit</span>
-            </a>
-            <a href="/trading" class="row" aria-label="Ichimoku Trading — Ichimoku cloud trading strategy">
-                <span class="row-branch" aria-hidden="true">├──</span>
-                <span class="row-name">Ichimoku Trading</span>
-                <span class="row-desc"># Ichimoku cloud trading strategy</span>
-                <span class="row-tech">r · shiny</span>
-            </a>
-            <a href="/presidents.html" class="row" aria-label="US Presidents Pivot Viewer — pivot table viewer for US presidents">
-                <span class="row-branch" aria-hidden="true">└──</span>
-                <span class="row-name">US Presidents Pivot Viewer</span>
-                <span class="row-desc"># pivot table viewer for US presidents</span>
-                <span class="row-tech">html · python</span>
-            </a>
+            <div class="grid">
+                <a href="/detroit-crime-weather" class="card" aria-label="Crime &amp; Weather — weather's impact on Detroit crime">
+                    <span class="card-name">Crime &amp; Weather</span>
+                    <span class="card-desc">weather's impact on Detroit crime</span>
+                    <span class="card-tech"><span class="chip">python</span><span class="chip">pandas</span></span>
+                </a>
+                <a href="/detcrime" class="card" aria-label="Detroit Crime — crime data visualization dashboard">
+                    <span class="card-name">Detroit Crime</span>
+                    <span class="card-desc">crime data visualization dashboard</span>
+                    <span class="card-tech"><span class="chip">python</span><span class="chip">streamlit</span></span>
+                </a>
+                <a href="/trading" class="card" aria-label="Ichimoku Trading — Ichimoku cloud trading strategy">
+                    <span class="card-name">Ichimoku Trading</span>
+                    <span class="card-desc">Ichimoku cloud trading strategy</span>
+                    <span class="card-tech"><span class="chip">r</span><span class="chip">shiny</span></span>
+                </a>
+                <a href="/presidents.html" class="card" aria-label="US Presidents Pivot Viewer — pivot table viewer for US presidents">
+                    <span class="card-name">US Presidents Pivot Viewer</span>
+                    <span class="card-desc">pivot table viewer for US presidents</span>
+                    <span class="card-tech"><span class="chip">html</span><span class="chip">python</span></span>
+                </a>
+            </div>
         </section>
 
-        <section class="section fade">
-            <h2 class="section-label">tools/</h2>
+        <section class="section section-tools fade" aria-labelledby="sec-tools">
+            <div class="section-head">
+                <h2 class="section-label" id="sec-tools">tools/</h2>
+                <span class="section-count">3</span>
+                <span class="section-rule" aria-hidden="true"></span>
+            </div>
 
-            <a href="/chat" class="row" aria-label="Chat — real-time chat application">
-                <span class="row-branch" aria-hidden="true">├──</span>
-                <span class="row-name">Chat</span>
-                <span class="row-desc"># real-time chat application</span>
-                <span class="row-tech">js</span>
-            </a>
-            <a href="/outbreak-sim" class="row" aria-label="SEIRD Outbreak Simulator — epidemic spread simulator">
-                <span class="row-branch" aria-hidden="true">├──</span>
-                <span class="row-name">SEIRD Outbreak Simulator</span>
-                <span class="row-desc"># epidemic spread simulator</span>
-                <span class="row-tech">js</span>
-            </a>
-            <a href="/tiresize" class="row" aria-label="Tire Size Calc — tire size comparison tool">
-                <span class="row-branch" aria-hidden="true">└──</span>
-                <span class="row-name">Tire Size Calc</span>
-                <span class="row-desc"># tire size comparison tool</span>
-                <span class="row-tech">js</span>
-            </a>
+            <div class="grid">
+                <a href="/chat" class="card" aria-label="Chat — real-time chat application">
+                    <span class="card-name">Chat</span>
+                    <span class="card-desc">real-time chat application</span>
+                    <span class="card-tech"><span class="chip">js</span></span>
+                </a>
+                <a href="/outbreak-sim" class="card" aria-label="SEIRD Outbreak Simulator — epidemic spread simulator">
+                    <span class="card-name">SEIRD Outbreak Simulator</span>
+                    <span class="card-desc">epidemic spread simulator</span>
+                    <span class="card-tech"><span class="chip">js</span></span>
+                </a>
+                <a href="/tiresize" class="card" aria-label="Tire Size Calc — tire size comparison tool">
+                    <span class="card-name">Tire Size Calc</span>
+                    <span class="card-desc">tire size comparison tool</span>
+                    <span class="card-tech"><span class="chip">js</span></span>
+                </a>
+            </div>
         </section>
     </nav>
 
