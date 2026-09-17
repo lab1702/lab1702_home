@@ -5,7 +5,7 @@ color-accented cards, grouped into three directories.
 
 ## Overview
 
-This is a single-page landing site that provides navigation to 14 games, data
+This is a single-page landing site that provides navigation to 16 games, data
 projects and web tools. The page opens with a shell-prompt header and a
 `lab1702` wordmark, then lays the projects out as a responsive grid of cards
 grouped under `games/`, `data/` and `tools/` — each group carrying its own
