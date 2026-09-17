@@ -13,7 +13,7 @@
     <title>lab1702</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=IBM+Plex+Sans:wght@400;500&amp;display=swap">
     <style>
         /* lab1702 design tokens (subset — dark terminal-phosphor palette) */
         :root {
@@ -187,7 +187,7 @@
         /* Cards */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
             gap: 12px;
         }
 
@@ -215,8 +215,8 @@
         .card:focus-visible .card-name { color: var(--ac); }
 
         .card:focus-visible {
-            outline: none;
-            box-shadow: 0 0 0 1px var(--bg-0), 0 0 0 3px var(--ac);
+            outline: 2px solid var(--ac);
+            outline-offset: 2px;
         }
 
         .card-name {
@@ -244,7 +244,7 @@
 
         .chip {
             font-size: 11px;
-            color: var(--fg-3);
+            color: var(--fg-2);
             border: 1px solid var(--border-1);
             border-radius: 2px;
             padding: 2px 7px;
