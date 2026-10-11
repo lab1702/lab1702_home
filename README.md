@@ -18,10 +18,13 @@ accent hue so the three read apart at a glance.
   description, and its tech stack as chips
 - **Per-Section Accents**: Amber for `games/`, green for `data/`, cyan for
   `tools/` — set once per section as `--ac` and inherited by the cards
-- **Terminal Header**: Shell prompt line (`~/lab1702 on main — tree`), a
-  monospace wordmark with a blinking block cursor, and a scanline overlay
-- **Hover/Focus States**: The card shifts to a lighter surface, its border takes
-  the section accent, and the name changes to that accent
+- **Terminal Header**: A glass panel with a shell prompt line
+  (`~/lab1702 on main — tree`), a monospace wordmark with a glowing amber
+  gradient and blinking block cursor, a tri-color top hairline and a scanline
+  overlay
+- **Hover/Focus States**: The card lifts, its gradient border and corner glow
+  light up in the section accent, an arrow slides in, and the name changes to
+  that accent
 - **Responsive Design**: Fluid wordmark sizing with `clamp()` and a grid that
   reflows at any width — no content is hidden on small screens
 - **Accessibility**: Skip-to-content link, `aria-label` on every card,
@@ -40,10 +43,11 @@ accent hue so the three read apart at a glance.
   section as `--ac`
 - **Typography**: JetBrains Mono for the wordmark, names, labels and chips;
   IBM Plex Sans for descriptions — both via Google Fonts
-- **Effects**: Staggered fade-in on load, a blinking cursor, and a scanline
-  gradient across the header
+- **Effects**: Ambient accent-colored background glows over a faint dot grid,
+  staggered fade-in on load, a blinking cursor, a pulsing status dot, and a
+  scanline gradient across the header
 - **Accessibility**: `prefers-reduced-motion` disables the fade-in, the cursor
-  blink and the card transitions
+  blink, the status pulse, and the card transitions and lift
 
 ## Project Structure
 

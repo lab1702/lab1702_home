@@ -9,7 +9,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://lab1702.github.io">
     <meta name="twitter:card" content="summary">
-    <meta name="theme-color" content="#14130f">
+    <meta name="theme-color" content="#100f0b">
     <title>lab1702</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,35 +17,34 @@
     <style>
         /* lab1702 design tokens (subset — dark terminal-phosphor palette) */
         :root {
-            --bg-0: oklch(0.15 0.010 100);
-            --bg-1: oklch(0.18 0.012 100);
-            --bg-2: oklch(0.22 0.014 100);
+            --bg-0: oklch(0.13 0.010 100);
+            --bg-1: oklch(0.17 0.012 100);
+            --bg-2: oklch(0.21 0.014 100);
 
-            --fg-1: oklch(0.92 0.020 95);
-            --fg-2: oklch(0.70 0.020 95);
-            --fg-3: oklch(0.58 0.018 95);
+            --fg-1: oklch(0.95 0.018 95);
+            --fg-2: oklch(0.74 0.020 95);
+            --fg-3: oklch(0.60 0.018 95);
 
-            --amber:      oklch(0.80 0.16 75);
-            --amber-dim:  oklch(0.68 0.13 75);
-            --link-hover: oklch(0.88 0.14 78);
-            --green:      oklch(0.80 0.16 145);
-            --green-glow: oklch(0.80 0.16 145 / 0.18);
-            --cyan:       oklch(0.80 0.13 220);
+            --amber:      oklch(0.82 0.16 75);
+            --amber-hot:  oklch(0.72 0.19 50);
+            --link-hover: oklch(0.90 0.14 78);
+            --green:      oklch(0.82 0.17 145);
+            --cyan:       oklch(0.82 0.13 220);
 
-            --border-1: oklch(0.32 0.018 100);
+            --border-1: oklch(0.30 0.016 100);
 
             --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
             --font-sans: "IBM Plex Sans", -apple-system, "Segoe UI", Helvetica, sans-serif;
-            --tracking-label: 0.08em;
+            --tracking-label: 0.14em;
 
             --ease-out: cubic-bezier(0.2, 0, 0, 1);
             --scanlines: repeating-linear-gradient(
                 to bottom,
                 transparent 0px, transparent 2px,
-                oklch(0 0 0 / 0.12) 2px, oklch(0 0 0 / 0.12) 3px
+                oklch(0 0 0 / 0.14) 2px, oklch(0 0 0 / 0.14) 3px
             );
 
-            --selection-bg: oklch(0.80 0.16 75 / 0.25);
+            --selection-bg: oklch(0.80 0.16 75 / 0.30);
         }
 
         *, *::before, *::after {
@@ -54,16 +53,34 @@
             padding: 0;
         }
 
-        html { -webkit-font-smoothing: antialiased; }
-        ::selection { background: var(--selection-bg); }
+        html { -webkit-font-smoothing: antialiased; background: var(--bg-0); }
+        ::selection { background: var(--selection-bg); color: var(--fg-1); }
 
         body {
             font-family: var(--font-mono);
-            background: var(--bg-0);
+            background:
+                radial-gradient(1100px 620px at 8% -12%, oklch(0.80 0.16 75 / 0.13), transparent 62%),
+                radial-gradient(900px 560px at 98% 4%, oklch(0.80 0.13 220 / 0.09), transparent 60%),
+                radial-gradient(1000px 700px at 50% 112%, oklch(0.80 0.16 145 / 0.07), transparent 62%),
+                var(--bg-0);
+            background-attachment: fixed;
             color: var(--fg-2);
             min-height: 100vh;
             padding: clamp(48px, 9vh, 104px) 24px 64px;
             line-height: 1.4;
+        }
+
+        /* Faint dot grid, fading toward the bottom */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background-image: radial-gradient(oklch(1 0 0 / 0.07) 1px, transparent 1.2px);
+            background-size: 22px 22px;
+            -webkit-mask-image: linear-gradient(to bottom, black, transparent 75%);
+            mask-image: linear-gradient(to bottom, black, transparent 75%);
         }
 
         .sr-only {
@@ -97,10 +114,29 @@
 
         /* Header */
         .hero {
-            padding: 20px 20px 34px;
-            margin: -20px -20px 0;
-            border-bottom: 1px solid var(--border-1);
-            background-image: var(--scanlines);
+            position: relative;
+            padding: 28px 28px 34px;
+            margin: -28px -28px 0;
+            border: 1px solid var(--border-1);
+            border-radius: 14px;
+            background:
+                var(--scanlines),
+                radial-gradient(600px 240px at 0% 0%, oklch(0.80 0.16 75 / 0.12), transparent 70%),
+                linear-gradient(180deg, oklch(0.19 0.014 100 / 0.85), oklch(0.15 0.010 100 / 0.85));
+            box-shadow:
+                inset 0 1px 0 oklch(1 0 0 / 0.06),
+                0 30px 60px -30px oklch(0 0 0 / 0.7);
+            overflow: hidden;
+        }
+
+        /* Accent hairline across the top of the hero */
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0 0 auto 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--amber) 20%, var(--green) 55%, var(--cyan) 85%, transparent);
+            opacity: 0.8;
         }
 
         .hero-prompt {
@@ -115,18 +151,25 @@
 
         .hero-name {
             font-weight: 700;
-            font-size: clamp(40px, 8vw, 58px);
-            line-height: 0.96;
-            letter-spacing: -0.01em;
+            font-size: clamp(48px, 10vw, 88px);
+            line-height: 0.95;
+            letter-spacing: -0.03em;
             color: var(--fg-1);
         }
 
-        .hero-name .num { color: var(--amber); }
+        .hero-name .num {
+            background: linear-gradient(120deg, var(--link-hover) 0%, var(--amber) 45%, var(--amber-hot) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            filter: drop-shadow(0 0 22px oklch(0.80 0.16 75 / 0.35));
+        }
 
         .cursor {
             color: var(--amber);
             display: inline-block;
-            margin-left: 2px;
+            margin-left: 4px;
+            text-shadow: 0 0 18px oklch(0.80 0.16 75 / 0.6);
             animation: blink 1.06s steps(1, end) infinite;
         }
 
@@ -140,22 +183,35 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 10px 22px;
-            margin-top: 20px;
+            margin-top: 22px;
         }
 
-        .hero-tagline { font-size: 12.5px; color: var(--fg-2); }
+        .hero-tagline { font-size: 13px; color: var(--fg-2); letter-spacing: 0.02em; }
 
         .hero-github {
             font-size: 12.5px;
             color: var(--amber);
             text-decoration: none;
+            padding: 6px 12px;
+            border: 1px solid oklch(0.80 0.16 75 / 0.35);
+            border-radius: 999px;
+            background: oklch(0.80 0.16 75 / 0.08);
+            transition: background 160ms var(--ease-out), border-color 160ms var(--ease-out), box-shadow 160ms var(--ease-out), color 160ms var(--ease-out);
         }
 
-        .hero-github:hover { color: var(--link-hover); text-decoration: underline; text-underline-offset: 3px; }
+        .hero-github:hover,
+        .hero-github:focus-visible {
+            color: var(--link-hover);
+            background: oklch(0.80 0.16 75 / 0.16);
+            border-color: oklch(0.80 0.16 75 / 0.7);
+            box-shadow: 0 0 24px -4px oklch(0.80 0.16 75 / 0.5);
+        }
+
+        .hero-github:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
 
         /* Sections — one accent hue each */
-        .section { margin-top: 40px; }
-        .section + .section { margin-top: 36px; }
+        .section { margin-top: 48px; }
+        .section + .section { margin-top: 44px; }
 
         .section-games { --ac: var(--amber); }
         .section-data  { --ac: var(--green); }
@@ -163,73 +219,141 @@
 
         .section-head {
             display: flex;
-            align-items: baseline;
+            align-items: center;
             gap: 12px;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
         }
 
         .section-label {
-            font-size: 12.5px;
-            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            font-weight: 700;
             color: var(--ac);
             text-transform: uppercase;
             letter-spacing: var(--tracking-label);
+            text-shadow: 0 0 16px color-mix(in oklch, var(--ac) 45%, transparent);
         }
 
-        .section-count { font-size: 11.5px; color: var(--fg-3); }
+        .section-label::before {
+            content: "";
+            width: 7px;
+            height: 7px;
+            border-radius: 2px;
+            background: var(--ac);
+            box-shadow: 0 0 10px var(--ac);
+        }
+
+        .section-count {
+            font-size: 11px;
+            color: var(--ac);
+            padding: 1px 8px;
+            border-radius: 999px;
+            border: 1px solid color-mix(in oklch, var(--ac) 35%, transparent);
+            background: color-mix(in oklch, var(--ac) 10%, transparent);
+        }
 
         .section-rule {
             flex: 1;
             height: 1px;
-            background: var(--border-1);
+            background: linear-gradient(90deg, color-mix(in oklch, var(--ac) 50%, transparent), var(--border-1) 40%, transparent);
         }
 
         /* Cards */
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
-            gap: 12px;
+            gap: 14px;
         }
 
         .card {
+            position: relative;
             display: flex;
             flex-direction: column;
             gap: 8px;
-            padding: 16px 18px;
-            border: 1px solid var(--border-1);
-            border-top: 2px solid var(--ac);
-            border-radius: 3px;
-            background: var(--bg-1);
+            padding: 18px 20px;
+            border: 1px solid transparent;
+            border-radius: 10px;
+            background:
+                linear-gradient(180deg, var(--bg-1), oklch(0.15 0.011 100)) padding-box,
+                linear-gradient(160deg, color-mix(in oklch, var(--ac) 40%, var(--border-1)), var(--border-1) 35%, oklch(0.22 0.012 100)) border-box;
+            box-shadow:
+                inset 0 1px 0 oklch(1 0 0 / 0.04),
+                0 10px 24px -14px oklch(0 0 0 / 0.8);
             text-decoration: none;
             color: var(--fg-2);
-            transition: background 120ms var(--ease-out), border-color 120ms var(--ease-out);
+            isolation: isolate;
+            transition:
+                transform 220ms var(--ease-out),
+                box-shadow 220ms var(--ease-out);
+        }
+
+        /* Accent glow that blooms from the top-left corner on hover */
+        .card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            border-radius: inherit;
+            background: radial-gradient(420px 180px at 0% 0%, color-mix(in oklch, var(--ac) 16%, transparent), transparent 70%);
+            opacity: 0.35;
+            transition: opacity 220ms var(--ease-out);
+        }
+
+        /* Arrow that slides in on hover */
+        .card::after {
+            content: "↗";
+            position: absolute;
+            top: 16px;
+            right: 18px;
+            font-size: 14px;
+            color: var(--ac);
+            opacity: 0;
+            transform: translate(-4px, 4px);
+            transition: opacity 220ms var(--ease-out), transform 220ms var(--ease-out);
         }
 
         .card:hover,
         .card:focus-visible {
-            background: var(--bg-2);
-            border-color: var(--ac);
+            transform: translateY(-3px);
+            background:
+                linear-gradient(180deg, var(--bg-2), var(--bg-1)) padding-box,
+                linear-gradient(160deg, var(--ac), color-mix(in oklch, var(--ac) 30%, var(--border-1)) 45%, var(--border-1)) border-box;
+            box-shadow:
+                inset 0 1px 0 oklch(1 0 0 / 0.06),
+                0 18px 40px -16px oklch(0 0 0 / 0.9),
+                0 12px 40px -12px color-mix(in oklch, var(--ac) 40%, transparent);
         }
+
+        .card:hover::before,
+        .card:focus-visible::before { opacity: 1; }
+
+        .card:hover::after,
+        .card:focus-visible::after { opacity: 1; transform: translate(0, 0); }
 
         .card:hover .card-name,
         .card:focus-visible .card-name { color: var(--ac); }
 
         .card:focus-visible {
             outline: 2px solid var(--ac);
-            outline-offset: 2px;
+            outline-offset: 3px;
         }
 
         .card-name {
-            font-size: 15.5px;
-            font-weight: 500;
+            font-size: 16px;
+            font-weight: 600;
             color: var(--fg-1);
+            letter-spacing: -0.01em;
+            padding-right: 20px;
             text-wrap: pretty;
-            transition: color 120ms var(--ease-out);
+            transition: color 160ms var(--ease-out);
         }
 
         .card-desc {
             font-family: var(--font-sans);
-            font-size: 13px;
+            font-size: 13.5px;
+            line-height: 1.5;
             color: var(--fg-2);
             flex: 1;
             text-wrap: pretty;
@@ -238,22 +362,23 @@
         .card-tech {
             display: flex;
             flex-wrap: wrap;
-            gap: 5px;
-            margin-top: 2px;
+            gap: 6px;
+            margin-top: 4px;
         }
 
         .chip {
             font-size: 11px;
-            color: var(--fg-2);
-            border: 1px solid var(--border-1);
-            border-radius: 2px;
-            padding: 2px 7px;
+            color: color-mix(in oklch, var(--ac) 70%, var(--fg-2));
+            border: 1px solid color-mix(in oklch, var(--ac) 22%, var(--border-1));
+            background: color-mix(in oklch, var(--ac) 7%, transparent);
+            border-radius: 999px;
+            padding: 2px 9px;
             white-space: nowrap;
         }
 
         /* Footer */
         .footer {
-            margin-top: 48px;
+            margin-top: 56px;
             padding-top: 24px;
             border-top: 1px solid var(--border-1);
             display: flex;
@@ -267,36 +392,60 @@
 
         .status {
             display: flex;
-            gap: 7px;
+            gap: 8px;
             align-items: center;
             color: var(--fg-2);
+            padding: 4px 12px 4px 10px;
+            border: 1px solid oklch(0.80 0.16 145 / 0.3);
+            border-radius: 999px;
+            background: oklch(0.80 0.16 145 / 0.07);
         }
 
         .status-dot {
+            position: relative;
             width: 8px;
             height: 8px;
             border-radius: 999px;
             background: var(--green);
-            box-shadow: 0 0 8px var(--green-glow);
+            box-shadow: 0 0 10px oklch(0.80 0.16 145 / 0.7);
             display: inline-block;
+        }
+
+        .status-dot::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: var(--green);
+            animation: pulse 2.4s var(--ease-out) infinite;
+        }
+
+        @keyframes pulse {
+            from { transform: scale(1); opacity: 0.6; }
+            to { transform: scale(3); opacity: 0; }
         }
 
         /* On-load fade */
         @keyframes fade-in-up {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(12px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .fade { animation: fade-in-up 200ms var(--ease-out) both; }
-        .section:nth-of-type(1) { animation-delay: 60ms; }
-        .section:nth-of-type(2) { animation-delay: 120ms; }
-        .section:nth-of-type(3) { animation-delay: 180ms; }
-        .footer { animation-delay: 240ms; }
+        .fade { animation: fade-in-up 420ms var(--ease-out) both; }
+        .section:nth-of-type(1) { animation-delay: 80ms; }
+        .section:nth-of-type(2) { animation-delay: 160ms; }
+        .section:nth-of-type(3) { animation-delay: 240ms; }
+        .footer { animation-delay: 320ms; }
+
+        @media (max-width: 560px) {
+            .hero { padding: 22px 20px 28px; margin: -20px -8px 0; }
+        }
 
         @media (prefers-reduced-motion: reduce) {
-            .cursor { animation: none; }
+            .cursor, .status-dot::after { animation: none; }
             .fade { animation: none; }
-            .card, .card-name { transition: none; }
+            .card, .card::before, .card::after, .card-name, .hero-github { transition: none; }
+            .card:hover, .card:focus-visible { transform: none; }
         }
     </style>
 </head>
