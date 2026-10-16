@@ -38,6 +38,9 @@
 
             --border-1: oklch(0.30 0.016 100);
 
+            /* Page side padding; the .hero bleed is clamped to stay inside it */
+            --gutter: 30px;
+
             --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
             --font-sans: "IBM Plex Sans", -apple-system, "Segoe UI", Helvetica, sans-serif;
             --tracking-label: 0.14em;
@@ -72,7 +75,7 @@
             background-attachment: fixed;
             color: var(--fg-2);
             min-height: 100vh;
-            padding: clamp(48px, 9vh, 104px) 28px 64px;  /* sides match the .hero bleed */
+            padding: clamp(48px, 9vh, 104px) var(--gutter) 64px;
             line-height: 1.4;
         }
 
@@ -120,10 +123,14 @@
 
         /* Header */
         .hero {
+            /* How far the header pulls out past the content column. It never
+               exceeds the gutter minus 2px of slack, so it can't cause a
+               sideways scroll even with sub-pixel rounding. */
+            --hero-bleed: 28px;
             --selection-bg: oklch(var(--hc-lch) / var(--selection-alpha));
             position: relative;
             padding: 28px 28px 34px;
-            margin: -28px -28px 0;
+            margin: -28px calc(-1 * min(var(--hero-bleed), var(--gutter) - 2px)) 0;
             border: 1px solid var(--border-1);
             border-radius: 14px;
             background:
@@ -467,7 +474,8 @@
         .footer { animation-delay: 320ms; }
 
         @media (max-width: 560px) {
-            .hero { padding: 22px 20px 28px; margin: -20px -8px 0; }
+            :root { --gutter: 24px; }
+            .hero { --hero-bleed: 8px; padding: 22px 20px 28px; margin-top: -20px; }
         }
 
         @media (prefers-reduced-motion: reduce) {
