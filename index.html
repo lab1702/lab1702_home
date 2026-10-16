@@ -38,8 +38,11 @@
 
             --border-1: oklch(0.30 0.016 100);
 
-            /* Page side padding; the .hero bleed is clamped to stay inside it */
-            --gutter: 30px;
+            /* Page side padding. Anything that bleeds past the content column
+               stays --bleed-slack inside it so sub-pixel rounding can't cause
+               a sideways scroll. */
+            --gutter: 24px;
+            --bleed-slack: 2px;
 
             --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
             --font-sans: "IBM Plex Sans", -apple-system, "Segoe UI", Helvetica, sans-serif;
@@ -62,7 +65,7 @@
             padding: 0;
         }
 
-        html { -webkit-font-smoothing: antialiased; background: var(--bg-0); }
+        html { -webkit-font-smoothing: antialiased; background: var(--bg-0); overflow-x: clip; }
         ::selection { background: var(--selection-bg); color: var(--fg-1); }
 
         body {
@@ -123,14 +126,14 @@
 
         /* Header */
         .hero {
-            /* How far the header pulls out past the content column. It never
-               exceeds the gutter minus 2px of slack, so it can't cause a
-               sideways scroll even with sub-pixel rounding. */
-            --hero-bleed: 28px;
+            /* How far the header pulls out past the content column, matched by
+               its side padding so its text lines up with the cards. Below the
+               wide breakpoint only the gutter is available to bleed into. */
+            --hero-bleed: calc(var(--gutter) - var(--bleed-slack));
             --selection-bg: oklch(var(--hc-lch) / var(--selection-alpha));
             position: relative;
-            padding: 28px 28px 34px;
-            margin: -28px calc(-1 * min(var(--hero-bleed), var(--gutter) - 2px)) 0;
+            padding: 28px var(--hero-bleed) 34px;
+            margin: -28px calc(-1 * var(--hero-bleed)) 0;
             border: 1px solid var(--border-1);
             border-radius: 14px;
             background:
@@ -473,8 +476,13 @@
         .section:nth-of-type(3) { animation-delay: 240ms; }
         .footer { animation-delay: 320ms; }
 
+        /* 1160px = 1080px column + 2 x (28px bleed + 2px slack) + ~20px for a
+           classic scrollbar: from here the column has room for the full bleed */
+        @media (min-width: 1160px) {
+            .hero { --hero-bleed: 28px; }
+        }
+
         @media (max-width: 560px) {
-            :root { --gutter: 24px; }
             .hero { --hero-bleed: 8px; padding: 22px 20px 28px; margin-top: -20px; }
         }
 
