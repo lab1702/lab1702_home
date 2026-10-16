@@ -38,12 +38,6 @@
 
             --border-1: oklch(0.30 0.016 100);
 
-            /* Page side padding. Anything that bleeds past the content column
-               stays --bleed-slack inside it so sub-pixel rounding can't cause
-               a sideways scroll. */
-            --gutter: 24px;
-            --bleed-slack: 2px;
-
             --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
             --font-sans: "IBM Plex Sans", -apple-system, "Segoe UI", Helvetica, sans-serif;
             --tracking-label: 0.14em;
@@ -65,7 +59,7 @@
             padding: 0;
         }
 
-        html { -webkit-font-smoothing: antialiased; background: var(--bg-0); overflow-x: clip; }
+        html { -webkit-font-smoothing: antialiased; background: var(--bg-0); }
         ::selection { background: var(--selection-bg); color: var(--fg-1); }
 
         body {
@@ -78,7 +72,7 @@
             background-attachment: fixed;
             color: var(--fg-2);
             min-height: 100vh;
-            padding: clamp(48px, 9vh, 104px) var(--gutter) 64px;
+            padding: clamp(48px, 9vh, 104px) 24px 64px;
             line-height: 1.4;
         }
 
@@ -126,14 +120,10 @@
 
         /* Header */
         .hero {
-            /* How far the header pulls out past the content column, matched by
-               its side padding so its text lines up with the cards. Below the
-               wide breakpoint only the gutter is available to bleed into. */
-            --hero-bleed: calc(var(--gutter) - var(--bleed-slack));
             --selection-bg: oklch(var(--hc-lch) / var(--selection-alpha));
             position: relative;
-            padding: 28px var(--hero-bleed) 34px;
-            margin: -28px calc(-1 * var(--hero-bleed)) 0;
+            padding: 28px 28px 34px;
+            margin-top: -28px;
             border: 1px solid var(--border-1);
             border-radius: 14px;
             background:
@@ -476,14 +466,8 @@
         .section:nth-of-type(3) { animation-delay: 240ms; }
         .footer { animation-delay: 320ms; }
 
-        /* 1160px = 1080px column + 2 x (28px bleed + 2px slack) + ~20px for a
-           classic scrollbar: from here the column has room for the full bleed */
-        @media (min-width: 1160px) {
-            .hero { --hero-bleed: 28px; }
-        }
-
         @media (max-width: 560px) {
-            .hero { --hero-bleed: 8px; padding: 22px 20px 28px; margin-top: -20px; }
+            .hero { padding: 22px 20px 28px; margin-top: -20px; }
         }
 
         @media (prefers-reduced-motion: reduce) {
