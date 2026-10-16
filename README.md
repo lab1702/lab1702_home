@@ -5,7 +5,7 @@ color-accented cards, grouped into three directories.
 
 ## Overview
 
-This is a single-page landing site that provides navigation to 20 games, data
+This is a single-page landing site that provides navigation to games, data
 projects and web tools. The page opens with a shell-prompt header and a
 `lab1702` wordmark, then lays the projects out as a responsive grid of cards
 grouped under `games/`, `data/` and `tools/` — each group carrying its own
@@ -41,7 +41,9 @@ accent hue so the three read apart at a glance.
 - **Color System**: CSS custom properties in oklch for the dark terminal
   palette (`--bg-0`/`--bg-1`/`--bg-2`, `--fg-1`/`--fg-2`/`--fg-3`, `--border-1`)
   plus three section accent hues (`--amber`, `--green`, `--cyan`) exposed to
-  each section as `--ac`, and a header accent (`--coral`) exposed as `--hc`
+  each section as `--ac`, and a coral header accent stored as bare oklch
+  channels (`--hc`, `--hc-hot`, `--hc-light`) so the header can derive alpha
+  variants with `oklch(var(--hc) / a)`
 - **Typography**: JetBrains Mono for the wordmark, names, labels and chips;
   IBM Plex Sans for descriptions — both via Google Fonts
 - **Effects**: Ambient accent-colored background glows over a faint dot grid,

@@ -28,9 +28,12 @@
             --amber:      oklch(0.82 0.16 75);
             --green:      oklch(0.82 0.17 145);
             --cyan:       oklch(0.82 0.13 220);
-            --coral:      oklch(0.74 0.17 28);
-            --coral-hot:  oklch(0.62 0.20 20);
-            --coral-lt:   oklch(0.88 0.09 40);
+
+            /* Header accent (coral) as bare L C H channels: use as oklch(var(--hc))
+               or oklch(var(--hc) / alpha) */
+            --hc:       0.74 0.17 28;
+            --hc-hot:   0.62 0.20 20;
+            --hc-light: 0.88 0.09 40;
 
             --border-1: oklch(0.30 0.016 100);
 
@@ -56,11 +59,13 @@
 
         html { -webkit-font-smoothing: antialiased; background: var(--bg-0); }
         ::selection { background: var(--selection-bg); color: var(--fg-1); }
+        .hero ::selection { background: oklch(var(--hc) / 0.30); }
 
         body {
             font-family: var(--font-mono);
             background:
-                radial-gradient(1100px 620px at 8% -12%, oklch(0.74 0.17 28 / 0.12), transparent 62%),
+                radial-gradient(1100px 620px at 8% -12%, oklch(var(--hc) / 0.12), transparent 62%),
+                radial-gradient(900px 600px at -6% 45%, oklch(0.80 0.16 75 / 0.09), transparent 60%),
                 radial-gradient(900px 560px at 98% 4%, oklch(0.80 0.13 220 / 0.09), transparent 60%),
                 radial-gradient(1000px 700px at 50% 112%, oklch(0.80 0.16 145 / 0.07), transparent 62%),
                 var(--bg-0);
@@ -115,7 +120,6 @@
 
         /* Header */
         .hero {
-            --hc: var(--coral);
             position: relative;
             padding: 28px 28px 34px;
             margin: -28px -28px 0;
@@ -123,7 +127,7 @@
             border-radius: 14px;
             background:
                 var(--scanlines),
-                radial-gradient(600px 240px at 0% 0%, color-mix(in oklch, var(--hc) 12%, transparent), transparent 70%),
+                radial-gradient(600px 240px at 0% 0%, oklch(var(--hc) / 0.12), transparent 70%),
                 linear-gradient(180deg, oklch(0.19 0.014 100 / 0.85), oklch(0.15 0.010 100 / 0.85));
             box-shadow:
                 inset 0 1px 0 oklch(1 0 0 / 0.06),
@@ -137,7 +141,7 @@
             position: absolute;
             inset: 0 0 auto 0;
             height: 1px;
-            background: linear-gradient(90deg, transparent, var(--hc) 12%, var(--amber) 35%, var(--green) 60%, var(--cyan) 85%, transparent);
+            background: linear-gradient(90deg, transparent, oklch(var(--hc)) 12%, var(--amber) 35%, var(--green) 60%, var(--cyan) 85%, transparent);
             opacity: 0.8;
         }
 
@@ -148,7 +152,7 @@
             color: var(--fg-3);
         }
 
-        .hero-prompt .path { color: var(--hc); }
+        .hero-prompt .path { color: oklch(var(--hc)); }
         .hero-prompt .branch-name { color: var(--fg-2); }
 
         .hero-name {
@@ -160,18 +164,18 @@
         }
 
         .hero-name .num {
-            background: linear-gradient(120deg, var(--coral-lt) 0%, var(--hc) 45%, var(--coral-hot) 100%);
+            background: linear-gradient(120deg, oklch(var(--hc-light)) 0%, oklch(var(--hc)) 45%, oklch(var(--hc-hot)) 100%);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            filter: drop-shadow(0 0 22px color-mix(in oklch, var(--hc) 35%, transparent));
+            filter: drop-shadow(0 0 22px oklch(var(--hc) / 0.35));
         }
 
         .cursor {
-            color: var(--hc);
+            color: oklch(var(--hc));
             display: inline-block;
             margin-left: 4px;
-            text-shadow: 0 0 18px color-mix(in oklch, var(--hc) 60%, transparent);
+            text-shadow: 0 0 18px oklch(var(--hc) / 0.6);
             animation: blink 1.06s steps(1, end) infinite;
         }
 
@@ -192,24 +196,24 @@
 
         .hero-github {
             font-size: 12.5px;
-            color: var(--hc);
+            color: oklch(var(--hc));
             text-decoration: none;
             padding: 6px 12px;
-            border: 1px solid color-mix(in oklch, var(--hc) 35%, transparent);
+            border: 1px solid oklch(var(--hc) / 0.35);
             border-radius: 999px;
-            background: color-mix(in oklch, var(--hc) 8%, transparent);
+            background: oklch(var(--hc) / 0.08);
             transition: background 160ms var(--ease-out), border-color 160ms var(--ease-out), box-shadow 160ms var(--ease-out), color 160ms var(--ease-out);
         }
 
         .hero-github:hover,
         .hero-github:focus-visible {
-            color: var(--coral-lt);
-            background: color-mix(in oklch, var(--hc) 16%, transparent);
-            border-color: color-mix(in oklch, var(--hc) 70%, transparent);
-            box-shadow: 0 0 24px -4px color-mix(in oklch, var(--hc) 50%, transparent);
+            color: oklch(var(--hc-light));
+            background: oklch(var(--hc) / 0.16);
+            border-color: oklch(var(--hc) / 0.7);
+            box-shadow: 0 0 24px -4px oklch(var(--hc) / 0.5);
         }
 
-        .hero-github:focus-visible { outline: 2px solid var(--hc); outline-offset: 2px; }
+        .hero-github:focus-visible { outline: 2px solid oklch(var(--hc)); outline-offset: 2px; }
 
         /* Sections — one accent hue each */
         .section { margin-top: 48px; }
@@ -554,9 +558,9 @@
                     <span class="card-desc">Ichimoku cloud trading strategy</span>
                     <span class="card-tech"><span class="chip">r</span><span class="chip">shiny</span></span>
                 </a>
-                <a href="/marchmadness" class="card" aria-label="March Madness Forecast — simulated NCAA tournament bracket odds">
+                <a href="/marchmadness" class="card" aria-label="March Madness Forecast — NCAA tournament ratings and exact bracket odds">
                     <span class="card-name">March Madness Forecast</span>
-                    <span class="card-desc">simulated NCAA tournament bracket odds</span>
+                    <span class="card-desc">NCAA tournament ratings and exact bracket odds</span>
                     <span class="card-tech"><span class="chip">python</span><span class="chip">html</span></span>
                 </a>
                 <a href="/superbowl" class="card" aria-label="Super Bowl Forecast — simulated NFL playoff and Super Bowl odds">
