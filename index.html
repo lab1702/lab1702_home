@@ -29,11 +29,12 @@
             --green:      oklch(0.82 0.17 145);
             --cyan:       oklch(0.82 0.13 220);
 
-            /* Header accent (coral) as bare L C H channels: use as oklch(var(--hc))
-               or oklch(var(--hc) / alpha) */
-            --hc:       0.74 0.17 28;
-            --hc-hot:   0.62 0.20 20;
-            --hc-light: 0.88 0.09 40;
+            /* Header accent (coral). --hc-lch holds bare L C H channels so alpha
+               variants can be written as oklch(var(--hc-lch) / alpha) */
+            --hc-lch:   0.74 0.17 28;
+            --hc:       oklch(var(--hc-lch));
+            --hc-hot:   oklch(0.62 0.20 20);
+            --hc-light: oklch(0.88 0.09 40);
 
             --border-1: oklch(0.30 0.016 100);
 
@@ -48,7 +49,8 @@
                 oklch(0 0 0 / 0.14) 2px, oklch(0 0 0 / 0.14) 3px
             );
 
-            --selection-bg: oklch(0.80 0.16 75 / 0.30);
+            --selection-alpha: 0.30;
+            --selection-bg: oklch(0.80 0.16 75 / var(--selection-alpha));
         }
 
         *, *::before, *::after {
@@ -59,13 +61,11 @@
 
         html { -webkit-font-smoothing: antialiased; background: var(--bg-0); }
         ::selection { background: var(--selection-bg); color: var(--fg-1); }
-        .hero ::selection { background: oklch(var(--hc) / 0.30); }
 
         body {
             font-family: var(--font-mono);
             background:
-                radial-gradient(1100px 620px at 8% -12%, oklch(var(--hc) / 0.12), transparent 62%),
-                radial-gradient(900px 600px at -6% 45%, oklch(0.80 0.16 75 / 0.09), transparent 60%),
+                radial-gradient(1100px 620px at 8% -12%, oklch(var(--hc-lch) / 0.12), transparent 62%),
                 radial-gradient(900px 560px at 98% 4%, oklch(0.80 0.13 220 / 0.09), transparent 60%),
                 radial-gradient(1000px 700px at 50% 112%, oklch(0.80 0.16 145 / 0.07), transparent 62%),
                 var(--bg-0);
@@ -120,6 +120,7 @@
 
         /* Header */
         .hero {
+            --selection-bg: oklch(var(--hc-lch) / var(--selection-alpha));
             position: relative;
             padding: 28px 28px 34px;
             margin: -28px -28px 0;
@@ -127,7 +128,7 @@
             border-radius: 14px;
             background:
                 var(--scanlines),
-                radial-gradient(600px 240px at 0% 0%, oklch(var(--hc) / 0.12), transparent 70%),
+                radial-gradient(600px 240px at 0% 0%, oklch(var(--hc-lch) / 0.12), transparent 70%),
                 linear-gradient(180deg, oklch(0.19 0.014 100 / 0.85), oklch(0.15 0.010 100 / 0.85));
             box-shadow:
                 inset 0 1px 0 oklch(1 0 0 / 0.06),
@@ -141,7 +142,7 @@
             position: absolute;
             inset: 0 0 auto 0;
             height: 1px;
-            background: linear-gradient(90deg, transparent, oklch(var(--hc)) 12%, var(--amber) 35%, var(--green) 60%, var(--cyan) 85%, transparent);
+            background: linear-gradient(90deg, transparent, var(--hc) 12%, var(--amber) 35%, var(--green) 60%, var(--cyan) 85%, transparent);
             opacity: 0.8;
         }
 
@@ -152,7 +153,7 @@
             color: var(--fg-3);
         }
 
-        .hero-prompt .path { color: oklch(var(--hc)); }
+        .hero-prompt .path { color: var(--hc); }
         .hero-prompt .branch-name { color: var(--fg-2); }
 
         .hero-name {
@@ -164,18 +165,18 @@
         }
 
         .hero-name .num {
-            background: linear-gradient(120deg, oklch(var(--hc-light)) 0%, oklch(var(--hc)) 45%, oklch(var(--hc-hot)) 100%);
+            background: linear-gradient(120deg, var(--hc-light) 0%, var(--hc) 45%, var(--hc-hot) 100%);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            filter: drop-shadow(0 0 22px oklch(var(--hc) / 0.35));
+            filter: drop-shadow(0 0 22px oklch(var(--hc-lch) / 0.35));
         }
 
         .cursor {
-            color: oklch(var(--hc));
+            color: var(--hc);
             display: inline-block;
             margin-left: 4px;
-            text-shadow: 0 0 18px oklch(var(--hc) / 0.6);
+            text-shadow: 0 0 18px oklch(var(--hc-lch) / 0.6);
             animation: blink 1.06s steps(1, end) infinite;
         }
 
@@ -196,41 +197,57 @@
 
         .hero-github {
             font-size: 12.5px;
-            color: oklch(var(--hc));
+            color: var(--hc);
             text-decoration: none;
             padding: 6px 12px;
-            border: 1px solid oklch(var(--hc) / 0.35);
+            border: 1px solid oklch(var(--hc-lch) / 0.35);
             border-radius: 999px;
-            background: oklch(var(--hc) / 0.08);
+            background: oklch(var(--hc-lch) / 0.08);
             transition: background 160ms var(--ease-out), border-color 160ms var(--ease-out), box-shadow 160ms var(--ease-out), color 160ms var(--ease-out);
         }
 
         .hero-github:hover,
         .hero-github:focus-visible {
-            color: oklch(var(--hc-light));
-            background: oklch(var(--hc) / 0.16);
-            border-color: oklch(var(--hc) / 0.7);
-            box-shadow: 0 0 24px -4px oklch(var(--hc) / 0.5);
+            color: var(--hc-light);
+            background: oklch(var(--hc-lch) / 0.16);
+            border-color: oklch(var(--hc-lch) / 0.7);
+            box-shadow: 0 0 24px -4px oklch(var(--hc-lch) / 0.5);
         }
 
-        .hero-github:focus-visible { outline: 2px solid oklch(var(--hc)); outline-offset: 2px; }
+        .hero-github:focus-visible { outline: 2px solid var(--hc); outline-offset: 2px; }
 
         /* Sections — one accent hue each */
-        .section { margin-top: 48px; }
+        /* Each section is a grid: label, count and rule share the first row, the
+           cards fill the second. The count sits after the cards in the markup so
+           the cards counter has its final value when the badge renders it. */
+        .section {
+            margin-top: 48px;
+            display: grid;
+            grid-template-columns: auto auto minmax(0, 1fr);
+            align-items: center;
+            column-gap: 12px;
+            counter-reset: cards;
+        }
         .section + .section { margin-top: 44px; }
 
-        .section-games { --ac: var(--amber); }
+        .section-games { --ac: var(--amber); position: relative; isolation: isolate; }
         .section-data  { --ac: var(--green); }
         .section-tools { --ac: var(--cyan); }
 
-        .section-head {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 16px;
+        /* Ambient amber glow that scrolls with games/ (the other hues glow from the body) */
+        .section-games::before {
+            content: "";
+            position: absolute;
+            inset: -140px 0 -140px -320px;
+            z-index: -1;
+            pointer-events: none;
+            background: radial-gradient(closest-side, color-mix(in oklch, var(--ac) 9%, transparent), transparent);
         }
 
+        .section-head { display: contents; }
+
         .section-label {
+            grid-area: 1 / 1;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -252,6 +269,7 @@
         }
 
         .section-count {
+            grid-area: 1 / 2;
             font-size: 11px;
             color: var(--ac);
             padding: 1px 8px;
@@ -260,13 +278,17 @@
             background: color-mix(in oklch, var(--ac) 10%, transparent);
         }
 
+        .section-count::before { content: counter(cards); }
+
         .section-rule {
-            flex: 1;
+            grid-area: 1 / 3;
             height: 1px;
             background: linear-gradient(90deg, color-mix(in oklch, var(--ac) 50%, transparent), var(--border-1) 40%, transparent);
         }
 
         /* Cards */
+        .section > .grid { grid-area: 2 / 1 / 3 / -1; margin-top: 16px; }
+
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
@@ -274,6 +296,7 @@
         }
 
         .card {
+            counter-increment: cards;
             position: relative;
             display: flex;
             flex-direction: column;
@@ -472,7 +495,6 @@
         <section class="section section-games fade" aria-labelledby="sec-games">
             <div class="section-head">
                 <h2 class="section-label" id="sec-games">games/</h2>
-                <span class="section-count">10</span>
                 <span class="section-rule" aria-hidden="true"></span>
             </div>
 
@@ -528,12 +550,12 @@
                     <span class="card-tech"><span class="chip">go</span><span class="chip">js</span></span>
                 </a>
             </div>
+            <span class="section-count" aria-hidden="true"></span>
         </section>
 
         <section class="section section-data fade" aria-labelledby="sec-data">
             <div class="section-head">
                 <h2 class="section-label" id="sec-data">data/</h2>
-                <span class="section-count">7</span>
                 <span class="section-rule" aria-hidden="true"></span>
             </div>
 
@@ -574,12 +596,12 @@
                     <span class="card-tech"><span class="chip">html</span><span class="chip">python</span></span>
                 </a>
             </div>
+            <span class="section-count" aria-hidden="true"></span>
         </section>
 
         <section class="section section-tools fade" aria-labelledby="sec-tools">
             <div class="section-head">
                 <h2 class="section-label" id="sec-tools">tools/</h2>
-                <span class="section-count">3</span>
                 <span class="section-rule" aria-hidden="true"></span>
             </div>
 
@@ -600,6 +622,7 @@
                     <span class="card-tech"><span class="chip">js</span></span>
                 </a>
             </div>
+            <span class="section-count" aria-hidden="true"></span>
         </section>
     </nav>
 

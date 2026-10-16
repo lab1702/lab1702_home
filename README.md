@@ -15,7 +15,8 @@ accent hue so the three read apart at a glance.
 
 - **Section Board**: Each directory is a responsive `auto-fit` card grid that
   collapses from two columns to one; every card shows the project name, a full
-  description, and its tech stack as chips
+  description, and its tech stack as chips, and each section's count badge is
+  a CSS counter over its cards, so it never needs editing by hand
 - **Per-Section Accents**: Amber for `games/`, green for `data/`, cyan for
   `tools/` — set once per section as `--ac` and inherited by the cards
 - **Terminal Header**: A glass panel with a shell prompt line
@@ -41,12 +42,13 @@ accent hue so the three read apart at a glance.
 - **Color System**: CSS custom properties in oklch for the dark terminal
   palette (`--bg-0`/`--bg-1`/`--bg-2`, `--fg-1`/`--fg-2`/`--fg-3`, `--border-1`)
   plus three section accent hues (`--amber`, `--green`, `--cyan`) exposed to
-  each section as `--ac`, and a coral header accent stored as bare oklch
-  channels (`--hc`, `--hc-hot`, `--hc-light`) so the header can derive alpha
-  variants with `oklch(var(--hc) / a)`
+  each section as `--ac`, and a coral header accent (`--hc`, `--hc-hot`,
+  `--hc-light`) whose bare oklch channels live in `--hc-lch` so the header can
+  derive alpha variants with `oklch(var(--hc-lch) / a)`
 - **Typography**: JetBrains Mono for the wordmark, names, labels and chips;
   IBM Plex Sans for descriptions — both via Google Fonts
-- **Effects**: Ambient accent-colored background glows over a faint dot grid,
+- **Effects**: Ambient accent-colored background glows over a faint dot grid
+  (the amber one rides along with `games/`),
   staggered fade-in on load, a blinking cursor, a pulsing status dot, and a
   scanline gradient across the header
 - **Accessibility**: `prefers-reduced-motion` disables the fade-in, the cursor
