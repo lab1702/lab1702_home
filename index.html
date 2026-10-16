@@ -28,9 +28,9 @@
             --amber:      oklch(0.82 0.16 75);
             --green:      oklch(0.82 0.17 145);
             --cyan:       oklch(0.82 0.13 220);
-            --violet:     oklch(0.78 0.16 315);
-            --violet-hot: oklch(0.66 0.22 335);
-            --violet-lt:  oklch(0.90 0.09 310);
+            --coral:      oklch(0.74 0.17 28);
+            --coral-hot:  oklch(0.62 0.20 20);
+            --coral-lt:   oklch(0.88 0.09 40);
 
             --border-1: oklch(0.30 0.016 100);
 
@@ -60,7 +60,7 @@
         body {
             font-family: var(--font-mono);
             background:
-                radial-gradient(1100px 620px at 8% -12%, oklch(0.78 0.16 315 / 0.12), transparent 62%),
+                radial-gradient(1100px 620px at 8% -12%, oklch(0.74 0.17 28 / 0.12), transparent 62%),
                 radial-gradient(900px 560px at 98% 4%, oklch(0.80 0.13 220 / 0.09), transparent 60%),
                 radial-gradient(1000px 700px at 50% 112%, oklch(0.80 0.16 145 / 0.07), transparent 62%),
                 var(--bg-0);
@@ -115,7 +115,7 @@
 
         /* Header */
         .hero {
-            --hc: var(--violet);
+            --hc: var(--coral);
             position: relative;
             padding: 28px 28px 34px;
             margin: -28px -28px 0;
@@ -160,7 +160,7 @@
         }
 
         .hero-name .num {
-            background: linear-gradient(120deg, var(--violet-lt) 0%, var(--hc) 45%, var(--violet-hot) 100%);
+            background: linear-gradient(120deg, var(--coral-lt) 0%, var(--hc) 45%, var(--coral-hot) 100%);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -203,7 +203,7 @@
 
         .hero-github:hover,
         .hero-github:focus-visible {
-            color: var(--violet-lt);
+            color: var(--coral-lt);
             background: color-mix(in oklch, var(--hc) 16%, transparent);
             border-color: color-mix(in oklch, var(--hc) 70%, transparent);
             box-shadow: 0 0 24px -4px color-mix(in oklch, var(--hc) 50%, transparent);

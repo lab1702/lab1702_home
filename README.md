@@ -19,9 +19,9 @@ accent hue so the three read apart at a glance.
 - **Per-Section Accents**: Amber for `games/`, green for `data/`, cyan for
   `tools/` — set once per section as `--ac` and inherited by the cards
 - **Terminal Header**: A glass panel with a shell prompt line
-  (`~/lab1702 on main — tree`), a monospace wordmark with a glowing violet
+  (`~/lab1702 on main — tree`), a monospace wordmark with a glowing coral
   gradient and blinking block cursor, a four-color top hairline and a scanline
-  overlay — the header has its own violet accent (`--hc`) so it stays distinct
+  overlay — the header has its own coral accent (`--hc`) so it stays distinct
   from the sections
 - **Hover/Focus States**: The card lifts, its gradient border and corner glow
   light up in the section accent, an arrow slides in, and the name changes to
@@ -41,7 +41,7 @@ accent hue so the three read apart at a glance.
 - **Color System**: CSS custom properties in oklch for the dark terminal
   palette (`--bg-0`/`--bg-1`/`--bg-2`, `--fg-1`/`--fg-2`/`--fg-3`, `--border-1`)
   plus three section accent hues (`--amber`, `--green`, `--cyan`) exposed to
-  each section as `--ac`, and a header accent (`--violet`) exposed as `--hc`
+  each section as `--ac`, and a header accent (`--coral`) exposed as `--hc`
 - **Typography**: JetBrains Mono for the wordmark, names, labels and chips;
   IBM Plex Sans for descriptions — both via Google Fonts
 - **Effects**: Ambient accent-colored background glows over a faint dot grid,
