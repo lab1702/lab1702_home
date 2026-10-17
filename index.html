@@ -195,7 +195,9 @@
 
         .hero-tagline { font-size: 13px; color: var(--fg-2); letter-spacing: 0.02em; }
 
-        .hero-github {
+        .hero-links { display: flex; flex-wrap: wrap; gap: 8px; }
+
+        .hero-link {
             font-size: 12.5px;
             color: var(--hc);
             text-decoration: none;
@@ -206,15 +208,15 @@
             transition: background 160ms var(--ease-out), border-color 160ms var(--ease-out), box-shadow 160ms var(--ease-out), color 160ms var(--ease-out);
         }
 
-        .hero-github:hover,
-        .hero-github:focus-visible {
+        .hero-link:hover,
+        .hero-link:focus-visible {
             color: var(--hc-light);
             background: oklch(var(--hc-lch) / 0.16);
             border-color: oklch(var(--hc-lch) / 0.7);
             box-shadow: 0 0 24px -4px oklch(var(--hc-lch) / 0.5);
         }
 
-        .hero-github:focus-visible { outline: 2px solid var(--hc); outline-offset: 2px; }
+        .hero-link:focus-visible { outline: 2px solid var(--hc); outline-offset: 2px; }
 
         /* Sections — one accent hue each */
         /* Each section is a grid: label, count and rule share the first row, the
@@ -473,7 +475,7 @@
         @media (prefers-reduced-motion: reduce) {
             .cursor, .status-dot::after { animation: none; }
             .fade { animation: none; }
-            .card, .card::before, .card::after, .card-name, .hero-github { transition: none; }
+            .card, .card::before, .card::after, .card-name, .hero-link { transition: none; }
             .card:hover, .card:focus-visible { transform: none; }
         }
     </style>
@@ -487,7 +489,10 @@
         <h1 class="hero-name">lab<span class="num">1702</span><span class="cursor" aria-hidden="true">▊</span></h1>
         <div class="hero-meta">
             <span class="hero-tagline">games, data &amp; tools</span>
-            <a href="https://github.com/lab1702" target="_blank" rel="noopener noreferrer" class="hero-github" aria-label="lab1702 on GitHub">github.com/lab1702 ↗</a>
+            <span class="hero-links">
+                <a href="https://github.com/lab1702" target="_blank" rel="noopener noreferrer" class="hero-link" aria-label="lab1702 on GitHub">github.com/lab1702 ↗</a>
+                <a href="https://www.youtube.com/@lab1702-videos" target="_blank" rel="noopener noreferrer" class="hero-link" aria-label="lab1702 on YouTube">youtube.com/@lab1702-videos ↗</a>
+            </span>
         </div>
     </header>
 
