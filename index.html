@@ -126,7 +126,6 @@
             padding: 28px 28px 34px;
             margin-top: -28px;
             border: 1px solid var(--border-1);
-            border-radius: 14px;
             background:
                 var(--scanlines),
                 radial-gradient(600px 240px at 0% 0%, oklch(var(--hc-lch) / 0.12), transparent 70%),
@@ -204,7 +203,6 @@
             text-decoration: none;
             padding: 6px 12px;
             border: 1px solid oklch(var(--hc-lch) / 0.35);
-            border-radius: 999px;
             background: oklch(var(--hc-lch) / 0.08);
             transition: background 160ms var(--ease-out), border-color 160ms var(--ease-out), box-shadow 160ms var(--ease-out), color 160ms var(--ease-out);
         }
@@ -266,7 +264,6 @@
             content: "";
             width: 7px;
             height: 7px;
-            border-radius: 2px;
             background: var(--ac);
             box-shadow: 0 0 10px var(--ac);
         }
@@ -276,7 +273,6 @@
             font-size: 11px;
             color: var(--ac);
             padding: 1px 8px;
-            border-radius: 999px;
             border: 1px solid color-mix(in oklch, var(--ac) 35%, transparent);
             background: color-mix(in oklch, var(--ac) 10%, transparent);
         }
@@ -306,7 +302,6 @@
             gap: 8px;
             padding: 18px 20px;
             border: 1px solid transparent;
-            border-radius: 10px;
             background:
                 linear-gradient(180deg, var(--bg-1), oklch(0.15 0.011 100)) padding-box,
                 linear-gradient(160deg, color-mix(in oklch, var(--ac) 40%, var(--border-1)), var(--border-1) 35%, oklch(0.22 0.012 100)) border-box;
@@ -327,7 +322,6 @@
             position: absolute;
             inset: 0;
             z-index: -1;
-            border-radius: inherit;
             background: radial-gradient(420px 180px at 0% 0%, color-mix(in oklch, var(--ac) 16%, transparent), transparent 70%);
             opacity: 0.35;
             transition: opacity 220ms var(--ease-out);
@@ -403,7 +397,6 @@
             color: color-mix(in oklch, var(--ac) 70%, var(--fg-2));
             border: 1px solid color-mix(in oklch, var(--ac) 22%, var(--border-1));
             background: color-mix(in oklch, var(--ac) 7%, transparent);
-            border-radius: 999px;
             padding: 2px 9px;
             white-space: nowrap;
         }
@@ -429,7 +422,6 @@
             color: var(--fg-2);
             padding: 4px 12px 4px 10px;
             border: 1px solid oklch(0.80 0.16 145 / 0.3);
-            border-radius: 999px;
             background: oklch(0.80 0.16 145 / 0.07);
         }
 
@@ -437,7 +429,6 @@
             position: relative;
             width: 8px;
             height: 8px;
-            border-radius: 999px;
             background: var(--green);
             box-shadow: 0 0 10px oklch(0.80 0.16 145 / 0.7);
             display: inline-block;
@@ -447,7 +438,6 @@
             content: "";
             position: absolute;
             inset: 0;
-            border-radius: inherit;
             background: var(--green);
             animation: pulse 2.4s var(--ease-out) infinite;
         }
