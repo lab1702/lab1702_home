@@ -161,11 +161,11 @@
             font-size: clamp(48px, 10vw, 88px);
             line-height: 0.95;
             letter-spacing: -0.03em;
-            color: var(--fg-1);
+            color: oklch(0.88 0.018 95);
         }
 
         .hero-name .num {
-            background: linear-gradient(120deg, var(--hc-light) 0%, var(--hc) 45%, var(--hc-hot) 100%);
+            background: linear-gradient(120deg, oklch(0.93 0 0) 0%, oklch(0.87 0 0) 45%, oklch(0.68 0 0) 100%);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -173,10 +173,10 @@
         }
 
         .cursor {
-            color: var(--hc);
+            color: oklch(0.87 0 0);
             display: inline-block;
             margin-left: 4px;
-            text-shadow: 0 0 18px oklch(var(--hc-lch) / 0.6);
+            text-shadow: 0 0 18px oklch(0.87 0 0 / 0.6);
             animation: blink 1.06s steps(1, end) infinite;
         }
 
