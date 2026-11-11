@@ -92,6 +92,15 @@
 
             --selection-alpha: 0.30;
             --selection-bg: oklch(0.80 0.16 75 / var(--selection-alpha));
+
+            /* Colour space the accent gradients blend in. Empty here, so
+               browsers that cannot set one still parse those gradients and
+               blend in sRGB; filled in below where it is supported. */
+            --in-oklab: ;
+        }
+
+        @supports (background: linear-gradient(in oklab, white, black)) {
+            :root { --in-oklab: in oklab; }
         }
 
         *, *::before, *::after {
@@ -185,7 +194,7 @@
             position: absolute;
             inset: 0 0 auto 0;
             height: 1px;
-            background: linear-gradient(90deg, transparent, var(--hc) 12%, var(--amber) 35%, var(--green) 60%, var(--cyan) 85%, transparent);
+            background: linear-gradient(90deg var(--in-oklab), transparent, var(--hc) 12%, var(--amber) 35%, var(--green) 60%, var(--cyan) 85%, transparent);
             opacity: 0.8;
         }
 
@@ -376,7 +385,7 @@
             border: 1px solid transparent;
             background:
                 linear-gradient(180deg, var(--bg-1), oklch(0.15 0.011 100)) padding-box,
-                linear-gradient(160deg, color-mix(in oklch, var(--ac) 40%, var(--border-1)), var(--border-1) 35%, oklch(0.22 0.012 100)) border-box;
+                linear-gradient(160deg var(--in-oklab), color-mix(in oklch, var(--ac) 40%, var(--border-1)), var(--border-1) 35%, oklch(0.22 0.012 100)) border-box;
             box-shadow:
                 inset 0 1px 0 oklch(1 0 0 / 0.04),
                 0 10px 24px -14px oklch(0 0 0 / 0.8);
@@ -416,7 +425,7 @@
         .card:focus-visible {
             background:
                 linear-gradient(180deg, var(--bg-2), var(--bg-1)) padding-box,
-                linear-gradient(160deg, var(--ac), color-mix(in oklch, var(--ac) 30%, var(--border-1)) 45%, var(--border-1)) border-box;
+                linear-gradient(160deg var(--in-oklab), var(--ac), color-mix(in oklch, var(--ac) 30%, var(--border-1)) 45%, var(--border-1)) border-box;
             box-shadow:
                 inset 0 1px 0 oklch(1 0 0 / 0.06),
                 0 18px 40px -16px oklch(0 0 0 / 0.9),

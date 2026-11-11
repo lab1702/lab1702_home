@@ -58,7 +58,11 @@ accent hue so the three read apart at a glance.
   plus three section accent hues (`--amber`, `--green`, `--cyan`) exposed to
   each section as `--ac`, and a neutral white header accent (`--hc`,
   `--hc-hot`, `--hc-light`) whose bare oklch channels live in `--hc-lch` so the
-  header can derive alpha variants with `oklch(var(--hc-lch) / a)`
+  header can derive alpha variants with `oklch(var(--hc-lch) / a)`. The
+  header's top hairline and the card border gradients name their blending
+  space through an `--in-oklab` token (`in oklab` where gradients accept a
+  colour space, empty elsewhere), so every browser that can blends them the
+  same way
 - **Typography**: JetBrains Mono for the wordmark, names, labels and chips;
   IBM Plex Sans for descriptions — both self-hosted as latin-subset woff2
   files in `fonts/` (SIL Open Font License), with the mono face preloaded.
