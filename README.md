@@ -14,9 +14,11 @@ accent hue so the three read apart at a glance.
 ## Features
 
 - **Section Board**: Each directory is a responsive `auto-fit` card grid that
-  collapses from two columns to one; every card shows the project name, a full
-  description, and its tech stack as chips, and each section's count badge is
-  a CSS counter over its cards, so it never needs editing by hand
+  reflows from three columns down to one; every card shows the project name, a
+  full description, and its tech stack as chips
+- **Self-Counting**: Each section's count badge and the footer's
+  `N directories, N files` summary are CSS counters over the sections and
+  cards, so adding or removing a card never means editing a number by hand
 - **Per-Section Accents**: Amber for `games/`, green for `data/`, cyan for
   `tools/` — set once per section as `--ac` and inherited by the cards
 - **Terminal Header**: A glass panel with a shell prompt line
@@ -29,9 +31,12 @@ accent hue so the three read apart at a glance.
   that accent
 - **Responsive Design**: Fluid wordmark sizing with `clamp()` and a grid that
   reflows at any width — no content is hidden on small screens
-- **Accessibility**: Skip-to-content link, `aria-label` on every card,
-  `aria-labelledby` on each section, accent-colored `:focus-visible` rings, and
-  a `prefers-reduced-motion` fallback
+- **Accessibility**: Skip-to-content link, cards and links named by their
+  visible text (so voice control matches what's on screen), external links
+  announced as opening in a new tab, `aria-labelledby` on each section,
+  accent-colored `:focus-visible` rings, and a `prefers-reduced-motion` fallback
+- **Sharing**: An inline SVG favicon and a 1200×630 `og-image.png` link
+  preview, rendered by `scripts/make_og.py` from the same oklch tokens
 - **Zero Dependencies**: A single HTML file with inline CSS, no JavaScript and
   no build step
 
@@ -59,6 +64,9 @@ accent hue so the three read apart at a glance.
 ```
 lab1702_home/
 ├── index.html          # Main homepage (HTML and CSS inline, no JS)
+├── og-image.png        # Social link preview (1200×630)
+├── scripts/
+│   └── make_og.py      # Regenerates og-image.png (Pillow + JetBrains Mono)
 ├── README.md           # Project documentation
 └── LICENSE             # MIT License
 ```
@@ -69,4 +77,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Copyright
 
-© 2025 lab1702. All rights reserved.
+© 2025–2026 lab1702. All rights reserved.

@@ -8,12 +8,17 @@
     <meta property="og:description" content="Games, Data & Tools">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://lab1702.github.io">
-    <meta name="twitter:card" content="summary">
+    <meta property="og:image" content="https://lab1702.github.io/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="lab1702 — games, data &amp; tools">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23100f0b'/%3E%3Crect x='11' y='6' width='10' height='20' fill='%23e2e2e2'/%3E%3C/svg%3E">
     <meta name="theme-color" content="#100f0b">
     <title>lab1702</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=IBM+Plex+Sans:wght@400;500&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&amp;family=IBM+Plex+Sans:wght@400&amp;display=swap">
     <style>
         /* lab1702 design tokens (subset — dark terminal-phosphor palette) */
         :root {
@@ -117,7 +122,9 @@
             z-index: 10000;
         }
 
-        main { max-width: 1080px; margin: 0 auto; }
+        /* dirs and files feed the footer's tree summary, like cards feeds each
+           section badge, so none of the counts need editing by hand */
+        main { max-width: 1080px; margin: 0 auto; counter-reset: dirs files; }
 
         /* Header */
         .hero {
@@ -158,8 +165,11 @@
 
         .hero-name {
             font-weight: 700;
-            font-size: clamp(48px, 10vw, 88px);
+            /* The +10px keeps phones at ~48px while letting the wordmark shrink
+               enough on very narrow screens that the cursor never wraps */
+            font-size: clamp(36px, calc(10vw + 10px), 88px);
             line-height: 0.95;
+            white-space: nowrap;
             letter-spacing: -0.03em;
             color: oklch(0.88 0.018 95);
         }
@@ -217,6 +227,9 @@
 
         .hero-link:focus-visible { outline: 2px solid var(--hc); outline-offset: 2px; }
 
+        /* Unbreakable runs, so a link that must wrap splits only at its <wbr> */
+        .hero-link .nb { white-space: nowrap; }
+
         /* Sections — one accent hue each */
         /* Each section is a grid: label, count and rule share the first row, the
            cards fill the second. The count sits after the cards in the markup so
@@ -228,6 +241,7 @@
             align-items: center;
             column-gap: 12px;
             counter-reset: cards;
+            counter-increment: dirs;
         }
         .section + .section { margin-top: 44px; }
 
@@ -295,7 +309,7 @@
         }
 
         .card {
-            counter-increment: cards;
+            counter-increment: cards files;
             position: relative;
             display: flex;
             flex-direction: column;
@@ -415,6 +429,10 @@
             color: var(--fg-3);
         }
 
+        .tree-summary::before {
+            content: counter(dirs) " directories, " counter(files) " files";
+        }
+
         .status {
             display: flex;
             gap: 8px;
@@ -461,6 +479,8 @@
 
         @media (max-width: 560px) {
             .hero { padding: 22px 20px 28px; margin-top: -20px; }
+            /* Small enough that the longest link fits unbroken on a 320px screen */
+            .hero-link { font-size: 11.5px; padding: 6px 10px; }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -481,8 +501,8 @@
         <div class="hero-meta">
             <span class="hero-tagline">games, data &amp; tools</span>
             <span class="hero-links">
-                <a href="https://github.com/lab1702" target="_blank" rel="noopener noreferrer" class="hero-link" aria-label="lab1702 on GitHub">github.com/lab1702 ↗</a>
-                <a href="https://www.youtube.com/@lab1702-videos" target="_blank" rel="noopener noreferrer" class="hero-link" aria-label="lab1702 on YouTube">youtube.com/@lab1702-videos ↗</a>
+                <a href="https://github.com/lab1702" target="_blank" rel="noopener noreferrer" class="hero-link"><span class="nb">github.com/lab1702<span aria-hidden="true"> ↗</span></span><span class="sr-only"> (opens in a new tab)</span></a>
+                <a href="https://www.youtube.com/@lab1702-videos" target="_blank" rel="noopener noreferrer" class="hero-link"><span class="nb">youtube.com/</span><wbr><span class="nb">@lab1702-videos<span aria-hidden="true"> ↗</span></span><span class="sr-only"> (opens in a new tab)</span></a>
             </span>
         </div>
     </header>
@@ -495,55 +515,55 @@
             </div>
 
             <div class="grid">
-                <a href="/3dnetrek" class="card" aria-label="3D Netrek — multiplayer space combat in a fully 3D galaxy">
+                <a href="/3dnetrek" class="card">
                     <span class="card-name">3D Netrek</span>
                     <span class="card-desc">multiplayer space combat in a fully 3D galaxy</span>
-                    <span class="card-tech"><span class="chip">go</span><span class="chip">js</span><span class="chip">webgl</span></span>
+                    <span class="card-tech"><span class="chip">go</span> <span class="chip">js</span> <span class="chip">webgl</span></span>
                 </a>
-                <a href="/atc" class="card" aria-label="DTW ATC Sim — air traffic control simulator for Detroit Metropolitan Airport">
+                <a href="/atc" class="card">
                     <span class="card-name">DTW ATC Sim</span>
                     <span class="card-desc">air traffic control simulator for Detroit Metro</span>
-                    <span class="card-tech"><span class="chip">go</span><span class="chip">js</span></span>
+                    <span class="card-tech"><span class="chip">go</span> <span class="chip">js</span></span>
                 </a>
-                <a href="/eql-maps" class="card" aria-label="EQ Legends Nav — interactive zone map for EverQuest Legends">
+                <a href="/eql-maps" class="card">
                     <span class="card-name">EQ Legends Nav</span>
                     <span class="card-desc">interactive zone map for EverQuest Legends</span>
                     <span class="card-tech"><span class="chip">html</span></span>
                 </a>
-                <a href="/fpnetrek" class="card" aria-label="Netrek FP — first-person take on Netrek space combat">
+                <a href="/fpnetrek" class="card">
                     <span class="card-name">Netrek FP</span>
                     <span class="card-desc">first-person take on Netrek space combat</span>
-                    <span class="card-tech"><span class="chip">go</span><span class="chip">js</span></span>
+                    <span class="card-tech"><span class="chip">go</span> <span class="chip">js</span></span>
                 </a>
-                <a href="/netrek" class="card" aria-label="Netrek Web — space combat multiplayer game">
+                <a href="/netrek" class="card">
                     <span class="card-name">Netrek Web</span>
                     <span class="card-desc">space combat multiplayer game</span>
-                    <span class="card-tech"><span class="chip">go</span><span class="chip">js</span></span>
+                    <span class="card-tech"><span class="chip">go</span> <span class="chip">js</span></span>
                 </a>
-                <a href="/gorgon-maps" class="card" aria-label="Project Gorgon Nav — MMO navigation and map tool">
+                <a href="/gorgon-maps" class="card">
                     <span class="card-name">Project Gorgon Nav</span>
                     <span class="card-desc">MMO navigation &amp; map tool</span>
                     <span class="card-tech"><span class="chip">js</span></span>
                 </a>
-                <a href="/tmorpg" class="card" aria-label="TMORPG — Tiny Multiplayer Online Role Playing Game">
+                <a href="/tmorpg" class="card">
                     <span class="card-name">TMORPG</span>
                     <span class="card-desc">tiny multiplayer online role playing game</span>
-                    <span class="card-tech"><span class="chip">go</span><span class="chip">ts</span></span>
+                    <span class="card-tech"><span class="chip">go</span> <span class="chip">ts</span></span>
                 </a>
-                <a href="/eqlegends-recommended-items.html" class="card" aria-label="Top EQ Legends Items — recommended gear for EverQuest Legends">
+                <a href="/eqlegends-recommended-items.html" class="card">
                     <span class="card-name">Top EQ Legends Items</span>
                     <span class="card-desc">recommended gear for EverQuest Legends</span>
                     <span class="card-tech"><span class="chip">html</span></span>
                 </a>
-                <a href="/word" class="card" aria-label="Word Garden — daily word puzzle game">
+                <a href="/word" class="card">
                     <span class="card-name">Word Garden</span>
                     <span class="card-desc">daily word puzzle game</span>
                     <span class="card-tech"><span class="chip">js</span></span>
                 </a>
-                <a href="/xbattle" class="card" aria-label="XBattle Web — real-time two-player strategy, a 1991 classic reborn">
+                <a href="/xbattle" class="card">
                     <span class="card-name">XBattle Web</span>
                     <span class="card-desc">real-time two-player strategy, a 1991 classic reborn</span>
-                    <span class="card-tech"><span class="chip">go</span><span class="chip">js</span></span>
+                    <span class="card-tech"><span class="chip">go</span> <span class="chip">js</span></span>
                 </a>
             </div>
             <span class="section-count" aria-hidden="true"></span>
@@ -556,45 +576,45 @@
             </div>
 
             <div class="grid">
-                <a href="/rosebowl" class="card" aria-label="College Football Forecast — team rating model and CFP playoff simulator">
+                <a href="/rosebowl" class="card">
                     <span class="card-name">College Football Forecast</span>
                     <span class="card-desc">team rating model and CFP playoff simulator</span>
-                    <span class="card-tech"><span class="chip">python</span><span class="chip">html</span></span>
+                    <span class="card-tech"><span class="chip">python</span> <span class="chip">html</span></span>
                 </a>
-                <a href="/detroit-crime-weather" class="card" aria-label="Crime &amp; Weather — weather's impact on Detroit crime">
+                <a href="/detroit-crime-weather" class="card">
                     <span class="card-name">Crime &amp; Weather</span>
                     <span class="card-desc">weather's impact on Detroit crime</span>
-                    <span class="card-tech"><span class="chip">python</span><span class="chip">pandas</span></span>
+                    <span class="card-tech"><span class="chip">python</span> <span class="chip">pandas</span></span>
                 </a>
-                <a href="/detcrime" class="card" aria-label="Detroit Crime — crime data visualization dashboard">
+                <a href="/detcrime" class="card">
                     <span class="card-name">Detroit Crime</span>
                     <span class="card-desc">crime data visualization dashboard</span>
-                    <span class="card-tech"><span class="chip">python</span><span class="chip">streamlit</span></span>
+                    <span class="card-tech"><span class="chip">python</span> <span class="chip">streamlit</span></span>
                 </a>
-                <a href="/trading" class="card" aria-label="Ichimoku Trading — Ichimoku cloud trading strategy">
+                <a href="/trading" class="card">
                     <span class="card-name">Ichimoku Trading</span>
                     <span class="card-desc">Ichimoku cloud trading strategy</span>
-                    <span class="card-tech"><span class="chip">r</span><span class="chip">shiny</span></span>
+                    <span class="card-tech"><span class="chip">r</span> <span class="chip">shiny</span></span>
                 </a>
-                <a href="/marchmadness" class="card" aria-label="March Madness Forecast — NCAA tournament ratings and exact bracket odds">
+                <a href="/marchmadness" class="card">
                     <span class="card-name">March Madness Forecast</span>
                     <span class="card-desc">NCAA tournament ratings and exact bracket odds</span>
-                    <span class="card-tech"><span class="chip">python</span><span class="chip">html</span></span>
+                    <span class="card-tech"><span class="chip">python</span> <span class="chip">html</span></span>
                 </a>
-                <a href="/nflcoach" class="card" aria-label="NFL Coach Survival — head-coach tenure analysis and daily hot-seat report">
+                <a href="/nflcoach" class="card">
                     <span class="card-name">NFL Coach Survival</span>
                     <span class="card-desc">head-coach tenure analysis and daily hot-seat report</span>
-                    <span class="card-tech"><span class="chip">r</span><span class="chip">html</span></span>
+                    <span class="card-tech"><span class="chip">r</span> <span class="chip">html</span></span>
                 </a>
-                <a href="/superbowl" class="card" aria-label="Super Bowl Forecast — simulated NFL playoff and Super Bowl odds">
+                <a href="/superbowl" class="card">
                     <span class="card-name">Super Bowl Forecast</span>
                     <span class="card-desc">simulated NFL playoff and Super Bowl odds</span>
-                    <span class="card-tech"><span class="chip">python</span><span class="chip">html</span></span>
+                    <span class="card-tech"><span class="chip">python</span> <span class="chip">html</span></span>
                 </a>
-                <a href="/presidents.html" class="card" aria-label="US Presidents Pivot Viewer — pivot table viewer for US presidents">
+                <a href="/presidents.html" class="card">
                     <span class="card-name">US Presidents Pivot Viewer</span>
                     <span class="card-desc">pivot table viewer for US presidents</span>
-                    <span class="card-tech"><span class="chip">html</span><span class="chip">python</span></span>
+                    <span class="card-tech"><span class="chip">html</span> <span class="chip">python</span></span>
                 </a>
             </div>
             <span class="section-count" aria-hidden="true"></span>
@@ -607,17 +627,17 @@
             </div>
 
             <div class="grid">
-                <a href="/chat" class="card" aria-label="Chat — real-time chat application">
+                <a href="/chat" class="card">
                     <span class="card-name">Chat</span>
                     <span class="card-desc">real-time chat application</span>
                     <span class="card-tech"><span class="chip">js</span></span>
                 </a>
-                <a href="/outbreak-sim" class="card" aria-label="SEIRD Outbreak Simulator — epidemic spread simulator">
+                <a href="/outbreak-sim" class="card">
                     <span class="card-name">SEIRD Outbreak Simulator</span>
                     <span class="card-desc">epidemic spread simulator</span>
                     <span class="card-tech"><span class="chip">js</span></span>
                 </a>
-                <a href="/tiresize" class="card" aria-label="Tire Size Calc — tire size comparison tool">
+                <a href="/tiresize" class="card">
                     <span class="card-name">Tire Size Calc</span>
                     <span class="card-desc">tire size comparison tool</span>
                     <span class="card-tech"><span class="chip">js</span></span>
@@ -628,7 +648,7 @@
     </nav>
 
     <footer class="footer fade">
-        <span>3 directories, 18 files</span>
+        <span class="tree-summary"></span>
         <span class="status"><span class="status-dot" aria-hidden="true"></span>online</span>
     </footer>
 </main>
