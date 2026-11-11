@@ -30,15 +30,21 @@ accent hue so the three read apart at a glance.
   light up in the section accent, an arrow slides in, and the name changes to
   that accent
 - **Responsive Design**: Fluid wordmark sizing with `clamp()` and a grid that
-  reflows at any width — no content is hidden on small screens
-- **Accessibility**: Skip-to-content link, cards and links named by their
-  visible text (so voice control matches what's on screen), external links
-  announced as opening in a new tab, `aria-labelledby` on each section,
-  accent-colored `:focus-visible` rings, and a `prefers-reduced-motion` fallback
+  reflows at any width — no content is hidden on small screens. Every font
+  size is in `rem`, so the page follows the browser's font-size preference and
+  (via `<meta name="text-scale">`, where supported) the OS text-size setting
+- **Accessibility**: `<header>`, `<main>` and `<footer>` as page landmarks, a
+  skip link that jumps past the header to the projects, each section's cards
+  as a `<ul>` so screen readers announce the item count, cards and links named
+  by their visible text (so voice control matches what's on screen), external
+  links announced as opening in a new tab, accent-colored `:focus-visible`
+  rings, and motion that is opt-in under `prefers-reduced-motion: no-preference`
+- **Instant Navigation**: A speculation-rules block prefetches a project page
+  once its card is hovered or pressed (Chromium; ignored elsewhere)
 - **Sharing**: An inline SVG favicon and a 1200×630 `og-image.png` link
   preview, rendered by `scripts/make_og.py` from the same oklch tokens
-- **Zero Dependencies**: A single HTML file with inline CSS, no JavaScript and
-  no build step
+- **Zero Dependencies**: One HTML file with inline CSS and two self-hosted
+  font files — no third-party requests, no JavaScript and no build step
 
 ## Technical Details
 
@@ -51,19 +57,24 @@ accent hue so the three read apart at a glance.
   `--hc-hot`, `--hc-light`) whose bare oklch channels live in `--hc-lch` so the
   header can derive alpha variants with `oklch(var(--hc-lch) / a)`
 - **Typography**: JetBrains Mono for the wordmark, names, labels and chips;
-  IBM Plex Sans for descriptions — both via Google Fonts
+  IBM Plex Sans for descriptions — both self-hosted as latin-subset woff2
+  files in `fonts/` (SIL Open Font License), with the mono face preloaded
 - **Effects**: Ambient accent-colored background glows over a faint dot grid
   (the amber one rides along with `games/`),
-  staggered fade-in on load, a blinking cursor, a pulsing status dot, and a
-  scanline gradient across the header
-- **Accessibility**: `prefers-reduced-motion` disables the fade-in, the cursor
-  blink, the status pulse, and the card transitions and lift
+  staggered fade-in on load, a cursor that blinks four times and then stays
+  solid, a status dot that pulses twice, and a scanline gradient across the
+  header — nothing keeps moving past five seconds
+- **Accessibility**: The fade-in, the cursor blink, the status pulse, the card
+  lift and the arrow slide only run under
+  `prefers-reduced-motion: no-preference`; colour, glow and opacity
+  transitions always run
 
 ## Project Structure
 
 ```
 lab1702_home/
 ├── index.html          # Main homepage (HTML and CSS inline, no JS)
+├── fonts/              # Self-hosted woff2 fonts and their OFL licences
 ├── og-image.png        # Social link preview (1200×630)
 ├── scripts/
 │   └── make_og.py      # Regenerates og-image.png (Pillow + JetBrains Mono)

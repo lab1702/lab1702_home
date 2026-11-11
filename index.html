@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Follow the OS text-size setting where supported; sizes below are in rem -->
+    <meta name="text-scale" content="scale">
+    <meta name="color-scheme" content="dark">
     <meta name="description" content="lab1702 — Games, Data & Tools.">
     <meta property="og:title" content="lab1702">
     <meta property="og:description" content="Games, Data & Tools">
@@ -16,12 +19,43 @@
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23100f0b'/%3E%3Crect x='11' y='6' width='10' height='20' fill='%23e2e2e2'/%3E%3C/svg%3E">
     <meta name="theme-color" content="#100f0b">
     <title>lab1702</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&amp;family=IBM+Plex+Sans:wght@400&amp;display=swap">
+    <link rel="preload" href="fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <!-- Prefetch a project page once a card is hovered or pressed (JSON, not
+         JavaScript; browsers without speculation rules ignore it) -->
+    <script type="speculationrules">
+    {
+        "prefetch": [{
+            "where": { "and": [
+                { "href_matches": "/*" },
+                { "selector_matches": ".card" }
+            ] },
+            "eagerness": "moderate"
+        }]
+    }
+    </script>
     <style>
+        /* Self-hosted latin subsets (SIL OFL, see fonts/). JetBrains Mono is a
+           variable font, so one file covers every weight used here. */
+        @font-face {
+            font-family: "JetBrains Mono";
+            font-style: normal;
+            font-weight: 400 700;
+            font-display: swap;
+            src: url("fonts/jetbrains-mono-latin.woff2") format("woff2");
+        }
+
+        @font-face {
+            font-family: "IBM Plex Sans";
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url("fonts/ibm-plex-sans-latin.woff2") format("woff2");
+        }
+
         /* lab1702 design tokens (subset — dark terminal-phosphor palette) */
         :root {
+            color-scheme: dark;
+
             --bg-0: oklch(0.13 0.010 100);
             --bg-1: oklch(0.17 0.012 100);
             --bg-2: oklch(0.21 0.014 100);
@@ -95,36 +129,34 @@
             mask-image: linear-gradient(to bottom, black, transparent 75%);
         }
 
-        .sr-only {
+        /* How the skip link looks once revealed. Kept above the hiding rule and
+           at the same specificity so the hiding rule wins until then. */
+        .sr-only:where(a) {
+            display: block;
+            padding: 0.5rem 1rem;
+            background: var(--bg-1);
+            color: var(--fg-1);
+        }
+
+        /* Hidden visually but kept in the accessibility tree. The hiding lifts
+           while the element holds focus, which is what reveals the skip link. */
+        .sr-only:where(:not(:focus-within, :active)) {
             position: absolute;
             width: 1px;
             height: 1px;
             padding: 0;
             margin: -1px;
             overflow: hidden;
-            clip: rect(0, 0, 0, 0);
+            clip-path: inset(50%);
             white-space: nowrap;
             border: 0;
         }
 
-        .sr-only:focus {
-            position: static;
-            width: auto;
-            height: auto;
-            clip: auto;
-            overflow: visible;
-            margin: 0;
-            padding: 0.5rem 1rem;
-            display: block;
-            background: var(--bg-1);
-            color: var(--fg-1);
-            white-space: normal;
-            z-index: 10000;
-        }
-
         /* dirs and files feed the footer's tree summary, like cards feeds each
            section badge, so none of the counts need editing by hand */
-        main { max-width: 1080px; margin: 0 auto; counter-reset: dirs files; }
+        body { counter-reset: dirs files; }
+
+        .hero, main, .footer { max-width: 1080px; margin-inline: auto; }
 
         /* Header */
         .hero {
@@ -154,7 +186,7 @@
         }
 
         .hero-prompt {
-            font-size: 12.5px;
+            font-size: 0.78125rem;
             margin-bottom: 22px;
             letter-spacing: 0.01em;
             color: var(--fg-3);
@@ -165,9 +197,12 @@
 
         .hero-name {
             font-weight: 700;
-            /* The +10px keeps phones at ~48px while letting the wordmark shrink
-               enough on very narrow screens that the cursor never wraps */
-            font-size: clamp(36px, calc(10vw + 10px), 88px);
+            /* The +0.625rem keeps phones at ~48px while letting the wordmark
+               shrink enough on very narrow screens that the cursor never wraps.
+               The second min() argument is the largest size at which the
+               one-line wordmark still fits the header, so a large text-size
+               setting can never push it out of the box. */
+            font-size: min(clamp(2.25rem, calc(10vw + 0.625rem), 5.5rem), max(1rem, calc(20vw - 20px)));
             line-height: 0.95;
             white-space: nowrap;
             letter-spacing: -0.03em;
@@ -187,7 +222,11 @@
             display: inline-block;
             margin-left: 4px;
             text-shadow: 0 0 18px oklch(0.87 0 0 / 0.6);
-            animation: blink 1.06s steps(1, end) infinite;
+        }
+
+        /* Four blinks, then the cursor stays solid: nothing blinks past 5s */
+        @media (prefers-reduced-motion: no-preference) {
+            .cursor { animation: blink 1.06s steps(1, end) 4; }
         }
 
         @keyframes blink {
@@ -203,12 +242,12 @@
             margin-top: 22px;
         }
 
-        .hero-tagline { font-size: 13px; color: var(--fg-2); letter-spacing: 0.02em; }
+        .hero-tagline { font-size: 0.8125rem; color: var(--fg-2); letter-spacing: 0.02em; }
 
         .hero-links { display: flex; flex-wrap: wrap; gap: 8px; }
 
         .hero-link {
-            font-size: 12.5px;
+            font-size: 0.78125rem;
             color: var(--hc);
             text-decoration: none;
             padding: 6px 12px;
@@ -266,7 +305,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 13px;
+            font-size: 0.8125rem;
             font-weight: 700;
             color: var(--ac);
             text-transform: uppercase;
@@ -284,7 +323,7 @@
 
         .section-count {
             grid-area: 1 / 2;
-            font-size: 11px;
+            font-size: 0.6875rem;
             color: var(--ac);
             padding: 1px 8px;
             border: 1px solid color-mix(in oklch, var(--ac) 35%, transparent);
@@ -304,9 +343,13 @@
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 17.5rem), 1fr));
             gap: 14px;
+            list-style: none;
         }
+
+        /* Each list item is a one-cell grid so its card stretches to row height */
+        .grid > li { display: grid; }
 
         .card {
             counter-increment: cards files;
@@ -325,9 +368,7 @@
             text-decoration: none;
             color: var(--fg-2);
             isolation: isolate;
-            transition:
-                transform 220ms var(--ease-out),
-                box-shadow 220ms var(--ease-out);
+            transition: box-shadow 220ms var(--ease-out);
         }
 
         /* Accent glow that blooms from the top-left corner on hover */
@@ -341,22 +382,23 @@
             transition: opacity 220ms var(--ease-out);
         }
 
-        /* Arrow that slides in on hover */
+        /* Arrow that slides in on hover. Decorative, so the empty alt text keeps
+           it out of the card's accessible name; the first line is the fallback
+           for browsers without the alt-text syntax. */
         .card::after {
             content: "↗";
+            content: "↗" / "";
             position: absolute;
             top: 16px;
             right: 18px;
-            font-size: 14px;
+            font-size: 0.875rem;
             color: var(--ac);
             opacity: 0;
-            transform: translate(-4px, 4px);
-            transition: opacity 220ms var(--ease-out), transform 220ms var(--ease-out);
+            transition: opacity 220ms var(--ease-out);
         }
 
         .card:hover,
         .card:focus-visible {
-            transform: translateY(-3px);
             background:
                 linear-gradient(180deg, var(--bg-2), var(--bg-1)) padding-box,
                 linear-gradient(160deg, var(--ac), color-mix(in oklch, var(--ac) 30%, var(--border-1)) 45%, var(--border-1)) border-box;
@@ -370,7 +412,7 @@
         .card:focus-visible::before { opacity: 1; }
 
         .card:hover::after,
-        .card:focus-visible::after { opacity: 1; transform: translate(0, 0); }
+        .card:focus-visible::after { opacity: 1; }
 
         .card:hover .card-name,
         .card:focus-visible .card-name { color: var(--ac); }
@@ -380,8 +422,29 @@
             outline-offset: 3px;
         }
 
+        /* The lift and the arrow's slide are the only spatial motion on a card,
+           so they are opt-in; the colour, glow and fade transitions always run */
+        @media (prefers-reduced-motion: no-preference) {
+            .card {
+                transition:
+                    transform 220ms var(--ease-out),
+                    box-shadow 220ms var(--ease-out);
+            }
+
+            .card:hover,
+            .card:focus-visible { transform: translateY(-3px); }
+
+            .card::after {
+                transform: translate(-4px, 4px);
+                transition: opacity 220ms var(--ease-out), transform 220ms var(--ease-out);
+            }
+
+            .card:hover::after,
+            .card:focus-visible::after { transform: translate(0, 0); }
+        }
+
         .card-name {
-            font-size: 16px;
+            font-size: 1rem;
             font-weight: 600;
             color: var(--fg-1);
             letter-spacing: -0.01em;
@@ -392,7 +455,7 @@
 
         .card-desc {
             font-family: var(--font-sans);
-            font-size: 13.5px;
+            font-size: 0.84375rem;
             line-height: 1.5;
             color: var(--fg-2);
             flex: 1;
@@ -407,7 +470,7 @@
         }
 
         .chip {
-            font-size: 11px;
+            font-size: 0.6875rem;
             color: color-mix(in oklch, var(--ac) 70%, var(--fg-2));
             border: 1px solid color-mix(in oklch, var(--ac) 22%, var(--border-1));
             background: color-mix(in oklch, var(--ac) 7%, transparent);
@@ -425,7 +488,7 @@
             justify-content: space-between;
             flex-wrap: wrap;
             gap: 10px;
-            font-size: 11.5px;
+            font-size: 0.71875rem;
             color: var(--fg-3);
         }
 
@@ -457,7 +520,11 @@
             position: absolute;
             inset: 0;
             background: var(--green);
-            animation: pulse 2.4s var(--ease-out) infinite;
+        }
+
+        /* Two pulses on load (4.8s), then the dot rests */
+        @media (prefers-reduced-motion: no-preference) {
+            .status-dot::after { animation: pulse 2.4s var(--ease-out) 2; }
         }
 
         @keyframes pulse {
@@ -471,187 +538,228 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .fade { animation: fade-in-up 420ms var(--ease-out) both; }
-        .section:nth-of-type(1) { animation-delay: 80ms; }
-        .section:nth-of-type(2) { animation-delay: 160ms; }
-        .section:nth-of-type(3) { animation-delay: 240ms; }
-        .footer { animation-delay: 320ms; }
-
-        @media (max-width: 560px) {
-            .hero { padding: 22px 20px 28px; margin-top: -20px; }
-            /* Small enough that the longest link fits unbroken on a 320px screen */
-            .hero-link { font-size: 11.5px; padding: 6px 10px; }
+        @media (prefers-reduced-motion: no-preference) {
+            .fade { animation: fade-in-up 420ms var(--ease-out) both; }
+            .section:nth-of-type(1) { animation-delay: 80ms; }
+            .section:nth-of-type(2) { animation-delay: 160ms; }
+            .section:nth-of-type(3) { animation-delay: 240ms; }
+            .footer { animation-delay: 320ms; }
         }
 
-        @media (prefers-reduced-motion: reduce) {
-            .cursor, .status-dot::after { animation: none; }
-            .fade { animation: none; }
-            .card, .card::before, .card::after, .card-name, .hero-link { transition: none; }
-            .card:hover, .card:focus-visible { transform: none; }
+        /* 35em is 560px at the default text size, and tracks the text size */
+        @media (max-width: 35em) {
+            .hero { padding: 22px 20px 28px; margin-top: -20px; }
+            /* Small enough that the longest link fits unbroken on a 320px screen.
+               The min() keeps that true at large text sizes: the longest
+               unbreakable run is 20 characters (12em) and 112px of the
+               viewport goes to padding and borders. */
+            .hero-link { font-size: min(0.71875rem, calc(8.3vw - 10px)); padding: 6px 10px; }
         }
     </style>
 </head>
 <body>
 <a href="#main" class="sr-only">Skip to main content</a>
 
-<main id="main">
-    <header class="hero fade">
-        <div class="hero-prompt"><span class="path">~/lab1702</span> on <span class="branch-name">main</span> — tree</div>
-        <h1 class="hero-name">lab<span class="num">1702</span><span class="cursor" aria-hidden="true">▊</span></h1>
-        <div class="hero-meta">
-            <span class="hero-tagline">games, data &amp; tools</span>
-            <span class="hero-links">
-                <a href="https://github.com/lab1702" target="_blank" rel="noopener noreferrer" class="hero-link"><span class="nb">github.com/lab1702<span aria-hidden="true"> ↗</span></span><span class="sr-only"> (opens in a new tab)</span></a>
-                <a href="https://www.youtube.com/@lab1702-videos" target="_blank" rel="noopener noreferrer" class="hero-link"><span class="nb">youtube.com/</span><wbr><span class="nb">@lab1702-videos<span aria-hidden="true"> ↗</span></span><span class="sr-only"> (opens in a new tab)</span></a>
-            </span>
-        </div>
-    </header>
+<header class="hero fade">
+    <div class="hero-prompt"><span class="path">~/lab1702</span> on <span class="branch-name">main</span> — tree</div>
+    <h1 class="hero-name">lab<span class="num">1702</span><span class="cursor" aria-hidden="true">▊</span></h1>
+    <div class="hero-meta">
+        <span class="hero-tagline">games, data &amp; tools</span>
+        <span class="hero-links">
+            <a href="https://github.com/lab1702" target="_blank" rel="noopener noreferrer" class="hero-link"><span class="nb">github.com/lab1702<span aria-hidden="true"> ↗</span></span><span class="sr-only"> (opens in a new tab)</span></a>
+            <a href="https://www.youtube.com/@lab1702-videos" target="_blank" rel="noopener noreferrer" class="hero-link"><span class="nb">youtube.com/</span><wbr><span class="nb">@lab1702-videos<span aria-hidden="true"> ↗</span></span><span class="sr-only"> (opens in a new tab)</span></a>
+        </span>
+    </div>
+</header>
 
+<main id="main">
     <nav aria-label="Projects">
-        <section class="section section-games fade" aria-labelledby="sec-games">
+        <section class="section section-games fade">
             <div class="section-head">
                 <h2 class="section-label" id="sec-games">games/</h2>
                 <span class="section-rule" aria-hidden="true"></span>
             </div>
 
-            <div class="grid">
-                <a href="/3dnetrek" class="card">
-                    <span class="card-name">3D Netrek</span>
-                    <span class="card-desc">multiplayer space combat in a fully 3D galaxy</span>
-                    <span class="card-tech"><span class="chip">go</span> <span class="chip">js</span> <span class="chip">webgl</span></span>
-                </a>
-                <a href="/atc" class="card">
-                    <span class="card-name">DTW ATC Sim</span>
-                    <span class="card-desc">air traffic control simulator for Detroit Metro</span>
-                    <span class="card-tech"><span class="chip">go</span> <span class="chip">js</span></span>
-                </a>
-                <a href="/eql-maps" class="card">
-                    <span class="card-name">EQ Legends Nav</span>
-                    <span class="card-desc">interactive zone map for EverQuest Legends</span>
-                    <span class="card-tech"><span class="chip">html</span></span>
-                </a>
-                <a href="/fpnetrek" class="card">
-                    <span class="card-name">Netrek FP</span>
-                    <span class="card-desc">first-person take on Netrek space combat</span>
-                    <span class="card-tech"><span class="chip">go</span> <span class="chip">js</span></span>
-                </a>
-                <a href="/netrek" class="card">
-                    <span class="card-name">Netrek Web</span>
-                    <span class="card-desc">space combat multiplayer game</span>
-                    <span class="card-tech"><span class="chip">go</span> <span class="chip">js</span></span>
-                </a>
-                <a href="/gorgon-maps" class="card">
-                    <span class="card-name">Project Gorgon Nav</span>
-                    <span class="card-desc">MMO navigation &amp; map tool</span>
-                    <span class="card-tech"><span class="chip">js</span></span>
-                </a>
-                <a href="/tmorpg" class="card">
-                    <span class="card-name">TMORPG</span>
-                    <span class="card-desc">tiny multiplayer online role playing game</span>
-                    <span class="card-tech"><span class="chip">go</span> <span class="chip">ts</span></span>
-                </a>
-                <a href="/eqlegends-recommended-items.html" class="card">
-                    <span class="card-name">Top EQ Legends Items</span>
-                    <span class="card-desc">recommended gear for EverQuest Legends</span>
-                    <span class="card-tech"><span class="chip">html</span></span>
-                </a>
-                <a href="/word" class="card">
-                    <span class="card-name">Word Garden</span>
-                    <span class="card-desc">daily word puzzle game</span>
-                    <span class="card-tech"><span class="chip">js</span></span>
-                </a>
-                <a href="/xbattle" class="card">
-                    <span class="card-name">XBattle Web</span>
-                    <span class="card-desc">real-time two-player strategy, a 1991 classic reborn</span>
-                    <span class="card-tech"><span class="chip">go</span> <span class="chip">js</span></span>
-                </a>
-            </div>
+            <ul class="grid">
+                <li>
+                    <a href="/3dnetrek" class="card">
+                        <span class="card-name">3D Netrek</span>
+                        <span class="card-desc">multiplayer space combat in a fully 3D galaxy</span>
+                        <span class="card-tech"><span class="chip">go</span> <span class="chip">js</span> <span class="chip">webgl</span></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/atc" class="card">
+                        <span class="card-name">DTW ATC Sim</span>
+                        <span class="card-desc">air traffic control simulator for Detroit Metro</span>
+                        <span class="card-tech"><span class="chip">go</span> <span class="chip">js</span></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/eql-maps" class="card">
+                        <span class="card-name">EQ Legends Nav</span>
+                        <span class="card-desc">interactive zone map for EverQuest Legends</span>
+                        <span class="card-tech"><span class="chip">html</span></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/fpnetrek" class="card">
+                        <span class="card-name">Netrek FP</span>
+                        <span class="card-desc">first-person take on Netrek space combat</span>
+                        <span class="card-tech"><span class="chip">go</span> <span class="chip">js</span></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/netrek" class="card">
+                        <span class="card-name">Netrek Web</span>
+                        <span class="card-desc">space combat multiplayer game</span>
+                        <span class="card-tech"><span class="chip">go</span> <span class="chip">js</span></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/gorgon-maps" class="card">
+                        <span class="card-name">Project Gorgon Nav</span>
+                        <span class="card-desc">MMO navigation &amp; map tool</span>
+                        <span class="card-tech"><span class="chip">js</span></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/tmorpg" class="card">
+                        <span class="card-name">TMORPG</span>
+                        <span class="card-desc">tiny multiplayer online role playing game</span>
+                        <span class="card-tech"><span class="chip">go</span> <span class="chip">ts</span></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/eqlegends-recommended-items.html" class="card">
+                        <span class="card-name">Top EQ Legends Items</span>
+                        <span class="card-desc">recommended gear for EverQuest Legends</span>
+                        <span class="card-tech"><span class="chip">html</span></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/word" class="card">
+                        <span class="card-name">Word Garden</span>
+                        <span class="card-desc">daily word puzzle game</span>
+                        <span class="card-tech"><span class="chip">js</span></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/xbattle" class="card">
+                        <span class="card-name">XBattle Web</span>
+                        <span class="card-desc">real-time two-player strategy, a 1991 classic reborn</span>
+                        <span class="card-tech"><span class="chip">go</span> <span class="chip">js</span></span>
+                    </a>
+                </li>
+            </ul>
             <span class="section-count" aria-hidden="true"></span>
         </section>
 
-        <section class="section section-data fade" aria-labelledby="sec-data">
+        <section class="section section-data fade">
             <div class="section-head">
                 <h2 class="section-label" id="sec-data">data/</h2>
                 <span class="section-rule" aria-hidden="true"></span>
             </div>
 
-            <div class="grid">
-                <a href="/rosebowl" class="card">
-                    <span class="card-name">College Football Forecast</span>
-                    <span class="card-desc">team rating model and CFP playoff simulator</span>
-                    <span class="card-tech"><span class="chip">python</span> <span class="chip">html</span></span>
-                </a>
-                <a href="/detroit-crime-weather" class="card">
-                    <span class="card-name">Crime &amp; Weather</span>
-                    <span class="card-desc">weather's impact on Detroit crime</span>
-                    <span class="card-tech"><span class="chip">python</span> <span class="chip">pandas</span></span>
-                </a>
-                <a href="/detcrime" class="card">
-                    <span class="card-name">Detroit Crime</span>
-                    <span class="card-desc">crime data visualization dashboard</span>
-                    <span class="card-tech"><span class="chip">python</span> <span class="chip">streamlit</span></span>
-                </a>
-                <a href="/trading" class="card">
-                    <span class="card-name">Ichimoku Trading</span>
-                    <span class="card-desc">Ichimoku cloud trading strategy</span>
-                    <span class="card-tech"><span class="chip">r</span> <span class="chip">shiny</span></span>
-                </a>
-                <a href="/marchmadness" class="card">
-                    <span class="card-name">March Madness Forecast</span>
-                    <span class="card-desc">NCAA tournament ratings and exact bracket odds</span>
-                    <span class="card-tech"><span class="chip">python</span> <span class="chip">html</span></span>
-                </a>
-                <a href="/nflcoach" class="card">
-                    <span class="card-name">NFL Coach Survival</span>
-                    <span class="card-desc">head-coach tenure analysis and daily hot-seat report</span>
-                    <span class="card-tech"><span class="chip">r</span> <span class="chip">html</span></span>
-                </a>
-                <a href="/superbowl" class="card">
-                    <span class="card-name">Super Bowl Forecast</span>
-                    <span class="card-desc">simulated NFL playoff and Super Bowl odds</span>
-                    <span class="card-tech"><span class="chip">python</span> <span class="chip">html</span></span>
-                </a>
-                <a href="/presidents.html" class="card">
-                    <span class="card-name">US Presidents Pivot Viewer</span>
-                    <span class="card-desc">pivot table viewer for US presidents</span>
-                    <span class="card-tech"><span class="chip">html</span> <span class="chip">python</span></span>
-                </a>
-            </div>
+            <ul class="grid">
+                <li>
+                    <a href="/rosebowl" class="card">
+                        <span class="card-name">College Football Forecast</span>
+                        <span class="card-desc">team rating model and CFP playoff simulator</span>
+                        <span class="card-tech"><span class="chip">python</span> <span class="chip">html</span></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/detroit-crime-weather" class="card">
+                        <span class="card-name">Crime &amp; Weather</span>
+                        <span class="card-desc">weather's impact on Detroit crime</span>
+                        <span class="card-tech"><span class="chip">python</span> <span class="chip">pandas</span></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/detcrime" class="card">
+                        <span class="card-name">Detroit Crime</span>
+                        <span class="card-desc">crime data visualization dashboard</span>
+                        <span class="card-tech"><span class="chip">python</span> <span class="chip">streamlit</span></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/trading" class="card">
+                        <span class="card-name">Ichimoku Trading</span>
+                        <span class="card-desc">Ichimoku cloud trading strategy</span>
+                        <span class="card-tech"><span class="chip">r</span> <span class="chip">shiny</span></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/marchmadness" class="card">
+                        <span class="card-name">March Madness Forecast</span>
+                        <span class="card-desc">NCAA tournament ratings and exact bracket odds</span>
+                        <span class="card-tech"><span class="chip">python</span> <span class="chip">html</span></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/nflcoach" class="card">
+                        <span class="card-name">NFL Coach Survival</span>
+                        <span class="card-desc">head-coach tenure analysis and daily hot-seat report</span>
+                        <span class="card-tech"><span class="chip">r</span> <span class="chip">html</span></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/superbowl" class="card">
+                        <span class="card-name">Super Bowl Forecast</span>
+                        <span class="card-desc">simulated NFL playoff and Super Bowl odds</span>
+                        <span class="card-tech"><span class="chip">python</span> <span class="chip">html</span></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/presidents.html" class="card">
+                        <span class="card-name">US Presidents Pivot Viewer</span>
+                        <span class="card-desc">pivot table viewer for US presidents</span>
+                        <span class="card-tech"><span class="chip">html</span> <span class="chip">python</span></span>
+                    </a>
+                </li>
+            </ul>
             <span class="section-count" aria-hidden="true"></span>
         </section>
 
-        <section class="section section-tools fade" aria-labelledby="sec-tools">
+        <section class="section section-tools fade">
             <div class="section-head">
                 <h2 class="section-label" id="sec-tools">tools/</h2>
                 <span class="section-rule" aria-hidden="true"></span>
             </div>
 
-            <div class="grid">
-                <a href="/chat" class="card">
-                    <span class="card-name">Chat</span>
-                    <span class="card-desc">real-time chat application</span>
-                    <span class="card-tech"><span class="chip">js</span></span>
-                </a>
-                <a href="/outbreak-sim" class="card">
-                    <span class="card-name">SEIRD Outbreak Simulator</span>
-                    <span class="card-desc">epidemic spread simulator</span>
-                    <span class="card-tech"><span class="chip">js</span></span>
-                </a>
-                <a href="/tiresize" class="card">
-                    <span class="card-name">Tire Size Calc</span>
-                    <span class="card-desc">tire size comparison tool</span>
-                    <span class="card-tech"><span class="chip">js</span></span>
-                </a>
-            </div>
+            <ul class="grid">
+                <li>
+                    <a href="/chat" class="card">
+                        <span class="card-name">Chat</span>
+                        <span class="card-desc">real-time chat application</span>
+                        <span class="card-tech"><span class="chip">js</span></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/outbreak-sim" class="card">
+                        <span class="card-name">SEIRD Outbreak Simulator</span>
+                        <span class="card-desc">epidemic spread simulator</span>
+                        <span class="card-tech"><span class="chip">js</span></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/tiresize" class="card">
+                        <span class="card-name">Tire Size Calc</span>
+                        <span class="card-desc">tire size comparison tool</span>
+                        <span class="card-tech"><span class="chip">js</span></span>
+                    </a>
+                </li>
+            </ul>
             <span class="section-count" aria-hidden="true"></span>
         </section>
     </nav>
-
-    <footer class="footer fade">
-        <span class="tree-summary"></span>
-        <span class="status"><span class="status-dot" aria-hidden="true"></span>online</span>
-    </footer>
 </main>
+
+<footer class="footer fade">
+    <span class="tree-summary"></span>
+    <span class="status"><span class="status-dot" aria-hidden="true"></span>online</span>
+</footer>
 
 </body>
 </html>
