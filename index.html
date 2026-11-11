@@ -540,9 +540,14 @@
 
         @media (prefers-reduced-motion: no-preference) {
             .fade { animation: fade-in-up 420ms var(--ease-out) both; }
-            .section:nth-of-type(1) { animation-delay: 80ms; }
-            .section:nth-of-type(2) { animation-delay: 160ms; }
-            .section:nth-of-type(3) { animation-delay: 240ms; }
+            /* Each section waits 80ms longer than the one before it. Browsers
+               without sibling-index() drop the second declaration and fade
+               every section in together at 80ms. */
+            .section {
+                animation-delay: 80ms;
+                animation-delay: calc(sibling-index() * 80ms);
+            }
+            /* One step after the third section */
             .footer { animation-delay: 320ms; }
         }
 
