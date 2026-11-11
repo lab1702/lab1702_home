@@ -62,7 +62,8 @@
 
             --fg-1: oklch(0.95 0.018 95);
             --fg-2: oklch(0.74 0.020 95);
-            --fg-3: oklch(0.60 0.018 95);
+            /* Light enough to hold 4.5:1 over the glows behind the header */
+            --fg-3: oklch(0.68 0.018 95);
 
             --amber:      oklch(0.82 0.16 75);
             --green:      oklch(0.82 0.17 145);
@@ -111,7 +112,7 @@
                 var(--bg-0);
             background-attachment: fixed;
             color: var(--fg-2);
-            min-height: 100vh;
+            min-height: 100dvh;
             padding: clamp(48px, 9vh, 104px) 24px 64px;
             line-height: 1.4;
         }
@@ -321,6 +322,11 @@
             letter-spacing: var(--tracking-label);
             text-shadow: 0 0 16px color-mix(in oklch, var(--ac) 45%, transparent);
         }
+
+        /* The games/ label is the skip link's target: it lands a little below
+           the top edge so its focus ring is not cut off */
+        .section-label[tabindex] { scroll-margin-top: 1.5rem; }
+        .section-label:focus-visible { outline: 2px solid var(--ac); outline-offset: 6px; }
 
         .section-label::before {
             content: "";
@@ -603,7 +609,9 @@
     </style>
 </head>
 <body>
-<a href="#main" class="sr-only">Skip to main content</a>
+<!-- Targets the first heading in main, which takes focus (tabindex="-1"),
+     so screen magnifiers follow the jump -->
+<a href="#sec-games" class="sr-only">Skip to main content</a>
 
 <header class="hero fade">
     <div class="hero-prompt"><span class="path">~/lab1702</span> on <span class="branch-name">main</span> — tree</div>
@@ -621,7 +629,7 @@
     <nav aria-label="Projects">
         <section class="section section-games fade">
             <div class="section-head">
-                <h2 class="section-label" id="sec-games">games/</h2>
+                <h2 class="section-label" id="sec-games" tabindex="-1">games/</h2>
                 <span class="section-rule" aria-hidden="true"></span>
             </div>
 
