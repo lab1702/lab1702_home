@@ -28,13 +28,16 @@ accent hue so the three read apart at a glance.
   distinct from the sections
 - **Hover/Focus States**: The card lifts, its gradient border and corner glow
   light up in the section accent, an arrow slides in, and the name changes to
-  that accent
+  that accent; pressing a card drops the lift and pulls its shadow in. On
+  touch screens, which have no hover, the arrow is always shown
 - **Responsive Design**: Fluid wordmark sizing with `clamp()` and a grid that
   reflows at any width — no content is hidden on small screens. Every font
   size is in `rem`, so the page follows the browser's font-size preference and
   (via `<meta name="text-scale">`, where supported) the OS text-size setting
 - **Accessibility**: `<header>`, `<main>` and `<footer>` as page landmarks, a
-  skip link that jumps past the header to the projects, each section's cards
+  skip link that jumps past the header to the projects (pinned to the corner
+  when focused, so the page doesn't shift), header links padded out to a
+  44px-tall target on touch screens, each section's cards
   as a `<ul>` so screen readers announce the item count, cards and links named
   by their visible text (so voice control matches what's on screen), external
   links announced as opening in a new tab, accent-colored `:focus-visible`
@@ -58,14 +61,16 @@ accent hue so the three read apart at a glance.
   header can derive alpha variants with `oklch(var(--hc-lch) / a)`
 - **Typography**: JetBrains Mono for the wordmark, names, labels and chips;
   IBM Plex Sans for descriptions — both self-hosted as latin-subset woff2
-  files in `fonts/` (SIL Open Font License), with the mono face preloaded
+  files in `fonts/` (SIL Open Font License), with the mono face preloaded.
+  Descriptions set `font-size-adjust` to Plex's x-height ratio so the system
+  fallback matches its visual size until the font swaps in
 - **Effects**: Ambient accent-colored background glows over a faint dot grid
   (the amber one rides along with `games/`),
   staggered fade-in on load, a cursor that blinks four times and then stays
   solid, a status dot that pulses twice, and a scanline gradient across the
   header — nothing keeps moving past five seconds
 - **Accessibility**: The fade-in, the cursor blink, the status pulse, the card
-  lift and the arrow slide only run under
+  lift and press, and the arrow slide only run under
   `prefers-reduced-motion: no-preference`; colour, glow and opacity
   transitions always run
 

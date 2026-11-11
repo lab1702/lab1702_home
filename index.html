@@ -129,10 +129,13 @@
             mask-image: linear-gradient(to bottom, black, transparent 75%);
         }
 
-        /* How the skip link looks once revealed. Kept above the hiding rule and
+        /* How the skip link looks once revealed: pinned to the top-left corner
+           so the page below it does not shift. Kept above the hiding rule and
            at the same specificity so the hiding rule wins until then. */
         .sr-only:where(a) {
-            display: block;
+            position: fixed;
+            inset: 8px auto auto 8px;
+            z-index: 10;
             padding: 0.5rem 1rem;
             background: var(--bg-1);
             color: var(--fg-1);
@@ -262,6 +265,12 @@
             background: oklch(var(--hc-lch) / 0.16);
             border-color: oklch(var(--hc-lch) / 0.7);
             box-shadow: 0 0 24px -4px oklch(var(--hc-lch) / 0.5);
+        }
+
+        /* Pressed: a stronger fill and no glow, so it reads apart from hover */
+        .hero-link:active {
+            background: oklch(var(--hc-lch) / 0.26);
+            box-shadow: none;
         }
 
         .hero-link:focus-visible { outline: 2px solid var(--hc); outline-offset: 2px; }
@@ -422,17 +431,31 @@
             outline-offset: 3px;
         }
 
-        /* The lift and the arrow's slide are the only spatial motion on a card,
-           so they are opt-in; the colour, glow and fade transitions always run */
+        /* Pressed: the shadow and the accent glow pull in under the card */
+        .card:active {
+            box-shadow:
+                inset 0 1px 0 oklch(1 0 0 / 0.06),
+                0 6px 14px -10px oklch(0 0 0 / 0.9);
+        }
+
+        /* The lift, the press and the arrow's slide are the only spatial motion
+           on a card, so they are opt-in; the colour, glow and fade transitions
+           always run */
         @media (prefers-reduced-motion: no-preference) {
             .card {
+                /* Identity value, so pressing never changes how the card stacks */
+                scale: 1;
                 transition:
                     transform 220ms var(--ease-out),
+                    scale 120ms var(--ease-out),
                     box-shadow 220ms var(--ease-out);
             }
 
             .card:hover,
             .card:focus-visible { transform: translateY(-3px); }
+
+            /* Pressing drops the lift and shrinks the card a touch */
+            .card:active { transform: none; scale: 0.985; }
 
             .card::after {
                 transform: translate(-4px, 4px);
@@ -441,6 +464,11 @@
 
             .card:hover::after,
             .card:focus-visible::after { transform: translate(0, 0); }
+        }
+
+        /* Touch screens have no hover to reveal the arrow, so it rests in view */
+        @media (hover: none) {
+            .card::after { opacity: 1; transform: none; }
         }
 
         .card-name {
@@ -456,6 +484,10 @@
         .card-desc {
             font-family: var(--font-sans);
             font-size: 0.84375rem;
+            /* IBM Plex Sans's own x-height ratio (516/1000). The system fallback
+               is scaled to match it, so descriptions keep their visual size
+               when the web font swaps in; Plex itself is unaffected. */
+            font-size-adjust: 0.516;
             line-height: 1.5;
             color: var(--fg-2);
             flex: 1;
@@ -559,6 +591,14 @@
                unbreakable run is 20 characters (12em) and 112px of the
                viewport goes to padding and borders. */
             .hero-link { font-size: min(0.71875rem, calc(8.3vw - 10px)); padding: 6px 10px; }
+        }
+
+        /* Touch screens: pad the header links out to a 44px-tall target (one
+           line of text plus the 1px borders). Browsers without the lh unit
+           drop this and keep the 6px padding. Last, so it wins over the
+           narrow-screen padding above. */
+        @media (pointer: coarse) {
+            .hero-link { padding-block: max(6px, calc((44px - 1lh) / 2 - 1px)); }
         }
     </style>
 </head>
